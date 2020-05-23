@@ -54,4 +54,28 @@ export class Uint64 implements Numeric<Uint64> {
         (this.#value << ((BIT_LENGTH - n) % BIT_LENGTH)),
     );
   }
+  toBeBytes(): Uint8Array {
+    return Uint8Array.from([
+      Number((this.#value >> 56n) & 0xFFn),
+      Number((this.#value >> 48n) & 0xFFn),
+      Number((this.#value >> 40n) & 0xFFn),
+      Number((this.#value >> 32n) & 0xFFn),
+      Number((this.#value >> 24n) & 0xFFn),
+      Number((this.#value >> 16n) & 0xFFn),
+      Number((this.#value >> 8n) & 0xFFn),
+      Number(this.#value & 0xFFn),
+    ])
+  }
+  toLeBytes(): Uint8Array {
+    return Uint8Array.from([
+      Number(this.#value & 0xFFn),
+      Number((this.#value >> 8n) & 0xFFn),
+      Number((this.#value >> 16n) & 0xFFn),
+      Number((this.#value >> 24n) & 0xFFn),
+      Number((this.#value >> 32n) & 0xFFn),
+      Number((this.#value >> 40n) & 0xFFn),
+      Number((this.#value >> 48n) & 0xFFn),
+      Number((this.#value >> 56n) & 0xFFn),
+    ])
+  }
 }

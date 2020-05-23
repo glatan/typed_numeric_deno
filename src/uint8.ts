@@ -54,4 +54,10 @@ export class Uint8 implements Numeric<Uint8> {
         (this.#value << ((BIT_LENGTH - n) % BIT_LENGTH)),
     );
   }
+  toBeBytes(): Uint8Array {
+    return Uint8Array.from([this.#value])
+  }
+  toLeBytes(): Uint8Array {
+    return Uint8Array.from([this.#value])
+  }
 }

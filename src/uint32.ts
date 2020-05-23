@@ -54,4 +54,20 @@ export class Uint32 implements Numeric<Uint32> {
         (this.#value << ((BIT_LENGTH - n) % BIT_LENGTH)),
     );
   }
+  toBeBytes(): Uint8Array {
+    return Uint8Array.from([
+      (this.#value >> 24) & 0xFF,
+      (this.#value >> 16) & 0xFF,
+      (this.#value >> 8) & 0xFF,
+      this.#value & 0xFF,
+    ])
+  }
+  toLeBytes(): Uint8Array {
+    return Uint8Array.from([
+      this.#value & 0xFF,
+      (this.#value >> 8) & 0xFF,
+      (this.#value >> 16) & 0xFF,
+      (this.#value >> 24) & 0xFF,
+    ])
+  }
 }

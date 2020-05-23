@@ -25,4 +25,9 @@ export interface Numeric<T> {
   // Circular shift(rotate)
   rotateLeft(n: number | bigint): T;
   rotateRight(n: number | bigint): T;
+  // Crate Uint8Array
+  // T to big endian Uint8Array
+  toBeBytes(): Uint8Array;
+  // T to little endian Uint8Array
+  toLeBytes(): Uint8Array;
 }

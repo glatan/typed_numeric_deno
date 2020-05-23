@@ -54,4 +54,16 @@ export class Uint16 implements Numeric<Uint16> {
         (this.#value << ((BIT_LENGTH - n) % BIT_LENGTH)),
     );
   }
+  toBeBytes(): Uint8Array {
+    return Uint8Array.from([
+      (this.#value >> 8) & 0xFF,
+      this.#value & 0xFF,
+    ])
+  }
+  toLeBytes(): Uint8Array {
+    return Uint8Array.from([
+      this.#value & 0xFF,
+      (this.#value >> 8) & 0xFF,
+    ])
+  }
 }
