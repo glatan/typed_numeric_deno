@@ -9,8 +9,8 @@ export interface Numeric<T> {
   // Bit wise
   // Logical shift
   logicalLeft(n: number | bigint): T;
-  logicalRight(n: number| bigint): T;
+  logicalRight(n: number | bigint): T;
   // Circular shift(rotate)
-  rotateLeft(n: number| bigint): T;
+  rotateLeft(n: number | bigint): T;
   rotateRight(n: number | bigint): T;
 }
