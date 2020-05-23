@@ -28,5 +28,5 @@ export class Uint128 implements Numeric<Uint128> {
   }
   div(value: Uint128): Uint128 {
     return new Uint128((this.#value / value.#value) & MAX);
-  }  
+  }
 }

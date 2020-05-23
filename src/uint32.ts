@@ -28,5 +28,5 @@ export class Uint32 implements Numeric<Uint32> {
   }
   div(value: Uint32): Uint32 {
     return new Uint32((this.#value / value.#value) & MAX);
-  }  
+  }
 }

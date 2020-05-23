@@ -28,5 +28,5 @@ export class Uint8 implements Numeric<Uint8> {
   }
   div(value: Uint8): Uint8 {
     return new Uint8((this.#value / value.#value) & MAX);
-  }  
+  }
 }

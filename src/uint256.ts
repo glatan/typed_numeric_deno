@@ -1,6 +1,7 @@
 import { Numeric } from "./mod.ts";
 
-const MAX: bigint = 115792089237316195423570985008687907853269984665640564039457584007913129639935n
+const MAX: bigint =
+  115792089237316195423570985008687907853269984665640564039457584007913129639935n;
 const MIN: bigint = 0n;
 
 export class Uint256 implements Numeric<Uint256> {
@@ -28,5 +29,5 @@ export class Uint256 implements Numeric<Uint256> {
   }
   div(value: Uint256): Uint256 {
     return new Uint256((this.#value / value.#value) & MAX);
-  }  
+  }
 }

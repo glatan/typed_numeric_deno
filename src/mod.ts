@@ -6,4 +6,6 @@ export interface Numeric<T> {
   sub(number: T): T;
   mul(number: T): T;
   div(number: T): T;
+  rotateLeft(n: number): T;
+  rotateRight(n: number): T;
 }

@@ -28,5 +28,5 @@ export class Uint64 implements Numeric<Uint64> {
   }
   div(value: Uint64): Uint64 {
     return new Uint64((this.#value / value.#value) & MAX);
-  }  
+  }
 }

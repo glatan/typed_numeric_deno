@@ -28,5 +28,5 @@ export class Uint16 implements Numeric<Uint16> {
   }
   div(value: Uint16): Uint16 {
     return new Uint16((this.#value / value.#value) & MAX);
-  }  
+  }
 }
