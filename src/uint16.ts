@@ -2,6 +2,7 @@ import { Numeric } from "./mod.ts";
 
 const MAX: number = 65535;
 const MIN: number = 0;
+const BIT_LENGTH: number = 16;
 
 export class Uint16 implements Numeric<Uint16> {
   #value: number;
@@ -28,5 +29,17 @@ export class Uint16 implements Numeric<Uint16> {
   }
   div(value: Uint16): Uint16 {
     return new Uint16((this.#value / value.#value) & MAX);
+  }
+  logicalLeft(n: number): Uint16 {
+    return new Uint16(this.#value << n)
+  }
+  logicalRight(n: number): Uint16 {
+    return new Uint16(this.#value >> n)
+  }
+  rotateLeft(n: number): Uint16 {
+    return new Uint16((this.#value << (n % BIT_LENGTH)) | (this.#value >> ((BIT_LENGTH - n) % BIT_LENGTH)));
+  }
+  rotateRight(n: number): Uint16 {
+    return new Uint16((this.#value >> (n % BIT_LENGTH)) | (this.#value << ((BIT_LENGTH - n) % BIT_LENGTH)));
   }
 }

@@ -2,6 +2,7 @@ import { Numeric } from "./mod.ts";
 
 const MAX: bigint = 18446744073709551615n;
 const MIN: bigint = 0n;
+const BIT_LENGTH: bigint = 64n;
 
 export class Uint64 implements Numeric<Uint64> {
   #value: bigint;
@@ -28,5 +29,17 @@ export class Uint64 implements Numeric<Uint64> {
   }
   div(value: Uint64): Uint64 {
     return new Uint64((this.#value / value.#value) & MAX);
+  }
+  logicalLeft(n: bigint): Uint64 {
+    return new Uint64(this.#value << n)
+  }
+  logicalRight(n: bigint): Uint64 {
+    return new Uint64(this.#value >> n)
+  }
+  rotateLeft(n: bigint): Uint64 {
+    return new Uint64((this.#value << (n % BIT_LENGTH)) | (this.#value >> ((BIT_LENGTH - n) % BIT_LENGTH)));
+  }
+  rotateRight(n: bigint): Uint64 {
+    return new Uint64((this.#value >> (n % BIT_LENGTH)) | (this.#value << ((BIT_LENGTH - n) % BIT_LENGTH)));
   }
 }

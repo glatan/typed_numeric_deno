@@ -6,6 +6,11 @@ export interface Numeric<T> {
   sub(number: T): T;
   mul(number: T): T;
   div(number: T): T;
-  rotateLeft(n: number): T;
-  rotateRight(n: number): T;
+  // Bit wise
+  // Logical shift
+  logicalLeft(n: number | bigint): T;
+  logicalRight(n: number| bigint): T;
+  // Circular shift(rotate)
+  rotateLeft(n: number| bigint): T;
+  rotateRight(n: number | bigint): T;
 }
