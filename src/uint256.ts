@@ -47,7 +47,7 @@ export class Uint256 implements Numeric<Uint256> {
     return new Uint256(this.#value ^ value.#value);
   }
   not(): Uint256 {
-    return new Uint256(~ this.#value)
+    return new Uint256(~this.#value);
   }
   logicalLeft(n: bigint): Uint256 {
     return new Uint256(this.#value << n);
@@ -101,7 +101,7 @@ export class Uint256 implements Numeric<Uint256> {
       Number((this.#value >> 16n) & 0xFFn),
       Number((this.#value >> 8n) & 0xFFn),
       Number(this.#value & 0xFFn),
-    ])
+    ]);
   }
   toLeBytes(): Uint8Array {
     return Uint8Array.from([
@@ -137,6 +137,6 @@ export class Uint256 implements Numeric<Uint256> {
       Number((this.#value >> 232n) & 0xFFn),
       Number((this.#value >> 240n) & 0xFFn),
       Number((this.#value >> 248n) & 0xFFn),
-    ])
+    ]);
   }
 }

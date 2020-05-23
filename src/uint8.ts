@@ -46,7 +46,7 @@ export class Uint8 implements Numeric<Uint8> {
     return new Uint8(this.#value ^ value.#value);
   }
   not(): Uint8 {
-    return new Uint8(~ this.#value)
+    return new Uint8(~this.#value);
   }
   logicalLeft(n: number): Uint8 {
     return new Uint8(this.#value << n);
@@ -67,9 +67,9 @@ export class Uint8 implements Numeric<Uint8> {
     );
   }
   toBeBytes(): Uint8Array {
-    return Uint8Array.from([this.#value])
+    return Uint8Array.from([this.#value]);
   }
   toLeBytes(): Uint8Array {
-    return Uint8Array.from([this.#value])
+    return Uint8Array.from([this.#value]);
   }
 }

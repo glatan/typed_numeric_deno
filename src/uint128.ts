@@ -46,7 +46,7 @@ export class Uint128 implements Numeric<Uint128> {
     return new Uint128(this.#value ^ value.#value);
   }
   not(): Uint128 {
-    return new Uint128(~ this.#value)
+    return new Uint128(~this.#value);
   }
   logicalLeft(n: bigint): Uint128 {
     return new Uint128(this.#value << n);
@@ -84,7 +84,7 @@ export class Uint128 implements Numeric<Uint128> {
       Number((this.#value >> 16n) & 0xFFn),
       Number((this.#value >> 8n) & 0xFFn),
       Number(this.#value & 0xFFn),
-    ])
+    ]);
   }
   toLeBytes(): Uint8Array {
     return Uint8Array.from([
@@ -104,6 +104,6 @@ export class Uint128 implements Numeric<Uint128> {
       Number((this.#value >> 104n) & 0xFFn),
       Number((this.#value >> 112n) & 0xFFn),
       Number((this.#value >> 120n) & 0xFFn),
-    ])
+    ]);
   }
 }

@@ -46,7 +46,7 @@ export class Uint32 implements Numeric<Uint32> {
     return new Uint32(this.#value ^ value.#value);
   }
   not(): Uint32 {
-    return new Uint32(~ this.#value)
+    return new Uint32(~this.#value);
   }
   logicalLeft(n: number): Uint32 {
     return new Uint32(this.#value << n);
@@ -72,7 +72,7 @@ export class Uint32 implements Numeric<Uint32> {
       (this.#value >> 16) & 0xFF,
       (this.#value >> 8) & 0xFF,
       this.#value & 0xFF,
-    ])
+    ]);
   }
   toLeBytes(): Uint8Array {
     return Uint8Array.from([
@@ -80,6 +80,6 @@ export class Uint32 implements Numeric<Uint32> {
       (this.#value >> 8) & 0xFF,
       (this.#value >> 16) & 0xFF,
       (this.#value >> 24) & 0xFF,
-    ])
+    ]);
   }
 }
