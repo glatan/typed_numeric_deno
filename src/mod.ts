@@ -1,10 +1,18 @@
 export interface Numeric<T> {
+  // Return T.#value
   value(): number | bigint;
+  // Return max value of T.
   max(): number | bigint;
+  // Return min value of T
   min(): number | bigint;
+  // Wrapping arithmetics
+  // Addition
   add(number: T): T;
+  // Subtraction
   sub(number: T): T;
+  // Multiplication
   mul(number: T): T;
+  // Division
   div(number: T): T;
   // Bit wise
   // Logical shift
