@@ -36,6 +36,18 @@ export class Uint128 implements Numeric<Uint128> {
   exp(value: Uint128): Uint128 {
     return new Uint128(this.#value ** value.#value);
   }
+  and(value: Uint128): Uint128 {
+    return new Uint128(this.#value & value.#value);
+  }
+  or(value: Uint128): Uint128 {
+    return new Uint128(this.#value | value.#value);
+  }
+  xor(value: Uint128): Uint128 {
+    return new Uint128(this.#value ^ value.#value);
+  }
+  not(): Uint128 {
+    return new Uint128(~ this.#value)
+  }
   logicalLeft(n: bigint): Uint128 {
     return new Uint128(this.#value << n);
   }

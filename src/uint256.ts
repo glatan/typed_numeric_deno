@@ -37,6 +37,18 @@ export class Uint256 implements Numeric<Uint256> {
   exp(value: Uint256): Uint256 {
     return new Uint256(this.#value ** value.#value);
   }
+  and(value: Uint256): Uint256 {
+    return new Uint256(this.#value & value.#value);
+  }
+  or(value: Uint256): Uint256 {
+    return new Uint256(this.#value | value.#value);
+  }
+  xor(value: Uint256): Uint256 {
+    return new Uint256(this.#value ^ value.#value);
+  }
+  not(): Uint256 {
+    return new Uint256(~ this.#value)
+  }
   logicalLeft(n: bigint): Uint256 {
     return new Uint256(this.#value << n);
   }

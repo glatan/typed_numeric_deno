@@ -36,6 +36,18 @@ export class Uint64 implements Numeric<Uint64> {
   exp(value: Uint64): Uint64 {
     return new Uint64(this.#value ** value.#value);
   }
+  and(value: Uint64): Uint64 {
+    return new Uint64(this.#value & value.#value);
+  }
+  or(value: Uint64): Uint64 {
+    return new Uint64(this.#value | value.#value);
+  }
+  xor(value: Uint64): Uint64 {
+    return new Uint64(this.#value ^ value.#value);
+  }
+  not(): Uint64 {
+    return new Uint64(~ this.#value)
+  }
   logicalLeft(n: bigint): Uint64 {
     return new Uint64(this.#value << n);
   }

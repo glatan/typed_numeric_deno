@@ -36,6 +36,18 @@ export class Uint8 implements Numeric<Uint8> {
   exp(value: Uint8): Uint8 {
     return new Uint8(this.#value ** value.#value);
   }
+  and(value: Uint8): Uint8 {
+    return new Uint8(this.#value & value.#value);
+  }
+  or(value: Uint8): Uint8 {
+    return new Uint8(this.#value | value.#value);
+  }
+  xor(value: Uint8): Uint8 {
+    return new Uint8(this.#value ^ value.#value);
+  }
+  not(): Uint8 {
+    return new Uint8(~ this.#value)
+  }
   logicalLeft(n: number): Uint8 {
     return new Uint8(this.#value << n);
   }

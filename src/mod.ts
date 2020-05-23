@@ -19,6 +19,14 @@ export interface Numeric<T> {
   // Exponentiation
   exp(number: T): T;
   // Bit wise
+  // AND
+  and(number: T): T;
+  // OR
+  or(number: T): T;
+  // XOR
+  xor(number: T): T;
+  // NOT
+  not(): T;
   // Logical shift
   logicalLeft(n: number | bigint): T;
   logicalRight(n: number | bigint): T;

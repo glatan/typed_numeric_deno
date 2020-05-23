@@ -36,6 +36,18 @@ export class Uint16 implements Numeric<Uint16> {
   exp(value: Uint16): Uint16 {
     return new Uint16(this.#value ** value.#value);
   }
+  and(value: Uint16): Uint16 {
+    return new Uint16(this.#value & value.#value);
+  }
+  or(value: Uint16): Uint16 {
+    return new Uint16(this.#value | value.#value);
+  }
+  xor(value: Uint16): Uint16 {
+    return new Uint16(this.#value ^ value.#value);
+  }
+  not(): Uint16 {
+    return new Uint16(~ this.#value)
+  }
   logicalLeft(n: number): Uint16 {
     return new Uint16(this.#value << n);
   }

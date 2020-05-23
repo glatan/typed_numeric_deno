@@ -36,6 +36,18 @@ export class Uint32 implements Numeric<Uint32> {
   exp(value: Uint32): Uint32 {
     return new Uint32(this.#value ** value.#value);
   }
+  and(value: Uint32): Uint32 {
+    return new Uint32(this.#value & value.#value);
+  }
+  or(value: Uint32): Uint32 {
+    return new Uint32(this.#value | value.#value);
+  }
+  xor(value: Uint32): Uint32 {
+    return new Uint32(this.#value ^ value.#value);
+  }
+  not(): Uint32 {
+    return new Uint32(~ this.#value)
+  }
   logicalLeft(n: number): Uint32 {
     return new Uint32(this.#value << n);
   }
