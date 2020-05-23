@@ -7,24 +7,24 @@ export interface Numeric<T> {
   min(): number | bigint;
   // Wrapping arithmetics
   // Addition
-  add(number: T): T;
+  add(value: T): T;
   // Subtraction
-  sub(number: T): T;
+  sub(value: T): T;
   // Division
-  div(number: T): T;
+  div(value: T): T;
   // Multiplication
-  mul(number: T): T;
+  mul(value: T): T;
   // Remainder
-  rem(number: T): T;
+  rem(value: T): T;
   // Exponentiation
-  exp(number: T): T;
+  exp(value: T): T;
   // Bit wise
   // AND
-  and(number: T): T;
+  and(value: T): T;
   // OR
-  or(number: T): T;
+  or(value: T): T;
   // XOR
-  xor(number: T): T;
+  xor(value: T): T;
   // NOT
   not(): T;
   // Logical shift
