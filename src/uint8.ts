@@ -24,11 +24,17 @@ export class Uint8 implements Numeric<Uint8> {
   sub(value: Uint8): Uint8 {
     return new Uint8(this.#value - value.#value);
   }
+  div(value: Uint8): Uint8 {
+    return new Uint8(this.#value / value.#value);
+  }
   mul(value: Uint8): Uint8 {
     return new Uint8(this.#value * value.#value);
   }
-  div(value: Uint8): Uint8 {
-    return new Uint8(this.#value / value.#value);
+  rem(value: Uint8): Uint8 {
+    return new Uint8(this.#value % value.#value);
+  }
+  exp(value: Uint8): Uint8 {
+    return new Uint8(this.#value ** value.#value);
   }
   logicalLeft(n: number): Uint8 {
     return new Uint8(this.#value << n);

@@ -24,11 +24,17 @@ export class Uint32 implements Numeric<Uint32> {
   sub(value: Uint32): Uint32 {
     return new Uint32(this.#value - value.#value);
   }
+  div(value: Uint32): Uint32 {
+    return new Uint32(this.#value / value.#value);
+  }
   mul(value: Uint32): Uint32 {
     return new Uint32(this.#value * value.#value);
   }
-  div(value: Uint32): Uint32 {
-    return new Uint32(this.#value / value.#value);
+  rem(value: Uint32): Uint32 {
+    return new Uint32(this.#value % value.#value);
+  }
+  exp(value: Uint32): Uint32 {
+    return new Uint32(this.#value ** value.#value);
   }
   logicalLeft(n: number): Uint32 {
     return new Uint32(this.#value << n);

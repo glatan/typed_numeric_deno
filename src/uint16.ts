@@ -24,11 +24,17 @@ export class Uint16 implements Numeric<Uint16> {
   sub(value: Uint16): Uint16 {
     return new Uint16(this.#value - value.#value);
   }
+  div(value: Uint16): Uint16 {
+    return new Uint16(this.#value / value.#value);
+  }
   mul(value: Uint16): Uint16 {
     return new Uint16(this.#value * value.#value);
   }
-  div(value: Uint16): Uint16 {
-    return new Uint16(this.#value / value.#value);
+  rem(value: Uint16): Uint16 {
+    return new Uint16(this.#value % value.#value);
+  }
+  exp(value: Uint16): Uint16 {
+    return new Uint16(this.#value ** value.#value);
   }
   logicalLeft(n: number): Uint16 {
     return new Uint16(this.#value << n);

@@ -25,11 +25,17 @@ export class Uint256 implements Numeric<Uint256> {
   sub(value: Uint256): Uint256 {
     return new Uint256(this.#value - value.#value);
   }
+  div(value: Uint256): Uint256 {
+    return new Uint256(this.#value / value.#value);
+  }
   mul(value: Uint256): Uint256 {
     return new Uint256(this.#value * value.#value);
   }
-  div(value: Uint256): Uint256 {
-    return new Uint256(this.#value / value.#value);
+  rem(value: Uint256): Uint256 {
+    return new Uint256(this.#value % value.#value);
+  }
+  exp(value: Uint256): Uint256 {
+    return new Uint256(this.#value ** value.#value);
   }
   logicalLeft(n: bigint): Uint256 {
     return new Uint256(this.#value << n);

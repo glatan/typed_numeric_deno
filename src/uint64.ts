@@ -24,11 +24,17 @@ export class Uint64 implements Numeric<Uint64> {
   sub(value: Uint64): Uint64 {
     return new Uint64(this.#value - value.#value);
   }
+  div(value: Uint64): Uint64 {
+    return new Uint64(this.#value / value.#value);
+  }
   mul(value: Uint64): Uint64 {
     return new Uint64(this.#value * value.#value);
   }
-  div(value: Uint64): Uint64 {
-    return new Uint64(this.#value / value.#value);
+  rem(value: Uint64): Uint64 {
+    return new Uint64(this.#value % value.#value);
+  }
+  exp(value: Uint64): Uint64 {
+    return new Uint64(this.#value ** value.#value);
   }
   logicalLeft(n: bigint): Uint64 {
     return new Uint64(this.#value << n);

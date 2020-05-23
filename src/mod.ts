@@ -10,10 +10,14 @@ export interface Numeric<T> {
   add(number: T): T;
   // Subtraction
   sub(number: T): T;
-  // Multiplication
-  mul(number: T): T;
   // Division
   div(number: T): T;
+  // Multiplication
+  mul(number: T): T;
+  // Remainder
+  rem(number: T): T;
+  // Exponentiation
+  exp(number: T): T;
   // Bit wise
   // Logical shift
   logicalLeft(n: number | bigint): T;

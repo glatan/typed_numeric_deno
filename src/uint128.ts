@@ -24,11 +24,17 @@ export class Uint128 implements Numeric<Uint128> {
   sub(value: Uint128): Uint128 {
     return new Uint128(this.#value - value.#value);
   }
+  div(value: Uint128): Uint128 {
+    return new Uint128(this.#value / value.#value);
+  }
   mul(value: Uint128): Uint128 {
     return new Uint128(this.#value * value.#value);
   }
-  div(value: Uint128): Uint128 {
-    return new Uint128(this.#value / value.#value);
+  rem(value: Uint128): Uint128 {
+    return new Uint128(this.#value % value.#value);
+  }
+  exp(value: Uint128): Uint128 {
+    return new Uint128(this.#value ** value.#value);
   }
   logicalLeft(n: bigint): Uint128 {
     return new Uint128(this.#value << n);
