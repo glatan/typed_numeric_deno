@@ -73,6 +73,32 @@ Deno.test("Uint8", () => {
   assertEquals(new Uint8(0x12).rotateRight(4).value(), 0x21);
   assertEquals(new Uint8(0x12).rotateRight(8).value(), 0x12);
   assertEquals(new Uint8(0x12).rotateRight(16).value(), 0x12);
+  // fromBeBytes()
+  assertEquals(
+    Uint8.prototype.fromBeBytes(Uint8Array.from([0x12])).value(),
+    new Uint8(0x12).value(),
+  );
+  assertEquals(
+    Uint8.prototype.fromBeBytes(Uint8Array.from([0xFF])).value(),
+    Uint8.prototype.max(),
+  );
+  assertEquals(
+    Uint8.prototype.fromBeBytes(Uint8Array.from([0])).value(),
+    Uint8.prototype.min(),
+  );
+  // fromLeBytes()
+  assertEquals(
+    Uint8.prototype.fromLeBytes(Uint8Array.from([0x12])).value(),
+    new Uint8(0x12).value(),
+  );
+  assertEquals(
+    Uint8.prototype.fromLeBytes(Uint8Array.from([0xFF])).value(),
+    Uint8.prototype.max(),
+  );
+  assertEquals(
+    Uint8.prototype.fromLeBytes(Uint8Array.from([0])).value(),
+    Uint8.prototype.min(),
+  );
   // toBeBytes()
   assertEquals(new Uint8(0x12).toBeBytes(), new Uint8Array([0x12]));
   assertEquals(new Uint8(0).toBeBytes(), new Uint8Array([0]));

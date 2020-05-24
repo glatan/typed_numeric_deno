@@ -166,6 +166,46 @@ Deno.test("Uint64", () => {
     new Uint64(0x12345678_90123456n).rotateRight(128n).value(),
     0x12345678_90123456n,
   );
+  // fromBeBytes()
+  assertEquals(
+    Uint64.prototype.fromBeBytes(
+      Uint8Array.from([0x12, 0x34, 0x56, 0x78, 0x90, 0x12, 0x34, 0x56]),
+    )
+      .value(),
+    new Uint64(0x12345678_90123456n).value(),
+  );
+  assertEquals(
+    Uint64.prototype.fromBeBytes(
+      Uint8Array.from([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]),
+    )
+      .value(),
+    Uint64.prototype.max(),
+  );
+  assertEquals(
+    Uint64.prototype.fromBeBytes(Uint8Array.from([0, 0, 0, 0, 0, 0, 0, 0]))
+      .value(),
+    Uint64.prototype.min(),
+  );
+  // fromLeBytes()
+  assertEquals(
+    Uint64.prototype.fromLeBytes(
+      Uint8Array.from([0x12, 0x34, 0x56, 0x78, 0x90, 0x12, 0x34, 0x56]),
+    )
+      .value(),
+    new Uint64(0x56341290_78563412n).value(),
+  );
+  assertEquals(
+    Uint64.prototype.fromLeBytes(
+      Uint8Array.from([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]),
+    )
+      .value(),
+    Uint64.prototype.max(),
+  );
+  assertEquals(
+    Uint64.prototype.fromLeBytes(Uint8Array.from([0, 0, 0, 0, 0, 0, 0, 0]))
+      .value(),
+    Uint64.prototype.min(),
+  );
   // toBeBytes()
   assertEquals(
     new Uint64(0x12345678_90123456n).toBeBytes(),

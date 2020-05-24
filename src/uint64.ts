@@ -66,6 +66,40 @@ export class Uint64 implements Numeric<Uint64> {
         (this.#value << ((BIT_LENGTH - n) % BIT_LENGTH)),
     );
   }
+  fromBeBytes(bytes: Uint8Array): Uint64 {
+    if (bytes.length === 8) {
+      return new Uint64(
+        ((BigInt(bytes[0]) << 56n) & 0xFF000000_00000000n) |
+          ((BigInt(bytes[1]) << 48n) & 0xFF0000_00000000n) |
+          ((BigInt(bytes[2]) << 40n) & 0xFF00_00000000n) |
+          ((BigInt(bytes[3]) << 32n) & 0xFF_00000000n) |
+          ((BigInt(bytes[4]) << 24n) & 0xFF000000n) |
+          ((BigInt(bytes[5]) << 16n) & 0xFF0000n) |
+          ((BigInt(bytes[6]) << 8n) & 0xFF00n) |
+          (BigInt(bytes[7]) & 0xFFn),
+      );
+    }
+    throw new Error(
+      "Invalid Length Error: Expected Uint8Array.prototype.length is 8",
+    );
+  }
+  fromLeBytes(bytes: Uint8Array): Uint64 {
+    if (bytes.length === 8) {
+      return new Uint64(
+        ((BigInt(bytes[7]) << 56n) & 0xFF000000_00000000n) |
+          ((BigInt(bytes[6]) << 48n) & 0xFF0000_00000000n) |
+          ((BigInt(bytes[5]) << 40n) & 0xFF00_00000000n) |
+          ((BigInt(bytes[4]) << 32n) & 0xFF_00000000n) |
+          ((BigInt(bytes[3]) << 24n) & 0xFF00_0000n) |
+          ((BigInt(bytes[2]) << 16n) & 0xFF_0000n) |
+          ((BigInt(bytes[1]) << 8n) & 0xFF00n) |
+          (BigInt(bytes[0]) & 0xFFn),
+      );
+    }
+    throw new Error(
+      "Invalid Length Error: Expected Uint8Array.prototype.length is 8",
+    );
+  }
   toBeBytes(): Uint8Array {
     return Uint8Array.from([
       Number((this.#value >> 56n) & 0xFFn),
