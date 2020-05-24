@@ -222,33 +222,14 @@ Deno.test("Uint128", () => {
   );
   assertEquals(
     Uint128.prototype.fromBeBytes(
-      Uint8Array.from(
-        [
-          0xFF,
-          0xFF,
-          0xFF,
-          0xFF,
-          0xFF,
-          0xFF,
-          0xFF,
-          0xFF,
-          0xFF,
-          0xFF,
-          0xFF,
-          0xFF,
-          0xFF,
-          0xFF,
-          0xFF,
-          0xFF,
-        ],
-      ),
+      new Uint8Array(16).fill(0xFF),
     )
       .value(),
     Uint128.prototype.max(),
   );
   assertEquals(
     Uint128.prototype.fromBeBytes(
-      Uint8Array.from([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]),
+      new Uint8Array(16),
     )
       .value(),
     Uint128.prototype.min(),
@@ -282,33 +263,14 @@ Deno.test("Uint128", () => {
   );
   assertEquals(
     Uint128.prototype.fromLeBytes(
-      Uint8Array.from(
-        [
-          0xFF,
-          0xFF,
-          0xFF,
-          0xFF,
-          0xFF,
-          0xFF,
-          0xFF,
-          0xFF,
-          0xFF,
-          0xFF,
-          0xFF,
-          0xFF,
-          0xFF,
-          0xFF,
-          0xFF,
-          0xFF,
-        ],
-      ),
+      new Uint8Array(16).fill(0xFF),
     )
       .value(),
     Uint128.prototype.max(),
   );
   assertEquals(
     Uint128.prototype.fromLeBytes(
-      Uint8Array.from([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]),
+      new Uint8Array(16),
     )
       .value(),
     Uint128.prototype.min(),
@@ -338,8 +300,12 @@ Deno.test("Uint128", () => {
     ),
   );
   assertEquals(
-    new Uint128(0n).toBeBytes(),
-    new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]),
+    new Uint128(Uint128.prototype.max()).toBeBytes(),
+    new Uint8Array(16).fill(0xFF),
+  );
+  assertEquals(
+    new Uint128(Uint128.prototype.min()).toBeBytes(),
+    new Uint8Array(16),
   );
   // toLeBytes()
   assertEquals(
@@ -366,7 +332,11 @@ Deno.test("Uint128", () => {
     ),
   );
   assertEquals(
-    new Uint128(0n).toBeBytes(),
-    new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]),
+    new Uint128(Uint128.prototype.max()).toLeBytes(),
+    new Uint8Array(16).fill(0xFF),
+  );
+  assertEquals(
+    new Uint128(Uint128.prototype.min()).toLeBytes(),
+    new Uint8Array(16),
   );
 });

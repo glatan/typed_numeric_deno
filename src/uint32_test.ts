@@ -114,12 +114,12 @@ Deno.test("Uint32", () => {
     new Uint32(0x1234_5678n).value(),
   );
   assertEquals(
-    Uint32.prototype.fromBeBytes(Uint8Array.from([0xFF, 0xFF, 0xFF, 0xFF]))
+    Uint32.prototype.fromBeBytes(new Uint8Array(4).fill(0xFF))
       .value(),
     Uint32.prototype.max(),
   );
   assertEquals(
-    Uint32.prototype.fromBeBytes(Uint8Array.from([0, 0, 0, 0])).value(),
+    Uint32.prototype.fromBeBytes(new Uint8Array(4)).value(),
     Uint32.prototype.min(),
   );
   // fromLeBytes()
@@ -129,12 +129,12 @@ Deno.test("Uint32", () => {
     new Uint32(0x7856_3412n).value(),
   );
   assertEquals(
-    Uint32.prototype.fromLeBytes(Uint8Array.from([0xFF, 0xFF, 0xFF, 0xFF]))
+    Uint32.prototype.fromLeBytes(new Uint8Array(4).fill(0xFF))
       .value(),
     Uint32.prototype.max(),
   );
   assertEquals(
-    Uint32.prototype.fromLeBytes(Uint8Array.from([0, 0, 0, 0])).value(),
+    Uint32.prototype.fromLeBytes(new Uint8Array(4)).value(),
     Uint32.prototype.min(),
   );
   // toBeBytes()
@@ -142,11 +142,25 @@ Deno.test("Uint32", () => {
     new Uint32(0x1234_5678n).toBeBytes(),
     new Uint8Array([0x12, 0x34, 0x56, 0x78]),
   );
-  assertEquals(new Uint32(0n).toBeBytes(), new Uint8Array([0, 0, 0, 0]));
+  assertEquals(
+    new Uint32(Uint32.prototype.max()).toBeBytes(),
+    new Uint8Array(4).fill(0xFF),
+  );
+  assertEquals(
+    new Uint32(Uint32.prototype.min()).toBeBytes(),
+    new Uint8Array(4),
+  );
   // toLeBytes()
   assertEquals(
     new Uint32(0x1234_5678n).toLeBytes(),
     new Uint8Array([0x78, 0x56, 0x34, 0x12]),
   );
-  assertEquals(new Uint32(0n).toBeBytes(), new Uint8Array([0, 0, 0, 0]));
+  assertEquals(
+    new Uint32(Uint32.prototype.max()).toLeBytes(),
+    new Uint8Array(4).fill(0xFF),
+  );
+  assertEquals(
+    new Uint32(Uint32.prototype.min()).toLeBytes(),
+    new Uint8Array(4),
+  );
 });

@@ -79,11 +79,11 @@ Deno.test("Uint16", () => {
     new Uint16(0x1234).value(),
   );
   assertEquals(
-    Uint16.prototype.fromBeBytes(Uint8Array.from([0xFF, 0xFF])).value(),
+    Uint16.prototype.fromBeBytes(new Uint8Array(2).fill(0xFF)).value(),
     Uint16.prototype.max(),
   );
   assertEquals(
-    Uint16.prototype.fromBeBytes(Uint8Array.from([0, 0])).value(),
+    Uint16.prototype.fromBeBytes(new Uint8Array(2)).value(),
     Uint16.prototype.min(),
   );
   // fromLeBytes()
@@ -92,17 +92,31 @@ Deno.test("Uint16", () => {
     new Uint16(0x3412).value(),
   );
   assertEquals(
-    Uint16.prototype.fromLeBytes(Uint8Array.from([0xFF, 0xFF])).value(),
+    Uint16.prototype.fromLeBytes(new Uint8Array(2).fill(0xFF)).value(),
     Uint16.prototype.max(),
   );
   assertEquals(
-    Uint16.prototype.fromLeBytes(Uint8Array.from([0, 0])).value(),
+    Uint16.prototype.fromLeBytes(new Uint8Array(2)).value(),
     Uint16.prototype.min(),
   );
   // toBeBytes()
   assertEquals(new Uint16(0x1234).toBeBytes(), new Uint8Array([0x12, 0x34]));
-  assertEquals(new Uint16(0).toBeBytes(), new Uint8Array([0, 0]));
+  assertEquals(
+    new Uint16(Uint16.prototype.max()).toBeBytes(),
+    new Uint8Array(2).fill(0xFF),
+  );
+  assertEquals(
+    new Uint16(Uint16.prototype.min()).toBeBytes(),
+    new Uint8Array(2),
+  );
   // toLeBytes()
   assertEquals(new Uint16(0x1234).toLeBytes(), new Uint8Array([0x34, 0x12]));
-  assertEquals(new Uint16(0).toBeBytes(), new Uint8Array([0, 0]));
+  assertEquals(
+    new Uint16(Uint16.prototype.max()).toLeBytes(),
+    new Uint8Array(2).fill(0xFF),
+  );
+  assertEquals(
+    new Uint16(Uint16.prototype.min()).toLeBytes(),
+    new Uint8Array(2),
+  );
 });
