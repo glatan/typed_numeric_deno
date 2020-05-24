@@ -55,14 +55,14 @@ Deno.test("Uint16", () => {
   assertEquals(new Uint16(0x1234).logicalLeft(0).value(), 0x1234);
   assertEquals(new Uint16(0x1234).logicalLeft(8).value(), 0x3400);
   assertEquals(new Uint16(0x1234).logicalLeft(16).value(), 0);
-  assertEquals(new Uint16(0x1234).logicalLeft(32).value(), 0x1234);
-  assertEquals(new Uint16(0x1234).logicalLeft(64).value(), 0x1234);
+  assertEquals(new Uint16(0x1234).logicalLeft(32).value(), 0);
+  assertEquals(new Uint16(0x1234).logicalLeft(64).value(), 0);
   // logicalRight()
   assertEquals(new Uint16(0x1234).logicalRight(0).value(), 0x1234);
   assertEquals(new Uint16(0x1234).logicalRight(8).value(), 0x0012);
   assertEquals(new Uint16(0x1234).logicalRight(16).value(), 0);
-  assertEquals(new Uint16(0x1234).logicalRight(32).value(), 0x1234);
-  assertEquals(new Uint16(0x1234).logicalRight(64).value(), 0x1234);
+  assertEquals(new Uint16(0x1234).logicalRight(32).value(), 0);
+  assertEquals(new Uint16(0x1234).logicalRight(64).value(), 0);
   // rotateLeft()
   assertEquals(new Uint16(0x1234).rotateLeft(0).value(), 0x1234);
   assertEquals(new Uint16(0x1234).rotateLeft(8).value(), 0x3412);

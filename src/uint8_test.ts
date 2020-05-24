@@ -56,13 +56,13 @@ Deno.test("Uint8", () => {
   assertEquals(new Uint8(0x12).logicalLeft(4).value(), 0x20);
   assertEquals(new Uint8(0x12).logicalLeft(8).value(), 0);
   assertEquals(new Uint8(0x12).logicalLeft(16).value(), 0);
-  assertEquals(new Uint8(0x12).logicalLeft(32).value(), 0x12);
+  assertEquals(new Uint8(0x12).logicalLeft(32).value(), 0);
   // logicalRight()
   assertEquals(new Uint8(0x12).logicalRight(0).value(), 0x12);
   assertEquals(new Uint8(0x12).logicalRight(4).value(), 0x01);
   assertEquals(new Uint8(0x12).logicalRight(8).value(), 0);
   assertEquals(new Uint8(0x12).logicalRight(16).value(), 0);
-  assertEquals(new Uint8(0x12).logicalRight(32).value(), 0x12);
+  assertEquals(new Uint8(0x12).logicalRight(32).value(), 0);
   // rotateLeft()
   assertEquals(new Uint8(0x12).rotateLeft(0).value(), 0x12);
   assertEquals(new Uint8(0x12).rotateLeft(4).value(), 0x21);

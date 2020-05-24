@@ -49,9 +49,15 @@ export class Uint16 implements Numeric<Uint16> {
     return new Uint16(~this.#value);
   }
   logicalLeft(n: number): Uint16 {
+    if (n >= BIT_LENGTH) {
+      return new Uint16(0);
+    }
     return new Uint16(this.#value << n);
   }
   logicalRight(n: number): Uint16 {
+    if (n >= BIT_LENGTH) {
+      return new Uint16(0);
+    }
     return new Uint16(this.#value >> n);
   }
   rotateLeft(n: number): Uint16 {

@@ -49,9 +49,15 @@ export class Uint8 implements Numeric<Uint8> {
     return new Uint8(~this.#value);
   }
   logicalLeft(n: number): Uint8 {
+    if (n >= BIT_LENGTH) {
+      return new Uint8(0);
+    }
     return new Uint8(this.#value << n);
   }
   logicalRight(n: number): Uint8 {
+    if (n >= BIT_LENGTH) {
+      return new Uint8(0);
+    }
     return new Uint8(this.#value >> n);
   }
   rotateLeft(n: number): Uint8 {
