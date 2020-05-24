@@ -1,6 +1,6 @@
 import { Numeric } from "./mod.ts";
 
-const MAX: number = 255;
+const MAX: number = 0xFF;
 const MIN: number = 0;
 const BIT_LENGTH: number = 8;
 

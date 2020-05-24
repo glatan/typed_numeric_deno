@@ -1,6 +1,6 @@
 import { Numeric } from "./mod.ts";
 
-const MAX: bigint = 18446744073709551615n;
+const MAX: bigint = 0xFFFFFFFF_FFFFFFFFn;
 const MIN: bigint = 0n;
 const BIT_LENGTH: bigint = 64n;
 
