@@ -1,4 +1,7 @@
-import { assertEquals } from "https://deno.land/std@0.52.0/testing/asserts.ts";
+import {
+  assertEquals,
+  assertThrows,
+} from "https://deno.land/std@0.52.0/testing/asserts.ts";
 
 import { Uint8 } from "./uint8.ts";
 
@@ -86,6 +89,10 @@ Deno.test("Uint8", () => {
     Uint8.prototype.fromBeBytes(new Uint8Array(1)).value(),
     Uint8.prototype.min(),
   );
+  assertThrows((): void => {
+    // Invalid Length
+    Uint8.prototype.fromBeBytes(new Uint8Array(2));
+  });
   // fromLeBytes()
   assertEquals(
     Uint8.prototype.fromLeBytes(Uint8Array.from([0x12])).value(),
@@ -99,6 +106,10 @@ Deno.test("Uint8", () => {
     Uint8.prototype.fromLeBytes(new Uint8Array(1)).value(),
     Uint8.prototype.min(),
   );
+  assertThrows((): void => {
+    // Invalid Length
+    Uint8.prototype.fromLeBytes(new Uint8Array(2));
+  });
   // toBeBytes()
   assertEquals(new Uint8(0x12).toBeBytes(), new Uint8Array([0x12]));
   assertEquals(

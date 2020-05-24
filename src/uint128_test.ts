@@ -216,24 +216,21 @@ Deno.test("Uint128", () => {
           0x12,
         ],
       ),
-    )
-      .value(),
+    ).value(),
     new Uint128(0x12345678_90123456_78901234_56789012n).value(),
   );
   assertEquals(
-    Uint128.prototype.fromBeBytes(
-      new Uint8Array(16).fill(0xFF),
-    )
-      .value(),
+    Uint128.prototype.fromBeBytes(new Uint8Array(16).fill(0xFF)).value(),
     Uint128.prototype.max(),
   );
   assertEquals(
-    Uint128.prototype.fromBeBytes(
-      new Uint8Array(16),
-    )
-      .value(),
+    Uint128.prototype.fromBeBytes(new Uint8Array(16)).value(),
     Uint128.prototype.min(),
   );
+  assertThrows((): void => {
+    // Invalid Length
+    Uint128.prototype.fromBeBytes(new Uint8Array(17));
+  });
   // fromLeBytes()
   assertEquals(
     Uint128.prototype.fromLeBytes(
@@ -257,24 +254,21 @@ Deno.test("Uint128", () => {
           0x12,
         ],
       ),
-    )
-      .value(),
+    ).value(),
     new Uint128(0x12907856_34129078_56341290_78563412n).value(),
   );
   assertEquals(
-    Uint128.prototype.fromLeBytes(
-      new Uint8Array(16).fill(0xFF),
-    )
-      .value(),
+    Uint128.prototype.fromLeBytes(new Uint8Array(16).fill(0xFF)).value(),
     Uint128.prototype.max(),
   );
   assertEquals(
-    Uint128.prototype.fromLeBytes(
-      new Uint8Array(16),
-    )
-      .value(),
+    Uint128.prototype.fromLeBytes(new Uint8Array(16)).value(),
     Uint128.prototype.min(),
   );
+  assertThrows((): void => {
+    // Invalid Length
+    Uint128.prototype.fromLeBytes(new Uint8Array(17));
+  });
   // toBeBytes()
   assertEquals(
     new Uint128(0x12345678_90123456_78901234_56789012n).toBeBytes(),
