@@ -1,109 +1,122 @@
-import { assertEquals } from "https://deno.land/std@0.52.0/testing/asserts.ts";
+import {
+  assertEquals,
+  assertThrows,
+} from "https://deno.land/std@0.52.0/testing/asserts.ts";
 
 import { Uint32 } from "./uint32.ts";
 
 Deno.test("Uint32", () => {
   // value()
-  assertEquals(new Uint32(Number.MAX_SAFE_INTEGER).value(), 0xFFFF_FFFF);
-  assertEquals(new Uint32(Number.MIN_SAFE_INTEGER).value(), 0x01);
-  assertEquals(new Uint32(0x1_0000_0000).value(), 0);
-  assertEquals(new Uint32(0).value(), 0);
-  assertEquals(new Uint32(-1).value(), 0xFFFF_FFFF);
-  assertEquals(new Uint32(Infinity).value(), 0);
-  assertEquals(new Uint32(NaN).value(), 0);
+  assertEquals(new Uint32(0x1_0000_0000n).value(), 0n);
+  assertEquals(new Uint32(0n).value(), 0n);
+  assertEquals(new Uint32(-1n).value(), 0xFFFF_FFFFn);
   // max()
-  assertEquals(Uint32.prototype.max(), 0xFFFF_FFFF);
+  assertEquals(Uint32.prototype.max(), 0xFFFF_FFFFn);
   // min()
-  assertEquals(Uint32.prototype.min(), 0);
+  assertEquals(Uint32.prototype.min(), 0n);
   // add()
-  assertEquals(new Uint32(1).add(new Uint32(2)).value(), 3);
-  assertEquals(new Uint32(0xFFFF_FFFF).add(new Uint32(1)).value(), 0);
+  assertEquals(new Uint32(1n).add(new Uint32(2n)).value(), 3n);
+  assertEquals(new Uint32(0xFFFF_FFFFn).add(new Uint32(1n)).value(), 0n);
   // sub()
-  assertEquals(new Uint32(3).sub(new Uint32(2)).value(), 1);
-  assertEquals(new Uint32(0).sub(new Uint32(1)).value(), 0xFFFF_FFFF);
+  assertEquals(new Uint32(3n).sub(new Uint32(2n)).value(), 1n);
+  assertEquals(new Uint32(0n).sub(new Uint32(1n)).value(), 0xFFFF_FFFFn);
   // div()
-  assertEquals(new Uint32(2).div(new Uint32(3)).value(), 0);
-  assertEquals(new Uint32(3).div(new Uint32(2)).value(), 1);
+  assertEquals(new Uint32(2n).div(new Uint32(3n)).value(), 0n);
+  assertEquals(new Uint32(3n).div(new Uint32(2n)).value(), 1n);
   // mul()
-  assertEquals(new Uint32(1).mul(new Uint32(2)).value(), 2);
-  assertEquals(new Uint32(1).mul(new Uint32(0)).value(), 0);
+  assertEquals(new Uint32(1n).mul(new Uint32(2n)).value(), 2n);
+  assertEquals(new Uint32(1n).mul(new Uint32(0n)).value(), 0n);
   assertEquals(
-    new Uint32(0xFFFF_FFFF).mul(new Uint32(0xFFFF_FFFF)).value(),
-    0,
+    new Uint32(0xFFFF_FFFFn).mul(new Uint32(0xFFFF_FFFFn)).value(),
+    1n,
   );
   // rem()
-  assertEquals(new Uint32(2).rem(new Uint32(3)).value(), 2);
-  assertEquals(new Uint32(3).rem(new Uint32(2)).value(), 1);
+  assertEquals(new Uint32(2n).rem(new Uint32(3n)).value(), 2n);
+  assertEquals(new Uint32(3n).rem(new Uint32(2n)).value(), 1n);
   // exp()
-  assertEquals(new Uint32(2).exp(new Uint32(3)).value(), 8);
+  assertEquals(new Uint32(2n).exp(new Uint32(3n)).value(), 8n);
   assertEquals(
-    new Uint32(0xFFFF_FFFF).exp(new Uint32(1)).value(),
-    0xFFFF_FFFF,
+    new Uint32(0xFFFF_FFFFn).exp(new Uint32(1n)).value(),
+    0xFFFF_FFFFn,
   );
-  assertEquals(new Uint32(0xFFFF_FFFF).exp(new Uint32(0)).value(), 1);
-  assertEquals(
-    new Uint32(0xFFFF_FFFF).exp(new Uint32(0xFFFF_FFFF)).value(),
-    0,
-  );
+  assertEquals(new Uint32(0xFFFF_FFFFn).exp(new Uint32(0n)).value(), 1n);
+  assertThrows((): void => {
+    new Uint32(0xFFFF_FFFFn).exp(new Uint32(0xFFFF_FFFFn)).value();
+  });
   // and()
-  assertEquals(new Uint32(0).and(new Uint32(0)).value(), 0);
-  assertEquals(new Uint32(0xFFFF_FFFF).and(new Uint32(0)).value(), 0);
+  assertEquals(new Uint32(0n).and(new Uint32(0n)).value(), 0n);
+  assertEquals(new Uint32(0xFFFF_FFFFn).and(new Uint32(0n)).value(), 0n);
   assertEquals(
-    new Uint32(0xFFFF_FFFF).and(new Uint32(0xFFFF_FFFF)).value(),
-    0xFFFF_FFFF,
+    new Uint32(0xFFFF_FFFFn).and(new Uint32(0xFFFF_FFFFn)).value(),
+    0xFFFF_FFFFn,
   );
   // or()
-  assertEquals(new Uint32(0).or(new Uint32(0)).value(), 0);
-  assertEquals(new Uint32(0xFFFF_FFFF).or(new Uint32(0)).value(), 0xFFFF_FFFF);
+  assertEquals(new Uint32(0n).or(new Uint32(0n)).value(), 0n);
   assertEquals(
-    new Uint32(0xFFFF_FFFF).or(new Uint32(0xFFFF_FFFF)).value(),
-    0xFFFF_FFFF,
+    new Uint32(0xFFFF_FFFFn).or(new Uint32(0n)).value(),
+    0xFFFF_FFFFn,
+  );
+  assertEquals(
+    new Uint32(0xFFFF_FFFFn).or(new Uint32(0xFFFF_FFFFn)).value(),
+    0xFFFF_FFFFn,
   );
   // xor()
-  assertEquals(new Uint32(0).xor(new Uint32(0)).value(), 0);
+  assertEquals(new Uint32(0n).xor(new Uint32(0n)).value(), 0n);
   assertEquals(
-    new Uint32(0xFFFF_FFFF).xor(new Uint32(0)).value(),
-    0xFFFF_FFFF,
+    new Uint32(0xFFFF_FFFFn).xor(new Uint32(0n)).value(),
+    0xFFFF_FFFFn,
   );
   assertEquals(
-    new Uint32(0xFFFF_FFFF).xor(new Uint32(0xFFFF_FFFF)).value(),
-    0,
+    new Uint32(0xFFFF_FFFFn).xor(new Uint32(0xFFFF_FFFFn)).value(),
+    0n,
   );
   // not()
-  assertEquals(new Uint32(0).not().value(), 0xFFFF_FFFF);
-  assertEquals(new Uint32(0xFFFF_FFFF).not().value(), 0);
+  assertEquals(new Uint32(0n).not().value(), 0xFFFF_FFFFn);
+  assertEquals(new Uint32(0xFFFF_FFFFn).not().value(), 0n);
   // logicalLeft()
-  assertEquals(new Uint32(0x1234_5678).logicalLeft(0).value(), 0x1234_5678);
-  assertEquals(new Uint32(0x1234_5678).logicalLeft(16).value(), 0x5678_0000);
-  // assertEquals(new Uint32(0x1234_5678).logicalLeft(32).value(), 0);
-  assertEquals(new Uint32(0x1234_5678).logicalLeft(64).value(), 0x1234_5678);
-  assertEquals(new Uint32(0x1234_5678).logicalLeft(128).value(), 0x1234_5678);
+  assertEquals(new Uint32(0x1234_5678n).logicalLeft(0n).value(), 0x1234_5678n);
+  assertEquals(new Uint32(0x1234_5678n).logicalLeft(16n).value(), 0x5678_0000n);
+  assertEquals(new Uint32(0x1234_5678n).logicalLeft(32n).value(), 0n);
+  assertEquals(new Uint32(0x1234_5678n).logicalLeft(64n).value(), 0n);
+  assertEquals(
+    new Uint32(0x1234_5678n).logicalLeft(128n).value(),
+    0n,
+  );
   // logicalRight()
-  assertEquals(new Uint32(0x1234_5678).logicalRight(0).value(), 0x1234_5678);
-  assertEquals(new Uint32(0x1234_5678).logicalRight(16).value(), 0x0000_1234);
-  // assertEquals(new Uint32(0x1234_5678).logicalRight(32).value(), 0);
-  assertEquals(new Uint32(0x1234_5678).logicalRight(64).value(), 0x1234_5678);
-  assertEquals(new Uint32(0x1234_5678).logicalRight(128).value(), 0x1234_5678);
+  assertEquals(new Uint32(0x1234_5678n).logicalRight(0n).value(), 0x1234_5678n);
+  assertEquals(
+    new Uint32(0x1234_5678n).logicalRight(16n).value(),
+    0x0000_1234n,
+  );
+  assertEquals(new Uint32(0x1234_5678n).logicalRight(32n).value(), 0n);
+  assertEquals(
+    new Uint32(0x1234_5678n).logicalRight(64n).value(),
+    0n,
+  );
+  assertEquals(
+    new Uint32(0x1234_5678n).logicalRight(128n).value(),
+    0n,
+  );
   // rotateLeft()
-  assertEquals(new Uint32(0x1234_5678).rotateLeft(0).value(), 0x1234_5678);
-  assertEquals(new Uint32(0x1234_5678).rotateLeft(16).value(), 0x5678_1234);
-  assertEquals(new Uint32(0x1234_5678).rotateLeft(32).value(), 0x1234_5678);
-  assertEquals(new Uint32(0x1234_5678).rotateLeft(64).value(), 0x1234_5678);
+  assertEquals(new Uint32(0x1234_5678n).rotateLeft(0n).value(), 0x1234_5678n);
+  assertEquals(new Uint32(0x1234_5678n).rotateLeft(16n).value(), 0x5678_1234n);
+  assertEquals(new Uint32(0x1234_5678n).rotateLeft(32n).value(), 0x1234_5678n);
+  assertEquals(new Uint32(0x1234_5678n).rotateLeft(64n).value(), 0x1234_5678n);
   // rotateRight()
-  assertEquals(new Uint32(0x1234_5678).rotateRight(0).value(), 0x1234_5678);
-  assertEquals(new Uint32(0x1234_5678).rotateRight(16).value(), 0x5678_1234);
-  assertEquals(new Uint32(0x1234_5678).rotateRight(32).value(), 0x1234_5678);
-  assertEquals(new Uint32(0x1234_5678).rotateRight(64).value(), 0x1234_5678);
+  assertEquals(new Uint32(0x1234_5678n).rotateRight(0n).value(), 0x1234_5678n);
+  assertEquals(new Uint32(0x1234_5678n).rotateRight(16n).value(), 0x5678_1234n);
+  assertEquals(new Uint32(0x1234_5678n).rotateRight(32n).value(), 0x1234_5678n);
+  assertEquals(new Uint32(0x1234_5678n).rotateRight(64n).value(), 0x1234_5678n);
   // toBeBytes()
   assertEquals(
-    new Uint32(0x1234_5678).toBeBytes(),
+    new Uint32(0x1234_5678n).toBeBytes(),
     new Uint8Array([0x12, 0x34, 0x56, 0x78]),
   );
-  assertEquals(new Uint32(0).toBeBytes(), new Uint8Array([0, 0, 0, 0]));
+  assertEquals(new Uint32(0n).toBeBytes(), new Uint8Array([0, 0, 0, 0]));
   // toLeBytes()
   assertEquals(
-    new Uint32(0x1234_5678).toLeBytes(),
+    new Uint32(0x1234_5678n).toLeBytes(),
     new Uint8Array([0x78, 0x56, 0x34, 0x12]),
   );
-  assertEquals(new Uint32(0).toBeBytes(), new Uint8Array([0, 0, 0, 0]));
+  assertEquals(new Uint32(0n).toBeBytes(), new Uint8Array([0, 0, 0, 0]));
 });

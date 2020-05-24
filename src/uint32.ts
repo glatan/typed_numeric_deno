@@ -1,27 +1,21 @@
 import { Numeric } from "./mod.ts";
 
-const MAX: number = 0xFFFF_FFFF;
-const MIN: number = 0;
-const BIT_LENGTH: number = 32;
+const MAX: bigint = 0xFFFF_FFFFn;
+const MIN: bigint = 0n;
+const BIT_LENGTH: bigint = 32n;
 
 export class Uint32 implements Numeric<Uint32> {
-  #value: number;
-  constructor(value: number) {
-    if (value === Infinity || isNaN(value)) {
-      this.#value = value & MAX;
-    } else if (value > 0x7FFF_FFFF || value < 0) {
-      this.#value = Number(BigInt(value) & BigInt(MAX));
-    } else {
-      this.#value = value & MAX;
-    }
+  #value: bigint;
+  constructor(value: bigint) {
+    this.#value = value & MAX;
   }
-  value(): number {
+  value(): bigint {
     return this.#value;
   }
-  max(): number {
+  max(): bigint {
     return MAX;
   }
-  min(): number {
+  min(): bigint {
     return MIN;
   }
   add(value: Uint32): Uint32 {
@@ -54,19 +48,19 @@ export class Uint32 implements Numeric<Uint32> {
   not(): Uint32 {
     return new Uint32(~this.#value);
   }
-  logicalLeft(n: number): Uint32 {
+  logicalLeft(n: bigint): Uint32 {
     return new Uint32(this.#value << n);
   }
-  logicalRight(n: number): Uint32 {
+  logicalRight(n: bigint): Uint32 {
     return new Uint32(this.#value >> n);
   }
-  rotateLeft(n: number): Uint32 {
+  rotateLeft(n: bigint): Uint32 {
     return new Uint32(
       (this.#value << (n % BIT_LENGTH)) |
         (this.#value >> ((BIT_LENGTH - n) % BIT_LENGTH)),
     );
   }
-  rotateRight(n: number): Uint32 {
+  rotateRight(n: bigint): Uint32 {
     return new Uint32(
       (this.#value >> (n % BIT_LENGTH)) |
         (this.#value << ((BIT_LENGTH - n) % BIT_LENGTH)),
@@ -74,18 +68,18 @@ export class Uint32 implements Numeric<Uint32> {
   }
   toBeBytes(): Uint8Array {
     return Uint8Array.from([
-      (this.#value >> 24) & 0xFF,
-      (this.#value >> 16) & 0xFF,
-      (this.#value >> 8) & 0xFF,
-      this.#value & 0xFF,
+      Number((this.#value >> 24n) & 0xFFn),
+      Number((this.#value >> 16n) & 0xFFn),
+      Number((this.#value >> 8n) & 0xFFn),
+      Number(this.#value & 0xFFn),
     ]);
   }
   toLeBytes(): Uint8Array {
     return Uint8Array.from([
-      this.#value & 0xFF,
-      (this.#value >> 8) & 0xFF,
-      (this.#value >> 16) & 0xFF,
-      (this.#value >> 24) & 0xFF,
+      Number(this.#value & 0xFFn),
+      Number((this.#value >> 8n) & 0xFFn),
+      Number((this.#value >> 16n) & 0xFFn),
+      Number((this.#value >> 24n) & 0xFFn),
     ]);
   }
 }
