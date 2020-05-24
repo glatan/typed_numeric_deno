@@ -1,13 +1,19 @@
 import { Numeric } from "./mod.ts";
 
-const MAX: number = 4294967295;
+const MAX: number = 0xFFFF_FFFF;
 const MIN: number = 0;
 const BIT_LENGTH: number = 32;
 
 export class Uint32 implements Numeric<Uint32> {
   #value: number;
   constructor(value: number) {
-    this.#value = value & MAX;
+    if (value === Infinity || isNaN(value)) {
+      this.#value = value & MAX;
+    } else if (value > 0x7FFF_FFFF || value < 0) {
+      this.#value = Number(BigInt(value) & BigInt(MAX));
+    } else {
+      this.#value = value & MAX;
+    }
   }
   value(): number {
     return this.#value;
