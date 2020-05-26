@@ -71,6 +71,7 @@ Deno.test("Int8", () => {
   assertEquals(new Int8(0x7F).not().value(), 0);
   // logicalLeft()
   assertEquals(new Int8(0x12).logicalLeft(0).value(), 0x12);
+  assertEquals(new Int8(0x12).logicalLeft(2).value(), 0x48);
   assertEquals(new Int8(0x12).logicalLeft(4).value(), 0x20);
   assertEquals(new Int8(0x12).logicalLeft(8).value(), 0);
   assertEquals(new Int8(0x12).logicalLeft(16).value(), 0);
@@ -85,6 +86,7 @@ Deno.test("Int8", () => {
   assertEquals(new Int8(-127).logicalLeft(1).value(), -126);
   // logicalRight()
   assertEquals(new Int8(0x12).logicalRight(0).value(), 0x12);
+  assertEquals(new Int8(0x12).logicalRight(2).value(), 0x04);
   assertEquals(new Int8(0x12).logicalRight(4).value(), 0x01);
   assertEquals(new Int8(0x12).logicalRight(8).value(), 0);
   assertEquals(new Int8(0x12).logicalRight(16).value(), 0);
@@ -99,11 +101,13 @@ Deno.test("Int8", () => {
   assertEquals(new Int8(-127).logicalRight(1).value(), 127);
   // rotateLeft()
   assertEquals(new Int8(0x12).rotateLeft(0).value(), 0x12);
+  assertEquals(new Int8(0x12).rotateLeft(2).value(), 0x48);
   assertEquals(new Int8(0x12).rotateLeft(4).value(), 0x21);
   assertEquals(new Int8(0x12).rotateLeft(8).value(), 0x12);
   assertEquals(new Int8(0x12).rotateLeft(16).value(), 0x12);
   // rotateRight()
   assertEquals(new Int8(0x12).rotateRight(0).value(), 0x12);
+  assertEquals(new Int8(0x12).rotateRight(2).value(), -0x04);
   assertEquals(new Int8(0x12).rotateRight(4).value(), 0x21);
   assertEquals(new Int8(0x12).rotateRight(8).value(), 0x12);
   assertEquals(new Int8(0x12).rotateRight(16).value(), 0x12);
