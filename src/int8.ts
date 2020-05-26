@@ -1,0 +1,171 @@
+import { Numeric } from "./mod.ts";
+
+const MAX: number = 0x7F;
+const MIN: number = -0x7F;
+const BIT_LENGTH: number = 8;
+
+export class Int8 implements Numeric<Int8> {
+  #value: number;
+  constructor(value: number) {
+    if (value < 0) {
+      // 一度符号を外してからマスク、その後符号を(Int8の最上位ビットを1にする形で)戻す
+      this.#value = ((~value + 1) & MAX) | 0x80;
+    } else if (value === (value | 0x80)) {
+      // Int8での最上位ビットが1の場合
+      this.#value = value & 0xFF;
+    } else {
+      this.#value = value & MAX;
+    }
+  }
+  value(): number {
+    if ((this.#value | 0x80) === this.#value) {
+      // Int8での最上位ビットが1の場合
+      return ~(this.#value & 0x7F) + 1;
+    } else {
+      return this.#value;
+    }
+  }
+  max(): number {
+    return MAX;
+  }
+  min(): number {
+    return MIN;
+  }
+  add(value: Int8): Int8 {
+    if (
+      this.#value === (this.#value | 0x80) &&
+      value.#value === (value.#value | 0x80)
+    ) {
+      // -Num + -Num
+      return new Int8(~(this.#value & 0x7F) + ~(value.#value & 0x7F) + 2);
+    } else if (this.#value === (this.#value | 0x80)) {
+      // -Num + Num
+      return new Int8(value.#value + ~(this.#value & 0x7F) + 1);
+    } else if (value.#value === (value.#value | 0x80)) {
+      // Num + -Num
+      return new Int8(this.#value + ~(value.#value & 0x7F) + 1);
+    } else {
+      // Num + Num
+      return new Int8(this.#value + value.#value);
+    }
+  }
+  sub(value: Int8): Int8 {
+    if (
+      // -Num - -Num
+      this.#value === (this.#value | 0x80) &&
+      value.#value === (value.#value | 0x80)
+    ) {
+      if (this.#value < value.#value) {
+        // -Num + Num
+        return new Int8(~(this.#value & 0x7F) + (value.#value & 0x7F) + 1);
+      } else {
+        return new Int8(~(this.#value & 0x7F) + ~(value.#value & 0x7F) + 2);
+      }
+    } else if (this.#value === (this.#value | 0x80)) {
+      // -Num - Num
+      return new Int8(~(this.#value & 0x7F) + ~(value.#value & 0x7F) + 2);
+    } else if (value.#value === (value.#value | 0x80)) {
+      // Num - -Num
+      return new Int8(this.#value + (value.#value & 0x7F));
+    } else {
+      // Num - Num
+      return new Int8(this.#value + ~value.#value + 1);
+    }
+  }
+  div(value: Int8): Int8 {
+    if (
+      this.#value === (this.#value | 0x80) &&
+      value.#value === (value.#value | 0x80)
+    ) {
+      return new Int8(
+        (~(this.#value & 0x7F) + 1) / (~(value.#value & 0x7F) + 1),
+      );
+    } else if (this.#value === (this.#value | 0x80)) {
+      return new Int8(~((this.#value & 0x7F) / value.#value) + 1);
+    } else if (value.#value === (value.#value | 0x80)) {
+      return new Int8(~(this.#value / (value.#value & 0x7F)) + 1);
+    } else {
+      return new Int8(this.#value / value.#value);
+    }
+  }
+  mul(value: Int8): Int8 {
+    if (
+      this.#value === (this.#value | 0x80) &&
+      value.#value === (value.#value | 0x80)
+    ) {
+      return new Int8(
+        (~(this.#value & 0x7F) + 1) * (~(value.#value & 0x7F) + 1),
+      );
+    } else if (this.#value === (this.#value | 0x80)) {
+      return new Int8(~((this.#value & 0x7F) * value.#value) + 1);
+    } else if (value.#value === (value.#value | 0x80)) {
+      return new Int8(~(this.#value * (value.#value & 0x7F)) + 1);
+    } else {
+      return new Int8(this.#value * value.#value);
+    }
+  }
+  rem(value: Int8): Int8 {
+    return new Int8(this.#value % value.#value);
+  }
+  exp(value: Int8): Int8 {
+    return new Int8(this.#value ** value.#value);
+  }
+  and(value: Int8): Int8 {
+    return new Int8(this.#value & value.#value);
+  }
+  or(value: Int8): Int8 {
+    return new Int8(this.#value | value.#value);
+  }
+  xor(value: Int8): Int8 {
+    return new Int8(this.#value ^ value.#value);
+  }
+  not(): Int8 {
+    return new Int8(~this.#value);
+  }
+  logicalLeft(n: number): Int8 {
+    if (n >= BIT_LENGTH) {
+      return new Int8(0);
+    }
+    return new Int8(this.#value << n);
+  }
+  logicalRight(n: number): Int8 {
+    if (n >= BIT_LENGTH) {
+      return new Int8(0);
+    }
+    return new Int8(this.#value >> n);
+  }
+  rotateLeft(n: number): Int8 {
+    return new Int8(
+      (this.#value << (n % BIT_LENGTH)) |
+        (this.#value >> ((BIT_LENGTH - n) % BIT_LENGTH)),
+    );
+  }
+  rotateRight(n: number): Int8 {
+    return new Int8(
+      (this.#value >> (n % BIT_LENGTH)) |
+        (this.#value << ((BIT_LENGTH - n) % BIT_LENGTH)),
+    );
+  }
+  fromBeBytes(bytes: Uint8Array): Int8 {
+    if (bytes.length === (BIT_LENGTH / 8)) {
+      return new Int8(bytes[0]);
+    }
+    throw new Error(
+      "Invalid Length Error: Expected Uint8Array.prototype.length is 1",
+    );
+  }
+  fromLeBytes(bytes: Uint8Array): Int8 {
+    if (bytes.length === (BIT_LENGTH / 8)) {
+      return new Int8(bytes[0]);
+    }
+    throw new Error(
+      "Invalid Length Error: Expected Uint8Array.prototype.length is 1",
+    );
+  }
+  toBeBytes(): Uint8Array {
+    return Uint8Array.from([this.#value]);
+  }
+  toLeBytes(): Uint8Array {
+    return Uint8Array.from([this.#value]);
+  }
+}
