@@ -25,10 +25,10 @@ export class Int16 implements Numeric<Int16> {
       return this.#value;
     }
   }
-  max(): number {
+  static max(): number {
     return MAX;
   }
-  min(): number {
+  static min(): number {
     return MIN;
   }
   add(value: Int16): Int16 {

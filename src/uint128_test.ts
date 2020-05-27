@@ -12,22 +12,22 @@ Deno.test("Uint128", () => {
     0n,
   );
   assertEquals(new Uint128(0n).value(), 0n);
-  assertEquals(new Uint128(-1n).value(), Uint128.prototype.max());
+  assertEquals(new Uint128(-1n).value(), Uint128.max());
   // max()
-  assertEquals(Uint128.prototype.max(), 0xFFFFFFFF_FFFFFFFF_FFFFFFFF_FFFFFFFFn);
+  assertEquals(Uint128.max(), 0xFFFFFFFF_FFFFFFFF_FFFFFFFF_FFFFFFFFn);
   // min()
-  assertEquals(Uint128.prototype.min(), 0n);
+  assertEquals(Uint128.min(), 0n);
   // add()
   assertEquals(new Uint128(1n).add(new Uint128(2n)).value(), 3n);
   assertEquals(
-    new Uint128(Uint128.prototype.max()).add(new Uint128(1n)).value(),
+    new Uint128(Uint128.max()).add(new Uint128(1n)).value(),
     0n,
   );
   // sub()
   assertEquals(new Uint128(3n).sub(new Uint128(2n)).value(), 1n);
   assertEquals(
     new Uint128(0n).sub(new Uint128(1n)).value(),
-    Uint128.prototype.max(),
+    Uint128.max(),
   );
   // div()
   assertEquals(new Uint128(2n).div(new Uint128(3n)).value(), 0n);
@@ -36,8 +36,8 @@ Deno.test("Uint128", () => {
   assertEquals(new Uint128(1n).mul(new Uint128(2n)).value(), 2n);
   assertEquals(new Uint128(1n).mul(new Uint128(0n)).value(), 0n);
   assertEquals(
-    new Uint128(Uint128.prototype.max()).mul(
-      new Uint128(Uint128.prototype.max()),
+    new Uint128(Uint128.max()).mul(
+      new Uint128(Uint128.max()),
     )
       .value(),
     1n,
@@ -48,61 +48,61 @@ Deno.test("Uint128", () => {
   // exp()
   assertEquals(new Uint128(2n).exp(new Uint128(3n)).value(), 8n);
   assertEquals(
-    new Uint128(Uint128.prototype.max()).exp(new Uint128(1n)).value(),
-    Uint128.prototype.max(),
+    new Uint128(Uint128.max()).exp(new Uint128(1n)).value(),
+    Uint128.max(),
   );
   assertEquals(
-    new Uint128(Uint128.prototype.max()).exp(new Uint128(0n)).value(),
+    new Uint128(Uint128.max()).exp(new Uint128(0n)).value(),
     1n,
   );
   assertThrows((): void => {
     // Uncaught RangeError: Maximum BigInt size exceeded
-    new Uint128(Uint128.prototype.max()).exp(
-      new Uint128(Uint128.prototype.max()),
+    new Uint128(Uint128.max()).exp(
+      new Uint128(Uint128.max()),
     );
   });
   // and()
   assertEquals(new Uint128(0n).and(new Uint128(0n)).value(), 0n);
   assertEquals(
-    new Uint128(Uint128.prototype.max()).and(new Uint128(0n)).value(),
+    new Uint128(Uint128.max()).and(new Uint128(0n)).value(),
     0n,
   );
   assertEquals(
-    new Uint128(Uint128.prototype.max()).and(
-      new Uint128(Uint128.prototype.max()),
+    new Uint128(Uint128.max()).and(
+      new Uint128(Uint128.max()),
     )
       .value(),
-    Uint128.prototype.max(),
+    Uint128.max(),
   );
   // or()
   assertEquals(new Uint128(0n).or(new Uint128(0n)).value(), 0n);
   assertEquals(
-    new Uint128(Uint128.prototype.max()).or(new Uint128(0n)).value(),
-    Uint128.prototype.max(),
+    new Uint128(Uint128.max()).or(new Uint128(0n)).value(),
+    Uint128.max(),
   );
   assertEquals(
-    new Uint128(Uint128.prototype.max()).or(
-      new Uint128(Uint128.prototype.max()),
+    new Uint128(Uint128.max()).or(
+      new Uint128(Uint128.max()),
     )
       .value(),
-    Uint128.prototype.max(),
+    Uint128.max(),
   );
   // xor()
   assertEquals(new Uint128(0n).xor(new Uint128(0n)).value(), 0n);
   assertEquals(
-    new Uint128(Uint128.prototype.max()).xor(new Uint128(0n)).value(),
-    Uint128.prototype.max(),
+    new Uint128(Uint128.max()).xor(new Uint128(0n)).value(),
+    Uint128.max(),
   );
   assertEquals(
-    new Uint128(Uint128.prototype.max()).xor(
-      new Uint128(Uint128.prototype.max()),
+    new Uint128(Uint128.max()).xor(
+      new Uint128(Uint128.max()),
     )
       .value(),
     0n,
   );
   // not()
-  assertEquals(new Uint128(0n).not().value(), Uint128.prototype.max());
-  assertEquals(new Uint128(Uint128.prototype.max()).not().value(), 0n);
+  assertEquals(new Uint128(0n).not().value(), Uint128.max());
+  assertEquals(new Uint128(Uint128.max()).not().value(), 0n);
   // logicalLeft()
   assertEquals(
     new Uint128(0x12345678_90123456_78901234_56789012n).logicalLeft(0n).value(),
@@ -221,11 +221,11 @@ Deno.test("Uint128", () => {
   );
   assertEquals(
     Uint128.fromBeBytes(new Uint8Array(16).fill(0xFF)).value(),
-    Uint128.prototype.max(),
+    Uint128.max(),
   );
   assertEquals(
     Uint128.fromBeBytes(new Uint8Array(16)).value(),
-    Uint128.prototype.min(),
+    Uint128.min(),
   );
   assertThrows((): void => {
     // Invalid Length
@@ -259,11 +259,11 @@ Deno.test("Uint128", () => {
   );
   assertEquals(
     Uint128.fromLeBytes(new Uint8Array(16).fill(0xFF)).value(),
-    Uint128.prototype.max(),
+    Uint128.max(),
   );
   assertEquals(
     Uint128.fromLeBytes(new Uint8Array(16)).value(),
-    Uint128.prototype.min(),
+    Uint128.min(),
   );
   assertThrows((): void => {
     // Invalid Length
@@ -294,11 +294,11 @@ Deno.test("Uint128", () => {
     ),
   );
   assertEquals(
-    new Uint128(Uint128.prototype.max()).toBeBytes(),
+    new Uint128(Uint128.max()).toBeBytes(),
     new Uint8Array(16).fill(0xFF),
   );
   assertEquals(
-    new Uint128(Uint128.prototype.min()).toBeBytes(),
+    new Uint128(Uint128.min()).toBeBytes(),
     new Uint8Array(16),
   );
   // toLeBytes()
@@ -326,11 +326,11 @@ Deno.test("Uint128", () => {
     ),
   );
   assertEquals(
-    new Uint128(Uint128.prototype.max()).toLeBytes(),
+    new Uint128(Uint128.max()).toLeBytes(),
     new Uint8Array(16).fill(0xFF),
   );
   assertEquals(
-    new Uint128(Uint128.prototype.min()).toLeBytes(),
+    new Uint128(Uint128.min()).toLeBytes(),
     new Uint8Array(16),
   );
 });

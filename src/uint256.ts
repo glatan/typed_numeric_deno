@@ -13,10 +13,10 @@ export class Uint256 implements Numeric<Uint256> {
   value(): bigint {
     return this.#value;
   }
-  max(): bigint {
+  static max(): bigint {
     return MAX;
   }
-  min(): bigint {
+  static min(): bigint {
     return MIN;
   }
   add(value: Uint256): Uint256 {

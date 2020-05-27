@@ -25,10 +25,10 @@ export class Int64 implements Numeric<Int64> {
       return this.#value;
     }
   }
-  max(): bigint {
+  static max(): bigint {
     return MAX;
   }
-  min(): bigint {
+  static min(): bigint {
     return MIN;
   }
   add(value: Int64): Int64 {

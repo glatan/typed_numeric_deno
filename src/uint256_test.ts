@@ -14,25 +14,25 @@ Deno.test("Uint256", () => {
     0n,
   );
   assertEquals(new Uint256(0n).value(), 0n);
-  assertEquals(new Uint256(-1n).value(), Uint256.prototype.max());
+  assertEquals(new Uint256(-1n).value(), Uint256.max());
   // max()
   assertEquals(
-    Uint256.prototype.max(),
+    Uint256.max(),
     0xFFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn,
   );
   // min()
-  assertEquals(Uint256.prototype.min(), 0n);
+  assertEquals(Uint256.min(), 0n);
   // add()
   assertEquals(new Uint256(1n).add(new Uint256(2n)).value(), 3n);
   assertEquals(
-    new Uint256(Uint256.prototype.max()).add(new Uint256(1n)).value(),
+    new Uint256(Uint256.max()).add(new Uint256(1n)).value(),
     0n,
   );
   // sub()
   assertEquals(new Uint256(3n).sub(new Uint256(2n)).value(), 1n);
   assertEquals(
     new Uint256(0n).sub(new Uint256(1n)).value(),
-    Uint256.prototype.max(),
+    Uint256.max(),
   );
   // div()
   assertEquals(new Uint256(2n).div(new Uint256(3n)).value(), 0n);
@@ -41,8 +41,8 @@ Deno.test("Uint256", () => {
   assertEquals(new Uint256(1n).mul(new Uint256(2n)).value(), 2n);
   assertEquals(new Uint256(1n).mul(new Uint256(0n)).value(), 0n);
   assertEquals(
-    new Uint256(Uint256.prototype.max()).mul(
-      new Uint256(Uint256.prototype.max()),
+    new Uint256(Uint256.max()).mul(
+      new Uint256(Uint256.max()),
     )
       .value(),
     1n,
@@ -53,61 +53,61 @@ Deno.test("Uint256", () => {
   // exp()
   assertEquals(new Uint256(2n).exp(new Uint256(3n)).value(), 8n);
   assertEquals(
-    new Uint256(Uint256.prototype.max()).exp(new Uint256(1n)).value(),
-    Uint256.prototype.max(),
+    new Uint256(Uint256.max()).exp(new Uint256(1n)).value(),
+    Uint256.max(),
   );
   assertEquals(
-    new Uint256(Uint256.prototype.max()).exp(new Uint256(0n)).value(),
+    new Uint256(Uint256.max()).exp(new Uint256(0n)).value(),
     1n,
   );
   assertThrows((): void => {
     // Uncaught RangeError: Maximum BigInt size exceeded
-    new Uint256(Uint256.prototype.max()).exp(
-      new Uint256(Uint256.prototype.max()),
+    new Uint256(Uint256.max()).exp(
+      new Uint256(Uint256.max()),
     );
   });
   // and()
   assertEquals(new Uint256(0n).and(new Uint256(0n)).value(), 0n);
   assertEquals(
-    new Uint256(Uint256.prototype.max()).and(new Uint256(0n)).value(),
+    new Uint256(Uint256.max()).and(new Uint256(0n)).value(),
     0n,
   );
   assertEquals(
-    new Uint256(Uint256.prototype.max()).and(
-      new Uint256(Uint256.prototype.max()),
+    new Uint256(Uint256.max()).and(
+      new Uint256(Uint256.max()),
     )
       .value(),
-    Uint256.prototype.max(),
+    Uint256.max(),
   );
   // or()
   assertEquals(new Uint256(0n).or(new Uint256(0n)).value(), 0n);
   assertEquals(
-    new Uint256(Uint256.prototype.max()).or(new Uint256(0n)).value(),
-    Uint256.prototype.max(),
+    new Uint256(Uint256.max()).or(new Uint256(0n)).value(),
+    Uint256.max(),
   );
   assertEquals(
-    new Uint256(Uint256.prototype.max()).or(
-      new Uint256(Uint256.prototype.max()),
+    new Uint256(Uint256.max()).or(
+      new Uint256(Uint256.max()),
     )
       .value(),
-    Uint256.prototype.max(),
+    Uint256.max(),
   );
   // xor()
   assertEquals(new Uint256(0n).xor(new Uint256(0n)).value(), 0n);
   assertEquals(
-    new Uint256(Uint256.prototype.max()).xor(new Uint256(0n)).value(),
-    Uint256.prototype.max(),
+    new Uint256(Uint256.max()).xor(new Uint256(0n)).value(),
+    Uint256.max(),
   );
   assertEquals(
-    new Uint256(Uint256.prototype.max()).xor(
-      new Uint256(Uint256.prototype.max()),
+    new Uint256(Uint256.max()).xor(
+      new Uint256(Uint256.max()),
     )
       .value(),
     0n,
   );
   // not()
-  assertEquals(new Uint256(0n).not().value(), Uint256.prototype.max());
-  assertEquals(new Uint256(Uint256.prototype.max()).not().value(), 0n);
+  assertEquals(new Uint256(0n).not().value(), Uint256.max());
+  assertEquals(new Uint256(Uint256.max()).not().value(), 0n);
   // logicalLeft()
   assertEquals(
     new Uint256(
@@ -280,11 +280,11 @@ Deno.test("Uint256", () => {
   );
   assertEquals(
     Uint256.fromBeBytes(new Uint8Array(32).fill(0xFF)).value(),
-    Uint256.prototype.max(),
+    Uint256.max(),
   );
   assertEquals(
     Uint256.fromBeBytes(new Uint8Array(32)).value(),
-    Uint256.prototype.min(),
+    Uint256.min(),
   );
   assertThrows((): void => {
     // Invalid Length
@@ -336,11 +336,11 @@ Deno.test("Uint256", () => {
   );
   assertEquals(
     Uint256.fromLeBytes(new Uint8Array(32).fill(0xFF)).value(),
-    Uint256.prototype.max(),
+    Uint256.max(),
   );
   assertEquals(
     Uint256.fromLeBytes(new Uint8Array(32)).value(),
-    Uint256.prototype.min(),
+    Uint256.min(),
   );
   assertThrows((): void => {
     // Invalid Length
@@ -389,11 +389,11 @@ Deno.test("Uint256", () => {
     ),
   );
   assertEquals(
-    new Uint256(Uint256.prototype.max()).toBeBytes(),
+    new Uint256(Uint256.max()).toBeBytes(),
     new Uint8Array(32).fill(0xFF),
   );
   assertEquals(
-    new Uint256(Uint256.prototype.min()).toBeBytes(),
+    new Uint256(Uint256.min()).toBeBytes(),
     new Uint8Array(32),
   );
   // toLeBytes()
@@ -439,11 +439,11 @@ Deno.test("Uint256", () => {
     ),
   );
   assertEquals(
-    new Uint256(Uint256.prototype.max()).toLeBytes(),
+    new Uint256(Uint256.max()).toLeBytes(),
     new Uint8Array(32).fill(0xFF),
   );
   assertEquals(
-    new Uint256(Uint256.prototype.min()).toLeBytes(),
+    new Uint256(Uint256.min()).toLeBytes(),
     new Uint8Array(32).fill(0),
   );
 });

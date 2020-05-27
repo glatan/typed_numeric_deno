@@ -35,12 +35,12 @@ Deno.test("Int256", () => {
   );
   // max()
   assertEquals(
-    Int256.prototype.max(),
+    Int256.max(),
     0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn,
   );
   // min()
   assertEquals(
-    Int256.prototype.min(),
+    Int256.min(),
     -0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn,
   );
   // add()
@@ -514,7 +514,7 @@ Deno.test("Int256", () => {
         ],
       ),
     ).value(),
-    Int256.prototype.max(),
+    Int256.max(),
   );
   assertEquals(
     Int256.fromBeBytes(new Uint8Array(32)).value(),
@@ -605,7 +605,7 @@ Deno.test("Int256", () => {
         ],
       ),
     ).value(),
-    Int256.prototype.max(),
+    Int256.max(),
   );
   assertEquals(
     Int256.fromLeBytes(new Uint8Array(32)).value(),
@@ -656,7 +656,7 @@ Deno.test("Int256", () => {
     ]),
   );
   assertEquals(
-    new Int256(Int256.prototype.max()).toBeBytes(),
+    new Int256(Int256.max()).toBeBytes(),
     new Uint8Array(
       [
         0x7F,
@@ -739,7 +739,7 @@ Deno.test("Int256", () => {
     ]),
   );
   assertEquals(
-    new Int256(Int256.prototype.max()).toLeBytes(),
+    new Int256(Int256.max()).toLeBytes(),
     new Uint8Array(
       [
         0xFF,

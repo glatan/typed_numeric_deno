@@ -20,9 +20,9 @@ Deno.test("Int128", () => {
   assertEquals(new Int128(0x80000000_00000000_00000000_00000000n).value(), 0n);
   assertEquals(new Int128(-0x80000000_00000000_00000000_00000000n).value(), 0n);
   // max()
-  assertEquals(Int128.prototype.max(), 0x7FFFFFFF_FFFFFFFF_FFFFFFFF_FFFFFFFFn);
+  assertEquals(Int128.max(), 0x7FFFFFFF_FFFFFFFF_FFFFFFFF_FFFFFFFFn);
   // min()
-  assertEquals(Int128.prototype.min(), -0x7FFFFFFF_FFFFFFFF_FFFFFFFF_FFFFFFFFn);
+  assertEquals(Int128.min(), -0x7FFFFFFF_FFFFFFFF_FFFFFFFF_FFFFFFFFn);
   // add()
   assertEquals(new Int128(1n).add(new Int128(2n)).value(), 3n);
   assertEquals(
@@ -354,7 +354,7 @@ Deno.test("Int128", () => {
         ],
       ),
     ).value(),
-    Int128.prototype.max(),
+    Int128.max(),
   );
   assertEquals(
     Int128.fromBeBytes(new Uint8Array(16)).value(),
@@ -411,7 +411,7 @@ Deno.test("Int128", () => {
         ],
       ),
     ).value(),
-    Int128.prototype.max(),
+    Int128.max(),
   );
   assertEquals(
     Int128.fromLeBytes(new Uint8Array(16)).value(),
@@ -444,7 +444,7 @@ Deno.test("Int128", () => {
     ]),
   );
   assertEquals(
-    new Int128(Int128.prototype.max()).toBeBytes(),
+    new Int128(Int128.max()).toBeBytes(),
     new Uint8Array(
       [
         0x7F,
@@ -493,7 +493,7 @@ Deno.test("Int128", () => {
     ]),
   );
   assertEquals(
-    new Int128(Int128.prototype.max()).toLeBytes(),
+    new Int128(Int128.max()).toLeBytes(),
     new Uint8Array(
       [
         0xFF,

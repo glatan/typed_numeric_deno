@@ -15,9 +15,9 @@ Deno.test("Uint16", () => {
   assertEquals(new Uint16(Infinity).value(), 0);
   assertEquals(new Uint16(NaN).value(), 0);
   // max()
-  assertEquals(Uint16.prototype.max(), 0xFFFF);
+  assertEquals(Uint16.max(), 0xFFFF);
   // min()
-  assertEquals(Uint16.prototype.min(), 0);
+  assertEquals(Uint16.min(), 0);
   // add()
   assertEquals(new Uint16(1).add(new Uint16(2)).value(), 3);
   assertEquals(new Uint16(0xFFFF).add(new Uint16(1)).value(), 0);
@@ -83,11 +83,11 @@ Deno.test("Uint16", () => {
   );
   assertEquals(
     Uint16.fromBeBytes(new Uint8Array(2).fill(0xFF)).value(),
-    Uint16.prototype.max(),
+    Uint16.max(),
   );
   assertEquals(
     Uint16.fromBeBytes(new Uint8Array(2)).value(),
-    Uint16.prototype.min(),
+    Uint16.min(),
   );
   assertThrows((): void => {
     // Invalid Length
@@ -100,11 +100,11 @@ Deno.test("Uint16", () => {
   );
   assertEquals(
     Uint16.fromLeBytes(new Uint8Array(2).fill(0xFF)).value(),
-    Uint16.prototype.max(),
+    Uint16.max(),
   );
   assertEquals(
     Uint16.fromLeBytes(new Uint8Array(2)).value(),
-    Uint16.prototype.min(),
+    Uint16.min(),
   );
   assertThrows((): void => {
     // Invalid Length
@@ -113,21 +113,21 @@ Deno.test("Uint16", () => {
   // toBeBytes()
   assertEquals(new Uint16(0x1234).toBeBytes(), new Uint8Array([0x12, 0x34]));
   assertEquals(
-    new Uint16(Uint16.prototype.max()).toBeBytes(),
+    new Uint16(Uint16.max()).toBeBytes(),
     new Uint8Array(2).fill(0xFF),
   );
   assertEquals(
-    new Uint16(Uint16.prototype.min()).toBeBytes(),
+    new Uint16(Uint16.min()).toBeBytes(),
     new Uint8Array(2),
   );
   // toLeBytes()
   assertEquals(new Uint16(0x1234).toLeBytes(), new Uint8Array([0x34, 0x12]));
   assertEquals(
-    new Uint16(Uint16.prototype.max()).toLeBytes(),
+    new Uint16(Uint16.max()).toLeBytes(),
     new Uint8Array(2).fill(0xFF),
   );
   assertEquals(
-    new Uint16(Uint16.prototype.min()).toLeBytes(),
+    new Uint16(Uint16.min()).toLeBytes(),
     new Uint8Array(2),
   );
 });

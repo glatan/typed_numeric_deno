@@ -15,9 +15,9 @@ Deno.test("Uint8", () => {
   assertEquals(new Uint8(Infinity).value(), 0);
   assertEquals(new Uint8(NaN).value(), 0);
   // max()
-  assertEquals(Uint8.prototype.max(), 0xFF);
+  assertEquals(Uint8.max(), 0xFF);
   // min()
-  assertEquals(Uint8.prototype.min(), 0);
+  assertEquals(Uint8.min(), 0);
   // add()
   assertEquals(new Uint8(1).add(new Uint8(2)).value(), 3);
   assertEquals(new Uint8(0xFF).add(new Uint8(1)).value(), 0);
@@ -83,11 +83,11 @@ Deno.test("Uint8", () => {
   );
   assertEquals(
     Uint8.fromBeBytes(new Uint8Array(1).fill(0xFF)).value(),
-    Uint8.prototype.max(),
+    Uint8.max(),
   );
   assertEquals(
     Uint8.fromBeBytes(new Uint8Array(1)).value(),
-    Uint8.prototype.min(),
+    Uint8.min(),
   );
   assertThrows((): void => {
     // Invalid Length
@@ -100,11 +100,11 @@ Deno.test("Uint8", () => {
   );
   assertEquals(
     Uint8.fromLeBytes(new Uint8Array(1).fill(0xFF)).value(),
-    Uint8.prototype.max(),
+    Uint8.max(),
   );
   assertEquals(
     Uint8.fromLeBytes(new Uint8Array(1)).value(),
-    Uint8.prototype.min(),
+    Uint8.min(),
   );
   assertThrows((): void => {
     // Invalid Length
@@ -113,15 +113,15 @@ Deno.test("Uint8", () => {
   // toBeBytes()
   assertEquals(new Uint8(0x12).toBeBytes(), new Uint8Array([0x12]));
   assertEquals(
-    new Uint8(Uint8.prototype.max()).toBeBytes(),
+    new Uint8(Uint8.max()).toBeBytes(),
     new Uint8Array(1).fill(0xFF),
   );
-  assertEquals(new Uint8(Uint8.prototype.min()).toBeBytes(), new Uint8Array(1));
+  assertEquals(new Uint8(Uint8.min()).toBeBytes(), new Uint8Array(1));
   // toLeBytes()
   assertEquals(new Uint8(0x12).toLeBytes(), new Uint8Array([0x12]));
   assertEquals(
-    new Uint8(Uint8.prototype.max()).toLeBytes(),
+    new Uint8(Uint8.max()).toLeBytes(),
     new Uint8Array(1).fill(0xFF),
   );
-  assertEquals(new Uint8(Uint8.prototype.min()).toLeBytes(), new Uint8Array(1));
+  assertEquals(new Uint8(Uint8.min()).toLeBytes(), new Uint8Array(1));
 });

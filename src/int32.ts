@@ -25,10 +25,10 @@ export class Int32 implements Numeric<Int32> {
       return this.#value;
     }
   }
-  max(): bigint {
+  static max(): bigint {
     return MAX;
   }
-  min(): bigint {
+  static min(): bigint {
     return MIN;
   }
   add(value: Int32): Int32 {

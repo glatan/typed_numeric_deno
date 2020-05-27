@@ -11,9 +11,9 @@ Deno.test("Uint64", () => {
   assertEquals(new Uint64(0n).value(), 0n);
   assertEquals(new Uint64(-1n).value(), 0xFFFFFFFF_FFFFFFFFn);
   // max()
-  assertEquals(Uint64.prototype.max(), 0xFFFFFFFF_FFFFFFFFn);
+  assertEquals(Uint64.max(), 0xFFFFFFFF_FFFFFFFFn);
   // min()
-  assertEquals(Uint64.prototype.min(), 0n);
+  assertEquals(Uint64.min(), 0n);
   // add()
   assertEquals(new Uint64(1n).add(new Uint64(2n)).value(), 3n);
   assertEquals(
@@ -175,11 +175,11 @@ Deno.test("Uint64", () => {
   );
   assertEquals(
     Uint64.fromBeBytes(new Uint8Array(8).fill(0xFF)).value(),
-    Uint64.prototype.max(),
+    Uint64.max(),
   );
   assertEquals(
     Uint64.fromBeBytes(new Uint8Array(8)).value(),
-    Uint64.prototype.min(),
+    Uint64.min(),
   );
   assertThrows((): void => {
     // Invalid Length
@@ -194,11 +194,11 @@ Deno.test("Uint64", () => {
   );
   assertEquals(
     Uint64.fromLeBytes(new Uint8Array(8).fill(0xFF)).value(),
-    Uint64.prototype.max(),
+    Uint64.max(),
   );
   assertEquals(
     Uint64.fromLeBytes(new Uint8Array(8)).value(),
-    Uint64.prototype.min(),
+    Uint64.min(),
   );
   assertThrows((): void => {
     // Invalid Length
@@ -210,11 +210,11 @@ Deno.test("Uint64", () => {
     new Uint8Array([0x12, 0x34, 0x56, 0x78, 0x90, 0x12, 0x34, 0x56]),
   );
   assertEquals(
-    new Uint64(Uint64.prototype.max()).toBeBytes(),
+    new Uint64(Uint64.max()).toBeBytes(),
     new Uint8Array(8).fill(0xFF),
   );
   assertEquals(
-    new Uint64(Uint64.prototype.min()).toBeBytes(),
+    new Uint64(Uint64.min()).toBeBytes(),
     new Uint8Array(8),
   );
   // toLeBytes()
@@ -223,11 +223,11 @@ Deno.test("Uint64", () => {
     new Uint8Array([0x56, 0x34, 0x12, 0x90, 0x78, 0x56, 0x34, 0x12]),
   );
   assertEquals(
-    new Uint64(Uint64.prototype.max()).toLeBytes(),
+    new Uint64(Uint64.max()).toLeBytes(),
     new Uint8Array(8).fill(0xFF),
   );
   assertEquals(
-    new Uint64(Uint64.prototype.min()).toLeBytes(),
+    new Uint64(Uint64.min()).toLeBytes(),
     new Uint8Array(8),
   );
 });

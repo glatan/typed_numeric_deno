@@ -26,10 +26,10 @@ export class Int128 implements Numeric<Int128> {
       return this.#value;
     }
   }
-  max(): bigint {
+  static max(): bigint {
     return MAX;
   }
-  min(): bigint {
+  static min(): bigint {
     return MIN;
   }
   add(value: Int128): Int128 {

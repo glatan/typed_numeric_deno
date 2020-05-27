@@ -25,10 +25,10 @@ export class Int8 implements Numeric<Int8> {
       return this.#value;
     }
   }
-  max(): number {
+  static max(): number {
     return MAX;
   }
-  min(): number {
+  static min(): number {
     return MIN;
   }
   add(value: Int8): Int8 {

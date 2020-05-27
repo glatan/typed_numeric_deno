@@ -11,9 +11,9 @@ Deno.test("Uint32", () => {
   assertEquals(new Uint32(0n).value(), 0n);
   assertEquals(new Uint32(-1n).value(), 0xFFFF_FFFFn);
   // max()
-  assertEquals(Uint32.prototype.max(), 0xFFFF_FFFFn);
+  assertEquals(Uint32.max(), 0xFFFF_FFFFn);
   // min()
-  assertEquals(Uint32.prototype.min(), 0n);
+  assertEquals(Uint32.min(), 0n);
   // add()
   assertEquals(new Uint32(1n).add(new Uint32(2n)).value(), 3n);
   assertEquals(new Uint32(0xFFFF_FFFFn).add(new Uint32(1n)).value(), 0n);
@@ -115,11 +115,11 @@ Deno.test("Uint32", () => {
   );
   assertEquals(
     Uint32.fromBeBytes(new Uint8Array(4).fill(0xFF)).value(),
-    Uint32.prototype.max(),
+    Uint32.max(),
   );
   assertEquals(
     Uint32.fromBeBytes(new Uint8Array(4)).value(),
-    Uint32.prototype.min(),
+    Uint32.min(),
   );
   assertThrows((): void => {
     // Invalid Length
@@ -133,11 +133,11 @@ Deno.test("Uint32", () => {
   );
   assertEquals(
     Uint32.fromLeBytes(new Uint8Array(4).fill(0xFF)).value(),
-    Uint32.prototype.max(),
+    Uint32.max(),
   );
   assertEquals(
     Uint32.fromLeBytes(new Uint8Array(4)).value(),
-    Uint32.prototype.min(),
+    Uint32.min(),
   );
   assertThrows((): void => {
     // Invalid Length
@@ -149,11 +149,11 @@ Deno.test("Uint32", () => {
     new Uint8Array([0x12, 0x34, 0x56, 0x78]),
   );
   assertEquals(
-    new Uint32(Uint32.prototype.max()).toBeBytes(),
+    new Uint32(Uint32.max()).toBeBytes(),
     new Uint8Array(4).fill(0xFF),
   );
   assertEquals(
-    new Uint32(Uint32.prototype.min()).toBeBytes(),
+    new Uint32(Uint32.min()).toBeBytes(),
     new Uint8Array(4),
   );
   // toLeBytes()
@@ -162,11 +162,11 @@ Deno.test("Uint32", () => {
     new Uint8Array([0x78, 0x56, 0x34, 0x12]),
   );
   assertEquals(
-    new Uint32(Uint32.prototype.max()).toLeBytes(),
+    new Uint32(Uint32.max()).toLeBytes(),
     new Uint8Array(4).fill(0xFF),
   );
   assertEquals(
-    new Uint32(Uint32.prototype.min()).toLeBytes(),
+    new Uint32(Uint32.min()).toLeBytes(),
     new Uint8Array(4),
   );
 });

@@ -14,9 +14,9 @@ Deno.test("Int64", () => {
   assertEquals(new Int64(0x80000000_00000000n).value(), 0n);
   assertEquals(new Int64(-0x80000000_00000000n).value(), 0n);
   // max()
-  assertEquals(Int64.prototype.max(), 0x7FFFFFFF_FFFFFFFFn);
+  assertEquals(Int64.max(), 0x7FFFFFFF_FFFFFFFFn);
   // min()
-  assertEquals(Int64.prototype.min(), -0x7FFFFFFF_FFFFFFFFn);
+  assertEquals(Int64.min(), -0x7FFFFFFF_FFFFFFFFn);
   // add()
   assertEquals(new Int64(1n).add(new Int64(2n)).value(), 3n);
   assertEquals(new Int64(0x7FFFFFFF_FFFFFFFFn).add(new Int64(1n)).value(), 0n);
@@ -242,7 +242,7 @@ Deno.test("Int64", () => {
     Int64.fromBeBytes(
       new Uint8Array([0x7F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]),
     ).value(),
-    Int64.prototype.max(),
+    Int64.max(),
   );
   assertEquals(
     Int64.fromBeBytes(new Uint8Array(8)).value(),
@@ -263,7 +263,7 @@ Deno.test("Int64", () => {
     Int64.fromLeBytes(
       new Uint8Array([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x7F]),
     ).value(),
-    Int64.prototype.max(),
+    Int64.max(),
   );
   assertEquals(
     Int64.fromLeBytes(new Uint8Array(8)).value(),
@@ -279,7 +279,7 @@ Deno.test("Int64", () => {
     new Uint8Array([0x12, 0x34, 0x56, 0x78, 0x90, 0x12, 0x34, 0x56]),
   );
   assertEquals(
-    new Int64(Int64.prototype.max()).toBeBytes(),
+    new Int64(Int64.max()).toBeBytes(),
     new Uint8Array([0x7F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]),
   );
   assertEquals(
@@ -292,7 +292,7 @@ Deno.test("Int64", () => {
     new Uint8Array([0x56, 0x34, 0x12, 0x90, 0x78, 0x56, 0x34, 0x12]),
   );
   assertEquals(
-    new Int64(Int64.prototype.max()).toLeBytes(),
+    new Int64(Int64.max()).toLeBytes(),
     new Uint8Array([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x7F]),
   );
   assertEquals(
