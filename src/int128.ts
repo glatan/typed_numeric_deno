@@ -242,7 +242,7 @@ export class Int128 implements Numeric<Int128> {
         (this.#value << ((BIT_LENGTH - n) % BIT_LENGTH)),
     );
   }
-  fromBeBytes(bytes: Uint8Array): Int128 {
+  static fromBeBytes(bytes: Uint8Array): Int128 {
     if (bytes.length === 16) {
       return new Int128(
         ((BigInt(bytes[0]) << 120n) & 0xFF000000_00000000_00000000_00000000n) |
@@ -267,7 +267,7 @@ export class Int128 implements Numeric<Int128> {
       "Invalid Length Error: Expected Uint8Array.prototype.length is 16",
     );
   }
-  fromLeBytes(bytes: Uint8Array): Int128 {
+  static fromLeBytes(bytes: Uint8Array): Int128 {
     if (bytes.length === 16) {
       return new Int128(
         ((BigInt(bytes[15]) << 120n) & 0xFF000000_00000000_00000000_00000000n) |

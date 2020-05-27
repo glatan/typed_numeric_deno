@@ -72,7 +72,7 @@ export class Uint8 implements Numeric<Uint8> {
         (this.#value << ((BIT_LENGTH - n) % BIT_LENGTH)),
     );
   }
-  fromBeBytes(bytes: Uint8Array): Uint8 {
+  static fromBeBytes(bytes: Uint8Array): Uint8 {
     if (bytes.length === (BIT_LENGTH / 8)) {
       return new Uint8(bytes[0]);
     }
@@ -80,7 +80,7 @@ export class Uint8 implements Numeric<Uint8> {
       "Invalid Length Error: Expected Uint8Array.prototype.length is 1",
     );
   }
-  fromLeBytes(bytes: Uint8Array): Uint8 {
+  static fromLeBytes(bytes: Uint8Array): Uint8 {
     if (bytes.length === (BIT_LENGTH / 8)) {
       return new Uint8(bytes[0]);
     }

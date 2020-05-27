@@ -236,7 +236,7 @@ Deno.test("Uint256", () => {
   );
   // fromBeBytes()
   assertEquals(
-    Uint256.prototype.fromBeBytes(
+    Uint256.fromBeBytes(
       Uint8Array.from(
         [
           0x12,
@@ -279,20 +279,20 @@ Deno.test("Uint256", () => {
     ).value(),
   );
   assertEquals(
-    Uint256.prototype.fromBeBytes(new Uint8Array(32).fill(0xFF)).value(),
+    Uint256.fromBeBytes(new Uint8Array(32).fill(0xFF)).value(),
     Uint256.prototype.max(),
   );
   assertEquals(
-    Uint256.prototype.fromBeBytes(new Uint8Array(32)).value(),
+    Uint256.fromBeBytes(new Uint8Array(32)).value(),
     Uint256.prototype.min(),
   );
   assertThrows((): void => {
     // Invalid Length
-    Uint256.prototype.fromBeBytes(new Uint8Array(33));
+    Uint256.fromBeBytes(new Uint8Array(33));
   });
   // fromLeBytes()
   assertEquals(
-    Uint256.prototype.fromLeBytes(
+    Uint256.fromLeBytes(
       Uint8Array.from(
         [
           0x12,
@@ -335,16 +335,16 @@ Deno.test("Uint256", () => {
     ).value(),
   );
   assertEquals(
-    Uint256.prototype.fromLeBytes(new Uint8Array(32).fill(0xFF)).value(),
+    Uint256.fromLeBytes(new Uint8Array(32).fill(0xFF)).value(),
     Uint256.prototype.max(),
   );
   assertEquals(
-    Uint256.prototype.fromLeBytes(new Uint8Array(32)).value(),
+    Uint256.fromLeBytes(new Uint8Array(32)).value(),
     Uint256.prototype.min(),
   );
   assertThrows((): void => {
     // Invalid Length
-    Uint256.prototype.fromLeBytes(new Uint8Array(33));
+    Uint256.fromLeBytes(new Uint8Array(33));
   });
   // toBeBytes()
   assertEquals(

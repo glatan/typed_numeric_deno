@@ -66,7 +66,7 @@ export class Uint32 implements Numeric<Uint32> {
         (this.#value << ((BIT_LENGTH - n) % BIT_LENGTH)),
     );
   }
-  fromBeBytes(bytes: Uint8Array): Uint32 {
+  static fromBeBytes(bytes: Uint8Array): Uint32 {
     if (bytes.length === 4) {
       return new Uint32(
         ((BigInt(bytes[0]) << 24n) & 0xFF00_0000n) |
@@ -79,7 +79,7 @@ export class Uint32 implements Numeric<Uint32> {
       "Invalid Length Error: Expected Uint8Array.prototype.length is 4",
     );
   }
-  fromLeBytes(bytes: Uint8Array): Uint32 {
+  static fromLeBytes(bytes: Uint8Array): Uint32 {
     if (bytes.length === 4) {
       return new Uint32(
         ((BigInt(bytes[3]) << 24n) & 0xFF00_0000n) |

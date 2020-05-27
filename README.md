@@ -24,10 +24,10 @@ const c = new Uint32(0x1234_5678n);
 console.log(c.toBeBytes()); // [18, 52, 86, 120]([0x12, 0x34, 0x56, 0x78])
 console.log(c.toLeBytes()); // [120, 86, 52, 18]([0x78, 0x56, 0x34, 0x12])
 
-const d = Uint32.prototype.fromBeBytes(
+const d = Uint32.fromBeBytes(
   new Uint8Array([0x12, 0x34, 0x56, 0x78]),
 );
-const e = Uint32.prototype.fromLeBytes(
+const e = Uint32.fromLeBytes(
   new Uint8Array([0x12, 0x34, 0x56, 0x78]),
 );
 
@@ -93,10 +93,10 @@ TypedNumeric.prototype.rotateRight(TypedNumeric)
 // e.g. OK: new Uint8Array(4) => Uint32, ERROR: new Uint8Array(3) => Uint32
 
 // from big endian bytes
-TypedNumeric.prototype.fromBeBytes(TypedNumeric)
+TypedNumeric.fromBeBytes(TypedNumeric)
 
 // from little endian bytes
-TypedNumeric.prototype.fromLeBytes(TypedNumeric)
+TypedNumeric.fromLeBytes(TypedNumeric)
 
 // Create Uint8Array from TypedNumeric
 
