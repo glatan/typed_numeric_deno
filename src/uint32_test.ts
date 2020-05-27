@@ -1,7 +1,4 @@
-import {
-  assertEquals,
-  assertThrows,
-} from "https://deno.land/std@0.52.0/testing/asserts.ts";
+import { assertEquals, assertThrows } from "../depends.ts";
 
 import { Uint32 } from "./uint32.ts";
 
