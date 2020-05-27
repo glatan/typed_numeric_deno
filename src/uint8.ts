@@ -12,10 +12,10 @@ export class Uint8 implements Numeric<Uint8> {
   value(): number {
     return this.#value;
   }
-  max(): number {
+  static max(): number {
     return MAX;
   }
-  min(): number {
+  static min(): number {
     return MIN;
   }
   add(value: Uint8): Uint8 {

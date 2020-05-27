@@ -9,24 +9,24 @@ Deno.test("Int128", () => {
   // value()
   assertEquals(
     new Int128(0xFFFFFFFF_FFFFFFFF_FFFFFFFF_FFFFFFFFn).value(),
-    -0x7FFFFFFF_FFFFFFFF_FFFFFFFF_FFFFFFFFn,
+    Int128.min(),
   );
   assertEquals(
     new Int128(-0xFFFFFFFF_FFFFFFFF_FFFFFFFF_FFFFFFFFn).value(),
-    -0x7FFFFFFF_FFFFFFFF_FFFFFFFF_FFFFFFFFn,
+    Int128.min(),
   );
   assertEquals(new Int128(0n).value(), 0n);
   assertEquals(new Int128(-0n).value(), 0n);
-  assertEquals(new Int128(0x80000000_00000000_00000000_00000000n).value(), 0n);
-  assertEquals(new Int128(-0x80000000_00000000_00000000_00000000n).value(), 0n);
+  assertEquals(new Int128(Int128.max() + 1n).value(), 0n);
+  assertEquals(new Int128(Int128.min() - 1n).value(), 0n);
   // max()
-  assertEquals(Int128.prototype.max(), 0x7FFFFFFF_FFFFFFFF_FFFFFFFF_FFFFFFFFn);
+  assertEquals(Int128.max(), 0x7FFFFFFF_FFFFFFFF_FFFFFFFF_FFFFFFFFn);
   // min()
-  assertEquals(Int128.prototype.min(), -0x7FFFFFFF_FFFFFFFF_FFFFFFFF_FFFFFFFFn);
+  assertEquals(Int128.min(), -0x7FFFFFFF_FFFFFFFF_FFFFFFFF_FFFFFFFFn);
   // add()
   assertEquals(new Int128(1n).add(new Int128(2n)).value(), 3n);
   assertEquals(
-    new Int128(0x7FFFFFFF_FFFFFFFF_FFFFFFFF_FFFFFFFFn).add(new Int128(1n))
+    new Int128(Int128.max()).add(new Int128(1n))
       .value(),
     0n,
   );
@@ -60,18 +60,18 @@ Deno.test("Int128", () => {
   // exp()
   assertEquals(new Int128(2n).exp(new Int128(3n)).value(), 8n);
   assertEquals(
-    new Int128(0x7FFFFFFF_FFFFFFFF_FFFFFFFF_FFFFFFFFn).exp(new Int128(1n))
+    new Int128(Int128.max()).exp(new Int128(1n))
       .value(),
-    0x7FFFFFFF_FFFFFFFF_FFFFFFFF_FFFFFFFFn,
+    Int128.max(),
   );
   assertEquals(
-    new Int128(0x7FFFFFFF_FFFFFFFF_FFFFFFFF_FFFFFFFFn).exp(new Int128(0n))
+    new Int128(Int128.max()).exp(new Int128(0n))
       .value(),
     1n,
   );
   assertThrows((): void => {
-    new Int128(0x7FFFFFFF_FFFFFFFF_FFFFFFFF_FFFFFFFFn).exp(
-      new Int128(0x7FFFFFFF_FFFFFFFF_FFFFFFFF_FFFFFFFFn),
+    new Int128(Int128.max()).exp(
+      new Int128(Int128.max()),
     );
   });
   assertThrows(() => {
@@ -85,40 +85,40 @@ Deno.test("Int128", () => {
   // and()
   assertEquals(new Int128(0n).and(new Int128(0n)).value(), 0n);
   assertEquals(
-    new Int128(0x7FFFFFFF_FFFFFFFF_FFFFFFFF_FFFFFFFFn).and(new Int128(0n))
+    new Int128(Int128.max()).and(new Int128(0n))
       .value(),
     0n,
   );
   assertEquals(
-    new Int128(0x7FFFFFFF_FFFFFFFF_FFFFFFFF_FFFFFFFFn).and(
-      new Int128(0x7FFFFFFF_FFFFFFFF_FFFFFFFF_FFFFFFFFn),
+    new Int128(Int128.max()).and(
+      new Int128(Int128.max()),
     )
       .value(),
-    0x7FFFFFFF_FFFFFFFF_FFFFFFFF_FFFFFFFFn,
+    Int128.max(),
   );
   // or()
   assertEquals(new Int128(0n).or(new Int128(0n)).value(), 0n);
   assertEquals(
-    new Int128(0x7FFFFFFF_FFFFFFFF_FFFFFFFF_FFFFFFFFn).or(new Int128(0n))
+    new Int128(Int128.max()).or(new Int128(0n))
       .value(),
-    0x7FFFFFFF_FFFFFFFF_FFFFFFFF_FFFFFFFFn,
+    Int128.max(),
   );
   assertEquals(
-    new Int128(0x7FFFFFFF_FFFFFFFF_FFFFFFFF_FFFFFFFFn).or(
-      new Int128(0x7FFFFFFF_FFFFFFFF_FFFFFFFF_FFFFFFFFn),
+    new Int128(Int128.max()).or(
+      new Int128(Int128.max()),
     ).value(),
-    0x7FFFFFFF_FFFFFFFF_FFFFFFFF_FFFFFFFFn,
+    Int128.max(),
   );
   // xor()
   assertEquals(new Int128(0n).xor(new Int128(0n)).value(), 0n);
   assertEquals(
-    new Int128(0x7FFFFFFF_FFFFFFFF_FFFFFFFF_FFFFFFFFn).xor(new Int128(0n))
+    new Int128(Int128.max()).xor(new Int128(0n))
       .value(),
-    0x7FFFFFFF_FFFFFFFF_FFFFFFFF_FFFFFFFFn,
+    Int128.max(),
   );
   assertEquals(
-    new Int128(0x7FFFFFFF_FFFFFFFF_FFFFFFFF_FFFFFFFFn).xor(
-      new Int128(0x7FFFFFFF_FFFFFFFF_FFFFFFFF_FFFFFFFFn),
+    new Int128(Int128.max()).xor(
+      new Int128(Int128.max()),
     )
       .value(),
     0n,
@@ -126,7 +126,7 @@ Deno.test("Int128", () => {
   // not()
   assertEquals(new Int128(0n).not().value(), -1n);
   assertEquals(
-    new Int128(0x7FFFFFFF_FFFFFFFF_FFFFFFFF_FFFFFFFFn).not().value(),
+    new Int128(Int128.max()).not().value(),
     0n,
   );
   // logicalLeft()
@@ -183,11 +183,11 @@ Deno.test("Int128", () => {
     0n,
   );
   assertEquals(
-    new Int128(0x7FFFFFFF_FFFFFFFF_FFFFFFFF_FFFFFFFFn).logicalLeft(1n).value(),
+    new Int128(Int128.max()).logicalLeft(1n).value(),
     -0x7FFFFFFF_FFFFFFFF_FFFFFFFF_FFFFFFFEn,
   );
   assertEquals(
-    new Int128(-0x7FFFFFFF_FFFFFFFF_FFFFFFFF_FFFFFFFFn).logicalLeft(1n).value(),
+    new Int128(Int128.min()).logicalLeft(1n).value(),
     -0x7FFFFFFF_FFFFFFFF_FFFFFFFF_FFFFFFFEn,
   );
   // logicalRight()
@@ -246,13 +246,13 @@ Deno.test("Int128", () => {
     0n,
   );
   assertEquals(
-    new Int128(0x7FFFFFFF_FFFFFFFF_FFFFFFFF_FFFFFFFFn).logicalRight(1n).value(),
+    new Int128(Int128.max()).logicalRight(1n).value(),
     0x3FFFFFFF_FFFFFFFF_FFFFFFFF_FFFFFFFFn,
   );
   assertEquals(
-    new Int128(-0x7FFFFFFF_FFFFFFFF_FFFFFFFF_FFFFFFFFn).logicalRight(1n)
+    new Int128(Int128.min()).logicalRight(1n)
       .value(),
-    0x7FFFFFFF_FFFFFFFF_FFFFFFFF_FFFFFFFFn,
+    Int128.max(),
   );
   // rotateLeft()
   assertEquals(
@@ -354,12 +354,9 @@ Deno.test("Int128", () => {
         ],
       ),
     ).value(),
-    Int128.prototype.max(),
+    Int128.max(),
   );
-  assertEquals(
-    Int128.fromBeBytes(new Uint8Array(16)).value(),
-    0n,
-  );
+  assertEquals(Int128.fromBeBytes(new Uint8Array(16)).value(), 0n);
   assertThrows((): void => {
     // Invalid Length
     Int128.fromBeBytes(new Uint8Array(17));
@@ -411,12 +408,9 @@ Deno.test("Int128", () => {
         ],
       ),
     ).value(),
-    Int128.prototype.max(),
+    Int128.max(),
   );
-  assertEquals(
-    Int128.fromLeBytes(new Uint8Array(16)).value(),
-    0n,
-  );
+  assertEquals(Int128.fromLeBytes(new Uint8Array(16)).value(), 0n);
   assertThrows((): void => {
     // Invalid Length
     Int128.fromLeBytes(new Uint8Array(17));
@@ -444,7 +438,7 @@ Deno.test("Int128", () => {
     ]),
   );
   assertEquals(
-    new Int128(Int128.prototype.max()).toBeBytes(),
+    new Int128(Int128.max()).toBeBytes(),
     new Uint8Array(
       [
         0x7F,
@@ -466,10 +460,7 @@ Deno.test("Int128", () => {
       ],
     ),
   );
-  assertEquals(
-    new Int128(0n).toBeBytes(),
-    new Uint8Array(16),
-  );
+  assertEquals(new Int128(0n).toBeBytes(), new Uint8Array(16));
   // toLeBytes()
   assertEquals(
     new Int128(0x12345678_90123456_78901234_56789012n).toLeBytes(),
@@ -493,7 +484,7 @@ Deno.test("Int128", () => {
     ]),
   );
   assertEquals(
-    new Int128(Int128.prototype.max()).toLeBytes(),
+    new Int128(Int128.max()).toLeBytes(),
     new Uint8Array(
       [
         0xFF,
@@ -515,8 +506,5 @@ Deno.test("Int128", () => {
       ],
     ),
   );
-  assertEquals(
-    new Int128(0n).toLeBytes(),
-    new Uint8Array(16),
-  );
+  assertEquals(new Int128(0n).toLeBytes(), new Uint8Array(16));
 });

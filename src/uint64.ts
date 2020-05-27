@@ -12,10 +12,10 @@ export class Uint64 implements Numeric<Uint64> {
   value(): bigint {
     return this.#value;
   }
-  max(): bigint {
+  static max(): bigint {
     return MAX;
   }
-  min(): bigint {
+  static min(): bigint {
     return MIN;
   }
   add(value: Uint64): Uint64 {

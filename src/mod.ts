@@ -2,9 +2,9 @@ export interface Numeric<T> {
   // Return T.#value
   value(): number | bigint;
   // Return max value of T.
-  max(): number | bigint;
+  // static max(): number | bigint;
   // Return min value of T
-  min(): number | bigint;
+  // static min(): number | bigint;
   // Wrapping arithmetics
   // Addition
   add(value: T): T;

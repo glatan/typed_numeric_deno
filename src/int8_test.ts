@@ -7,23 +7,23 @@ import { Int8 } from "./int8.ts";
 
 Deno.test("Int8", () => {
   // value()
-  assertEquals(new Int8(Number.MAX_SAFE_INTEGER).value(), 0x7F);
-  assertEquals(new Int8(Number.MIN_SAFE_INTEGER).value(), -0x7F);
+  assertEquals(new Int8(Number.MAX_SAFE_INTEGER).value(), Int8.max());
+  assertEquals(new Int8(Number.MIN_SAFE_INTEGER).value(), Int8.min());
   assertEquals(new Int8(0).value(), 0);
   assertEquals(new Int8(-0).value(), 0);
-  assertEquals(new Int8(0x80).value(), 0);
-  assertEquals(new Int8(-0x80).value(), 0);
+  assertEquals(new Int8(Int8.max() + 1).value(), 0);
+  assertEquals(new Int8(Int8.min() - 1).value(), 0);
   assertEquals(new Int8(Infinity).value(), 0);
   assertEquals(new Int8(-Infinity).value(), 0);
   assertEquals(new Int8(NaN).value(), 0);
   assertEquals(new Int8(-NaN).value(), 0);
   // max()
-  assertEquals(Int8.prototype.max(), 0x7F);
+  assertEquals(Int8.max(), 0x7F);
   // min()
-  assertEquals(Int8.prototype.min(), -0x7F);
+  assertEquals(Int8.min(), -0x7F);
   // add()
   assertEquals(new Int8(1).add(new Int8(2)).value(), 3);
-  assertEquals(new Int8(0x7F).add(new Int8(1)).value(), 0);
+  assertEquals(new Int8(Int8.max()).add(new Int8(1)).value(), 0);
   assertEquals(new Int8(1).add(new Int8(-2)).value(), -1);
   assertEquals(new Int8(-1).add(new Int8(2)).value(), 1);
   assertEquals(new Int8(-1).add(new Int8(-2)).value(), -3);
@@ -53,9 +53,9 @@ Deno.test("Int8", () => {
   assertEquals(new Int8(-12).rem(new Int8(-5)).value(), -2);
   // exp()
   assertEquals(new Int8(2).exp(new Int8(3)).value(), 8);
-  assertEquals(new Int8(0x7F).exp(new Int8(1)).value(), 0x7F);
-  assertEquals(new Int8(0x7F).exp(new Int8(0)).value(), 1);
-  assertEquals(new Int8(0x7F).exp(new Int8(0x7F)).value(), 0);
+  assertEquals(new Int8(Int8.max()).exp(new Int8(1)).value(), Int8.max());
+  assertEquals(new Int8(Int8.max()).exp(new Int8(0)).value(), 1);
+  assertEquals(new Int8(Int8.max()).exp(new Int8(Int8.max())).value(), 0);
   assertThrows(() => {
     new Int8(2).exp(new Int8(-5));
   });
@@ -66,20 +66,29 @@ Deno.test("Int8", () => {
   });
   // and()
   assertEquals(new Int8(0).and(new Int8(0)).value(), 0);
-  assertEquals(new Int8(0x7F).and(new Int8(0)).value(), 0);
-  assertEquals(new Int8(0x7F).and(new Int8(0x7F)).value(), 0x7F);
-  assertEquals(new Int8(-0x7F).and(new Int8(0x7F)).value(), 0x7F);
+  assertEquals(new Int8(Int8.max()).and(new Int8(0)).value(), 0);
+  assertEquals(
+    new Int8(Int8.max()).and(new Int8(Int8.max())).value(),
+    Int8.max(),
+  );
+  assertEquals(
+    new Int8(Int8.min()).and(new Int8(Int8.max())).value(),
+    Int8.max(),
+  );
   // or()
   assertEquals(new Int8(0).or(new Int8(0)).value(), 0);
-  assertEquals(new Int8(0x7F).or(new Int8(0)).value(), 0x7F);
-  assertEquals(new Int8(0x7F).or(new Int8(0x7F)).value(), 0x7F);
+  assertEquals(new Int8(Int8.max()).or(new Int8(0)).value(), Int8.max());
+  assertEquals(
+    new Int8(Int8.max()).or(new Int8(Int8.max())).value(),
+    Int8.max(),
+  );
   // xor()
   assertEquals(new Int8(0).xor(new Int8(0)).value(), 0);
-  assertEquals(new Int8(0x7F).xor(new Int8(0)).value(), 0x7F);
-  assertEquals(new Int8(0x7F).xor(new Int8(0x7F)).value(), 0);
+  assertEquals(new Int8(Int8.max()).xor(new Int8(0)).value(), Int8.max());
+  assertEquals(new Int8(Int8.max()).xor(new Int8(Int8.max())).value(), 0);
   // not()
   assertEquals(new Int8(0).not().value(), -1);
-  assertEquals(new Int8(0x7F).not().value(), 0);
+  assertEquals(new Int8(Int8.max()).not().value(), 0);
   // logicalLeft()
   assertEquals(new Int8(0x12).logicalLeft(0).value(), 0x12);
   assertEquals(new Int8(0x12).logicalLeft(2).value(), 0x48);
@@ -128,13 +137,10 @@ Deno.test("Int8", () => {
     new Int8(0x12).value(),
   );
   assertEquals(
-    Int8.fromBeBytes(new Uint8Array(1).fill(0x7F)).value(),
-    Int8.prototype.max(),
+    Int8.fromBeBytes(new Uint8Array(1).fill(Int8.max())).value(),
+    Int8.max(),
   );
-  assertEquals(
-    Int8.fromBeBytes(new Uint8Array(1)).value(),
-    0,
-  );
+  assertEquals(Int8.fromBeBytes(new Uint8Array(1)).value(), 0);
   assertThrows((): void => {
     // Invalid Length
     Int8.fromBeBytes(new Uint8Array(2));
@@ -145,13 +151,10 @@ Deno.test("Int8", () => {
     new Int8(0x12).value(),
   );
   assertEquals(
-    Int8.fromLeBytes(new Uint8Array(1).fill(0x7F)).value(),
-    Int8.prototype.max(),
+    Int8.fromLeBytes(new Uint8Array(1).fill(Int8.max())).value(),
+    Int8.max(),
   );
-  assertEquals(
-    Int8.fromLeBytes(new Uint8Array(1)).value(),
-    0,
-  );
+  assertEquals(Int8.fromLeBytes(new Uint8Array(1)).value(), 0);
   assertThrows((): void => {
     // Invalid Length
     Int8.fromLeBytes(new Uint8Array(2));
@@ -159,15 +162,15 @@ Deno.test("Int8", () => {
   // toBeBytes()
   assertEquals(new Int8(0x12).toBeBytes(), new Uint8Array([0x12]));
   assertEquals(
-    new Int8(Int8.prototype.max()).toBeBytes(),
-    new Uint8Array(1).fill(0x7F),
+    new Int8(Int8.max()).toBeBytes(),
+    new Uint8Array(1).fill(Int8.max()),
   );
   assertEquals(new Int8(0).toBeBytes(), new Uint8Array(1));
   // toLeBytes()
   assertEquals(new Int8(0x12).toLeBytes(), new Uint8Array([0x12]));
   assertEquals(
-    new Int8(Int8.prototype.max()).toLeBytes(),
-    new Uint8Array(1).fill(0x7F),
+    new Int8(Int8.max()).toLeBytes(),
+    new Uint8Array(1).fill(Int8.max()),
   );
   assertEquals(new Int8(0).toLeBytes(), new Uint8Array(1));
 });

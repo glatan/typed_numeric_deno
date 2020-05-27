@@ -11,81 +11,41 @@ export class Int256 implements Numeric<Int256> {
   constructor(value: bigint) {
     if (value < 0) {
       // 一度符号を外してからマスク、その後符号を(Int256の最上位ビットを1にする形で)戻す
-      this.#value = ((~value + 1n) & MAX) |
-        0x8000000000000000_0000000000000000_0000000000000000_0000000000000000n;
-    } else if (
-      value ===
-        (value |
-          0x8000000000000000_0000000000000000_0000000000000000_0000000000000000n)
-    ) {
+      this.#value = ((~value + 1n) & MAX) | (MAX + 1n);
+    } else if (value === (value | (MAX + 1n))) {
       // Int256での最上位ビットが1の場合
-      this.#value = value &
-        0xFFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn;
+      this.#value = value & (MAX | (MAX + 1n));
     } else {
       this.#value = value & MAX;
     }
   }
   value(): bigint {
-    if (
-      (this.#value |
-        0x8000000000000000_0000000000000000_0000000000000000_0000000000000000n) ===
-        this.#value
-    ) {
+    if ((this.#value | (MAX + 1n)) === this.#value) {
       // Int256での最上位ビットが1の場合
-      return ~(this.#value &
-        0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn) +
-        1n;
+      return ~(this.#value & MAX) + 1n;
     } else {
       return this.#value;
     }
   }
-  max(): bigint {
+  static max(): bigint {
     return MAX;
   }
-  min(): bigint {
+  static min(): bigint {
     return MIN;
   }
   add(value: Int256): Int256 {
     if (
-      this.#value ===
-        (this.#value |
-          0x8000000000000000_0000000000000000_0000000000000000_0000000000000000n) &&
-      value.#value ===
-        (value.#value |
-          0x8000000000000000_0000000000000000_0000000000000000_0000000000000000n)
+      this.#value === (this.#value | (MAX + 1n)) &&
+      value.#value === (value.#value | (MAX + 1n))
     ) {
       // -Num + -Num
-      return new Int256(
-        ~(this.#value &
-          0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn) +
-          ~(value.#value &
-            0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn) +
-          2n,
-      );
-    } else if (
-      this.#value ===
-        (this.#value |
-          0x8000000000000000_0000000000000000_0000000000000000_0000000000000000n)
-    ) {
+      return new Int256(~(this.#value & MAX) + ~(value.#value & MAX) + 2n);
+    } else if (this.#value === (this.#value | (MAX + 1n))) {
       // -Num + Num
-      return new Int256(
-        value.#value +
-          ~(this.#value &
-            0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn) +
-          1n,
-      );
-    } else if (
-      value.#value ===
-        (value.#value |
-          0x8000000000000000_0000000000000000_0000000000000000_0000000000000000n)
-    ) {
+      return new Int256(value.#value + ~(this.#value & MAX) + 1n);
+    } else if (value.#value === (value.#value | (MAX + 1n))) {
       // Num + -Num
-      return new Int256(
-        this.#value +
-          ~(value.#value &
-            0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn) +
-          1n,
-      );
+      return new Int256(this.#value + ~(value.#value & MAX) + 1n);
     } else {
       // Num + Num
       return new Int256(this.#value + value.#value);
@@ -93,56 +53,22 @@ export class Int256 implements Numeric<Int256> {
   }
   sub(value: Int256): Int256 {
     if (
-      // -Num - -Num
-      this.#value ===
-        (this.#value |
-          0x8000000000000000_0000000000000000_0000000000000000_0000000000000000n) &&
-      value.#value ===
-        (value.#value |
-          0x8000000000000000_0000000000000000_0000000000000000_0000000000000000n)
+      this.#value === (this.#value | (MAX + 1n)) &&
+      value.#value === (value.#value | (MAX + 1n))
     ) {
+      // -Num - -Num
       if (this.#value < value.#value) {
         // -Num + Num
-        return new Int256(
-          ~(this.#value &
-            0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn) +
-            (value.#value &
-              0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn) +
-            1n,
-        );
+        return new Int256(~(this.#value & MAX) + (value.#value & MAX) + 1n);
       } else {
-        return new Int256(
-          ~(this.#value &
-            0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn) +
-            ~(value.#value &
-              0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn) +
-            2n,
-        );
+        return new Int256(~(this.#value & MAX) + ~(value.#value & MAX) + 2n);
       }
-    } else if (
-      this.#value ===
-        (this.#value |
-          0x8000000000000000_0000000000000000_0000000000000000_0000000000000000n)
-    ) {
+    } else if (this.#value === (this.#value | (MAX + 1n))) {
       // -Num - Num
-      return new Int256(
-        ~(this.#value &
-          0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn) +
-          ~(value.#value &
-            0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn) +
-          2n,
-      );
-    } else if (
-      value.#value ===
-        (value.#value |
-          0x8000000000000000_0000000000000000_0000000000000000_0000000000000000n)
-    ) {
+      return new Int256(~(this.#value & MAX) + ~(value.#value & MAX) + 2n);
+    } else if (value.#value === (value.#value | (MAX + 1n))) {
       // Num - -Num
-      return new Int256(
-        this.#value +
-          (value.#value &
-            0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn),
-      );
+      return new Int256(this.#value + (value.#value & MAX));
     } else {
       // Num - Num
       return new Int256(this.#value + ~value.#value + 1n);
@@ -150,125 +76,48 @@ export class Int256 implements Numeric<Int256> {
   }
   div(value: Int256): Int256 {
     if (
-      this.#value ===
-        (this.#value |
-          0x8000000000000000_0000000000000000_0000000000000000_0000000000000000n) &&
-      value.#value ===
-        (value.#value |
-          0x8000000000000000_0000000000000000_0000000000000000_0000000000000000n)
+      this.#value === (this.#value | (MAX + 1n)) &&
+      value.#value === (value.#value | (MAX + 1n))
     ) {
       return new Int256(
-        (~(this.#value &
-          0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn) +
-          1n) /
-          (~(value.#value &
-            0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn) +
-            1n),
+        (~(this.#value & MAX) + 1n) / (~(value.#value & MAX) + 1n),
       );
-    } else if (
-      this.#value ===
-        (this.#value |
-          0x8000000000000000_0000000000000000_0000000000000000_0000000000000000n)
-    ) {
-      return new Int256(
-        ~((this.#value &
-          0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn) /
-          value.#value) + 1n,
-      );
-    } else if (
-      value.#value ===
-        (value.#value |
-          0x8000000000000000_0000000000000000_0000000000000000_0000000000000000n)
-    ) {
-      return new Int256(
-        ~(this.#value /
-          (value.#value &
-            0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn)) +
-          1n,
-      );
+    } else if (this.#value === (this.#value | (MAX + 1n))) {
+      return new Int256(~((this.#value & MAX) / value.#value) + 1n);
+    } else if (value.#value === (value.#value | (MAX + 1n))) {
+      return new Int256(~(this.#value / (value.#value & MAX)) + 1n);
     } else {
       return new Int256(this.#value / value.#value);
     }
   }
   mul(value: Int256): Int256 {
     if (
-      this.#value ===
-        (this.#value |
-          0x8000000000000000_0000000000000000_0000000000000000_0000000000000000n) &&
-      value.#value ===
-        (value.#value |
-          0x8000000000000000_0000000000000000_0000000000000000_0000000000000000n)
+      this.#value === (this.#value | (MAX + 1n)) &&
+      value.#value === (value.#value | (MAX + 1n))
     ) {
       return new Int256(
-        (~(this.#value &
-          0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn) +
-          1n) *
-          (~(value.#value &
-            0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn) +
-            1n),
+        (~(this.#value & MAX) + 1n) * (~(value.#value & MAX) + 1n),
       );
-    } else if (
-      this.#value ===
-        (this.#value |
-          0x8000000000000000_0000000000000000_0000000000000000_0000000000000000n)
-    ) {
-      return new Int256(
-        ~((this.#value &
-          0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn) *
-          value.#value) + 1n,
-      );
-    } else if (
-      value.#value ===
-        (value.#value |
-          0x8000000000000000_0000000000000000_0000000000000000_0000000000000000n)
-    ) {
-      return new Int256(
-        ~(this.#value *
-          (value.#value &
-            0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn)) +
-          1n,
-      );
+    } else if (this.#value === (this.#value | (MAX + 1n))) {
+      return new Int256(~((this.#value & MAX) * value.#value) + 1n);
+    } else if (value.#value === (value.#value | (MAX + 1n))) {
+      return new Int256(~(this.#value * (value.#value & MAX)) + 1n);
     } else {
       return new Int256(this.#value * value.#value);
     }
   }
   rem(value: Int256): Int256 {
     if (
-      this.#value ===
-        (this.#value |
-          0x8000000000000000_0000000000000000_0000000000000000_0000000000000000n) &&
-      value.#value ===
-        (value.#value |
-          0x8000000000000000_0000000000000000_0000000000000000_0000000000000000n)
+      this.#value === (this.#value | (MAX + 1n)) &&
+      value.#value === (value.#value | (MAX + 1n))
     ) {
       return new Int256(
-        (~(this.#value &
-          0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn) +
-          1n) %
-          (~(value.#value &
-            0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn) +
-            1n),
+        (~(this.#value & MAX) + 1n) % (~(value.#value & MAX) + 1n),
       );
-    } else if (
-      this.#value ===
-        (this.#value |
-          0x8000000000000000_0000000000000000_0000000000000000_0000000000000000n)
-    ) {
-      return new Int256(
-        ~((this.#value &
-          0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn) %
-          value.#value) + 1n,
-      );
-    } else if (
-      value.#value ===
-        (value.#value |
-          0x8000000000000000_0000000000000000_0000000000000000_0000000000000000n)
-    ) {
-      return new Int256(
-        this.#value %
-          (value.#value &
-            0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn),
-      );
+    } else if (this.#value === (this.#value | (MAX + 1n))) {
+      return new Int256(~((this.#value & MAX) % value.#value) + 1n);
+    } else if (value.#value === (value.#value | (MAX + 1n))) {
+      return new Int256(this.#value % (value.#value & MAX));
     } else {
       return new Int256(this.#value % value.#value);
     }

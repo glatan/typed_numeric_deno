@@ -7,19 +7,19 @@ import { Int32 } from "./int32.ts";
 
 Deno.test("Int32", () => {
   // value()
-  assertEquals(new Int32(0xFFFF_FFFFn).value(), -0x7FFF_FFFFn);
-  assertEquals(new Int32(-0xFFFF_FFFFn).value(), -0x7FFF_FFFFn);
+  assertEquals(new Int32(0xFFFF_FFFFn).value(), Int32.min());
+  assertEquals(new Int32(-0xFFFF_FFFFn).value(), Int32.min());
   assertEquals(new Int32(0n).value(), 0n);
   assertEquals(new Int32(-0n).value(), 0n);
-  assertEquals(new Int32(0x8000_0000n).value(), 0n);
-  assertEquals(new Int32(-0x8000_0000n).value(), 0n);
+  assertEquals(new Int32(Int32.max() + 1n).value(), 0n);
+  assertEquals(new Int32(Int32.min() - 1n).value(), 0n);
   // max()
-  assertEquals(Int32.prototype.max(), 0x7FFF_FFFFn);
+  assertEquals(Int32.max(), 0x7FFF_FFFFn);
   // min()
-  assertEquals(Int32.prototype.min(), -0x7FFF_FFFFn);
+  assertEquals(Int32.min(), -Int32.max());
   // add()
   assertEquals(new Int32(1n).add(new Int32(2n)).value(), 3n);
-  assertEquals(new Int32(0x7FFF_FFFFn).add(new Int32(1n)).value(), 0n);
+  assertEquals(new Int32(Int32.max()).add(new Int32(1n)).value(), 0n);
   assertEquals(new Int32(1n).add(new Int32(-2n)).value(), -1n);
   assertEquals(new Int32(-1n).add(new Int32(2n)).value(), 1n);
   assertEquals(new Int32(-1n).add(new Int32(-2n)).value(), -3n);
@@ -49,13 +49,10 @@ Deno.test("Int32", () => {
   assertEquals(new Int32(-12n).rem(new Int32(-5n)).value(), -2n);
   // exp()
   assertEquals(new Int32(2n).exp(new Int32(3n)).value(), 8n);
-  assertEquals(
-    new Int32(0x7FFF_FFFFn).exp(new Int32(1n)).value(),
-    0x7FFF_FFFFn,
-  );
-  assertEquals(new Int32(0x7FFF_FFFFn).exp(new Int32(0n)).value(), 1n);
+  assertEquals(new Int32(Int32.max()).exp(new Int32(1n)).value(), Int32.max());
+  assertEquals(new Int32(Int32.max()).exp(new Int32(0n)).value(), 1n);
   assertThrows((): void => {
-    new Int32(0x7FFF_FFFFn).exp(new Int32(0x7FFF_FFFFn));
+    new Int32(Int32.max()).exp(new Int32(Int32.max()));
   });
   assertThrows(() => {
     new Int32(2n).exp(new Int32(-5n));
@@ -67,31 +64,25 @@ Deno.test("Int32", () => {
   });
   // and()
   assertEquals(new Int32(0n).and(new Int32(0n)).value(), 0n);
-  assertEquals(new Int32(0x7FFF_FFFFn).and(new Int32(0n)).value(), 0n);
+  assertEquals(new Int32(Int32.max()).and(new Int32(0n)).value(), 0n);
   assertEquals(
-    new Int32(0x7FFF_FFFFn).and(new Int32(0x7FFF_FFFFn)).value(),
-    0x7FFF_FFFFn,
+    new Int32(Int32.max()).and(new Int32(Int32.max())).value(),
+    Int32.max(),
   );
   // or()
   assertEquals(new Int32(0n).or(new Int32(0n)).value(), 0n);
-  assertEquals(new Int32(0x7FFF_FFFFn).or(new Int32(0n)).value(), 0x7FFF_FFFFn);
+  assertEquals(new Int32(Int32.max()).or(new Int32(0n)).value(), Int32.max());
   assertEquals(
-    new Int32(0x7FFF_FFFFn).or(new Int32(0x7FFF_FFFFn)).value(),
-    0x7FFF_FFFFn,
+    new Int32(Int32.max()).or(new Int32(Int32.max())).value(),
+    Int32.max(),
   );
   // xor()
   assertEquals(new Int32(0n).xor(new Int32(0n)).value(), 0n);
-  assertEquals(
-    new Int32(0x7FFF_FFFFn).xor(new Int32(0n)).value(),
-    0x7FFF_FFFFn,
-  );
-  assertEquals(
-    new Int32(0x7FFF_FFFFn).xor(new Int32(0x7FFF_FFFFn)).value(),
-    0n,
-  );
+  assertEquals(new Int32(Int32.max()).xor(new Int32(0n)).value(), Int32.max());
+  assertEquals(new Int32(Int32.max()).xor(new Int32(Int32.max())).value(), 0n);
   // not()
   assertEquals(new Int32(0n).not().value(), -1n);
-  assertEquals(new Int32(0x7FFF_FFFFn).not().value(), 0n);
+  assertEquals(new Int32(Int32.max()).not().value(), 0n);
   // logicalLeft()
   assertEquals(new Int32(0x1234_5678n).logicalLeft(0n).value(), 0x1234_5678n);
   assertEquals(new Int32(0x1234_5678n).logicalLeft(8n).value(), 0x3456_7800n);
@@ -108,12 +99,12 @@ Deno.test("Int32", () => {
   assertEquals(new Int32(-0x1234_5678n).logicalLeft(32n).value(), 0n);
   assertEquals(new Int32(-0x1234_5678n).logicalLeft(64n).value(), 0n);
   assertEquals(new Int32(-0x1234_5678n).logicalLeft(128n).value(), 0n);
-  assertEquals(new Int32(0x7FFF_FFFFn).logicalLeft(1n).value(), -0x7FFF_FFFEn);
-  assertEquals(new Int32(-0x7FFF_FFFFn).logicalLeft(1n).value(), -0x7FFF_FFFEn);
+  assertEquals(new Int32(Int32.max()).logicalLeft(1n).value(), -0x7FFF_FFFEn);
+  assertEquals(new Int32(Int32.min()).logicalLeft(1n).value(), -0x7FFF_FFFEn);
   // logicalRight()
   assertEquals(new Int32(0x1234_5678n).logicalRight(0n).value(), 0x1234_5678n);
   assertEquals(new Int32(0x1234_5678n).logicalRight(8n).value(), 0x0012_3456n);
-  assertEquals(new Int32(0x1234_5678n).logicalRight(16n).value(), 0x0000_1234n);
+  assertEquals(new Int32(0x1234_5678n).logicalRight(16n).value(), 0x1234n);
   assertEquals(new Int32(0x1234_5678n).logicalRight(32n).value(), 0n);
   assertEquals(new Int32(0x1234_5678n).logicalRight(64n).value(), 0n);
   assertEquals(new Int32(0x1234_5678n).logicalRight(128n).value(), 0n);
@@ -126,8 +117,8 @@ Deno.test("Int32", () => {
   assertEquals(new Int32(-0x1234_5678n).logicalRight(32n).value(), 0n);
   assertEquals(new Int32(-0x1234_5678n).logicalRight(64n).value(), 0n);
   assertEquals(new Int32(-0x1234_5678n).logicalRight(128n).value(), 0n);
-  assertEquals(new Int32(0x7FFF_FFFFn).logicalRight(1n).value(), 0x3FFF_FFFFn);
-  assertEquals(new Int32(-0x7FFF_FFFFn).logicalRight(1n).value(), 0x7FFF_FFFFn);
+  assertEquals(new Int32(Int32.max()).logicalRight(1n).value(), 0x3FFF_FFFFn);
+  assertEquals(new Int32(Int32.min()).logicalRight(1n).value(), Int32.max());
   // rotateLeft()
   assertEquals(new Int32(0x1234_5678n).rotateLeft(0n).value(), 0x1234_5678n);
   assertEquals(new Int32(0x1234_5678n).rotateLeft(8n).value(), 0x3456_7812n);
@@ -144,38 +135,28 @@ Deno.test("Int32", () => {
   assertEquals(new Int32(0x1234_5678n).rotateRight(128n).value(), 0x1234_5678n);
   // fromBeBytes()
   assertEquals(
-    Int32.fromBeBytes(Uint8Array.from([0x12, 0x34, 0x56, 0x78]))
-      .value(),
+    Int32.fromBeBytes(Uint8Array.from([0x12, 0x34, 0x56, 0x78])).value(),
     new Int32(0x1234_5678n).value(),
   );
   assertEquals(
-    Int32.fromBeBytes(new Uint8Array([0x7F, 0xFF, 0xFF, 0xFF]))
-      .value(),
-    Int32.prototype.max(),
+    Int32.fromBeBytes(new Uint8Array([0x7F, 0xFF, 0xFF, 0xFF])).value(),
+    Int32.max(),
   );
-  assertEquals(
-    Int32.fromBeBytes(new Uint8Array(4)).value(),
-    0n,
-  );
+  assertEquals(Int32.fromBeBytes(new Uint8Array(4)).value(), 0n);
   assertThrows((): void => {
     // Invalid Length
     Int32.fromBeBytes(new Uint8Array(5));
   });
   // fromLeBytes()
   assertEquals(
-    Int32.fromLeBytes(Uint8Array.from([0x12, 0x34, 0x56, 0x78]))
-      .value(),
+    Int32.fromLeBytes(Uint8Array.from([0x12, 0x34, 0x56, 0x78])).value(),
     new Int32(0x7856_3412n).value(),
   );
   assertEquals(
-    Int32.fromLeBytes(new Uint8Array([0xFF, 0xFF, 0xFF, 0x7F]))
-      .value(),
-    Int32.prototype.max(),
+    Int32.fromLeBytes(new Uint8Array([0xFF, 0xFF, 0xFF, 0x7F])).value(),
+    Int32.max(),
   );
-  assertEquals(
-    Int32.fromLeBytes(new Uint8Array(4)).value(),
-    0n,
-  );
+  assertEquals(Int32.fromLeBytes(new Uint8Array(4)).value(), 0n);
   assertThrows((): void => {
     // Invalid Length
     Int32.fromLeBytes(new Uint8Array(5));
@@ -186,7 +167,7 @@ Deno.test("Int32", () => {
     new Uint8Array([0x12, 0x34, 0x56, 0x78]),
   );
   assertEquals(
-    new Int32(Int32.prototype.max()).toBeBytes(),
+    new Int32(Int32.max()).toBeBytes(),
     new Uint8Array([0x7F, 0xFF, 0xFF, 0xFF]),
   );
   assertEquals(new Int32(0n).toBeBytes(), new Uint8Array(4));
@@ -196,7 +177,7 @@ Deno.test("Int32", () => {
     new Uint8Array([0x78, 0x56, 0x34, 0x12]),
   );
   assertEquals(
-    new Int32(Int32.prototype.max()).toLeBytes(),
+    new Int32(Int32.max()).toLeBytes(),
     new Uint8Array([0xFF, 0xFF, 0xFF, 0x7F]),
   );
   assertEquals(new Int32(0n).toLeBytes(), new Uint8Array(4));

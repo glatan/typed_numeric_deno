@@ -12,10 +12,10 @@ export class Uint128 implements Numeric<Uint128> {
   value(): bigint {
     return this.#value;
   }
-  max(): bigint {
+  static max(): bigint {
     return MAX;
   }
-  min(): bigint {
+  static min(): bigint {
     return MIN;
   }
   add(value: Uint128): Uint128 {

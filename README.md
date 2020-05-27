@@ -46,6 +46,12 @@ new TypedNumeric(value: number | bigint)
 // Get value
 TypedNumeric.prototype.value(): number | bigint
 
+// Get max value
+TypedNumeric.max(): number | bigint
+
+// Get min value
+TypedNumeric.min(): number | bigint
+
 // Addition
 TypedNumeric.prototype.add(TypedNumeric)
 

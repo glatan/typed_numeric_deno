@@ -12,10 +12,10 @@ export class Uint16 implements Numeric<Uint16> {
   value(): number {
     return this.#value;
   }
-  max(): number {
+  static max(): number {
     return MAX;
   }
-  min(): number {
+  static min(): number {
     return MIN;
   }
   add(value: Uint16): Uint16 {
