@@ -67,7 +67,7 @@ export class Uint256 implements Numeric<Uint256> {
         (this.#value << ((BIT_LENGTH - n) % BIT_LENGTH)),
     );
   }
-  fromBeBytes(bytes: Uint8Array): Uint256 {
+  static fromBeBytes(bytes: Uint8Array): Uint256 {
     if (bytes.length === 32) {
       return new Uint256(
         ((BigInt(bytes[0]) << 248n) &
@@ -125,7 +125,7 @@ export class Uint256 implements Numeric<Uint256> {
       "Invalid Length Error: Expected Uint8Array.prototype.length is 32",
     );
   }
-  fromLeBytes(bytes: Uint8Array): Uint256 {
+  static fromLeBytes(bytes: Uint8Array): Uint256 {
     if (bytes.length === 32) {
       return new Uint256(
         ((BigInt(bytes[31]) << 248n) &

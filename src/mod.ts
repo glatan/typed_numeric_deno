@@ -35,9 +35,9 @@ export interface Numeric<T> {
   rotateRight(n: number | bigint): T;
   // Create T from Uint8Array
   // Uint8Array to T
-  fromBeBytes(bytes: Uint8Array): T;
+  // static fromBeBytes(bytes: Uint8Array): T;
   // Uint8Array to T
-  fromLeBytes(bytes: Uint8Array): T;
+  // static fromLeBytes(bytes: Uint8Array): T;
   // Crate Uint8Array
   // T to big endian Uint8Array
   toBeBytes(): Uint8Array;

@@ -124,37 +124,37 @@ Deno.test("Int8", () => {
   assertEquals(new Int8(0x12).rotateRight(16).value(), 0x12);
   // fromBeBytes()
   assertEquals(
-    Int8.prototype.fromBeBytes(Uint8Array.from([0x12])).value(),
+    Int8.fromBeBytes(Uint8Array.from([0x12])).value(),
     new Int8(0x12).value(),
   );
   assertEquals(
-    Int8.prototype.fromBeBytes(new Uint8Array(1).fill(0x7F)).value(),
+    Int8.fromBeBytes(new Uint8Array(1).fill(0x7F)).value(),
     Int8.prototype.max(),
   );
   assertEquals(
-    Int8.prototype.fromBeBytes(new Uint8Array(1)).value(),
+    Int8.fromBeBytes(new Uint8Array(1)).value(),
     0,
   );
   assertThrows((): void => {
     // Invalid Length
-    Int8.prototype.fromBeBytes(new Uint8Array(2));
+    Int8.fromBeBytes(new Uint8Array(2));
   });
   // fromLeBytes()
   assertEquals(
-    Int8.prototype.fromLeBytes(Uint8Array.from([0x12])).value(),
+    Int8.fromLeBytes(Uint8Array.from([0x12])).value(),
     new Int8(0x12).value(),
   );
   assertEquals(
-    Int8.prototype.fromLeBytes(new Uint8Array(1).fill(0x7F)).value(),
+    Int8.fromLeBytes(new Uint8Array(1).fill(0x7F)).value(),
     Int8.prototype.max(),
   );
   assertEquals(
-    Int8.prototype.fromLeBytes(new Uint8Array(1)).value(),
+    Int8.fromLeBytes(new Uint8Array(1)).value(),
     0,
   );
   assertThrows((): void => {
     // Invalid Length
-    Int8.prototype.fromLeBytes(new Uint8Array(2));
+    Int8.fromLeBytes(new Uint8Array(2));
   });
   // toBeBytes()
   assertEquals(new Int8(0x12).toBeBytes(), new Uint8Array([0x12]));
