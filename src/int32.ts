@@ -115,7 +115,21 @@ export class Int32 implements Numeric<Int32> {
     }
   }
   rem(value: Int32): Int32 {
-    return new Int32(this.#value % value.#value);
+    if (
+      this.#value === (this.#value | 0x8000_0000n) &&
+      value.#value === (value.#value | 0x8000_0000n)
+    ) {
+      return new Int32(
+        (~(this.#value & 0x7FFF_FFFFn) + 1n) %
+          (~(value.#value & 0x7FFF_FFFFn) + 1n),
+      );
+    } else if (this.#value === (this.#value | 0x8000_0000n)) {
+      return new Int32(~((this.#value & 0x7FFF_FFFFn) % value.#value) + 1n);
+    } else if (value.#value === (value.#value | 0x8000_0000n)) {
+      return new Int32(this.#value % (value.#value & 0x7FFF_FFFFn));
+    } else {
+      return new Int32(this.#value % value.#value);
+    }
   }
   exp(value: Int32): Int32 {
     return new Int32(this.#value ** value.#value);

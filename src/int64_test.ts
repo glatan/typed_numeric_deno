@@ -44,6 +44,9 @@ Deno.test("Int64", () => {
   // rem()
   assertEquals(new Int64(2n).rem(new Int64(3n)).value(), 2n);
   assertEquals(new Int64(3n).rem(new Int64(2n)).value(), 1n);
+  assertEquals(new Int64(12n).rem(new Int64(-5n)).value(), 2n);
+  assertEquals(new Int64(-12n).rem(new Int64(5n)).value(), -2n);
+  assertEquals(new Int64(-12n).rem(new Int64(-5n)).value(), -2n);
   // exp()
   assertEquals(new Int64(2n).exp(new Int64(3n)).value(), 8n);
   assertEquals(

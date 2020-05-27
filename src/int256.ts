@@ -233,7 +233,45 @@ export class Int256 implements Numeric<Int256> {
     }
   }
   rem(value: Int256): Int256 {
-    return new Int256(this.#value % value.#value);
+    if (
+      this.#value ===
+        (this.#value |
+          0x8000000000000000_0000000000000000_0000000000000000_0000000000000000n) &&
+      value.#value ===
+        (value.#value |
+          0x8000000000000000_0000000000000000_0000000000000000_0000000000000000n)
+    ) {
+      return new Int256(
+        (~(this.#value &
+          0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn) +
+          1n) %
+          (~(value.#value &
+            0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn) +
+            1n),
+      );
+    } else if (
+      this.#value ===
+        (this.#value |
+          0x8000000000000000_0000000000000000_0000000000000000_0000000000000000n)
+    ) {
+      return new Int256(
+        ~((this.#value &
+          0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn) %
+          value.#value) + 1n,
+      );
+    } else if (
+      value.#value ===
+        (value.#value |
+          0x8000000000000000_0000000000000000_0000000000000000_0000000000000000n)
+    ) {
+      return new Int256(
+        this.#value %
+          (value.#value &
+            0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn),
+      );
+    } else {
+      return new Int256(this.#value % value.#value);
+    }
   }
   exp(value: Int256): Int256 {
     return new Int256(this.#value ** value.#value);

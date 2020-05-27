@@ -107,7 +107,20 @@ export class Int16 implements Numeric<Int16> {
     }
   }
   rem(value: Int16): Int16 {
-    return new Int16(this.#value % value.#value);
+    if (
+      this.#value === (this.#value | 0x8000) &&
+      value.#value === (value.#value | 0x8000)
+    ) {
+      return new Int16(
+        (~(this.#value & 0x7FFF) + 1) % (~(value.#value & 0x7FFF) + 1),
+      );
+    } else if (this.#value === (this.#value | 0x8000)) {
+      return new Int16(~((this.#value & 0x7FFF) % value.#value) + 1);
+    } else if (value.#value === (value.#value | 0x8000)) {
+      return new Int16(this.#value % (value.#value & 0x7FFF));
+    } else {
+      return new Int16(this.#value % value.#value);
+    }
   }
   exp(value: Int16): Int16 {
     return new Int16(this.#value ** value.#value);

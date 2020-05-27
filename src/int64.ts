@@ -131,7 +131,23 @@ export class Int64 implements Numeric<Int64> {
     }
   }
   rem(value: Int64): Int64 {
-    return new Int64(this.#value % value.#value);
+    if (
+      this.#value === (this.#value | 0x80000000_00000000n) &&
+      value.#value === (value.#value | 0x80000000_00000000n)
+    ) {
+      return new Int64(
+        (~(this.#value & 0x7FFFFFFF_FFFFFFFFn) + 1n) %
+          (~(value.#value & 0x7FFFFFFF_FFFFFFFFn) + 1n),
+      );
+    } else if (this.#value === (this.#value | 0x80000000_00000000n)) {
+      return new Int64(
+        ~((this.#value & 0x7FFFFFFF_FFFFFFFFn) % value.#value) + 1n,
+      );
+    } else if (value.#value === (value.#value | 0x80000000_00000000n)) {
+      return new Int64(this.#value % (value.#value & 0x7FFFFFFF_FFFFFFFFn));
+    } else {
+      return new Int64(this.#value % value.#value);
+    }
   }
   exp(value: Int64): Int64 {
     return new Int64(this.#value ** value.#value);

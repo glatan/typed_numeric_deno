@@ -44,6 +44,9 @@ Deno.test("Int32", () => {
   // rem()
   assertEquals(new Int32(2n).rem(new Int32(3n)).value(), 2n);
   assertEquals(new Int32(3n).rem(new Int32(2n)).value(), 1n);
+  assertEquals(new Int32(12n).rem(new Int32(-5n)).value(), 2n);
+  assertEquals(new Int32(-12n).rem(new Int32(5n)).value(), -2n);
+  assertEquals(new Int32(-12n).rem(new Int32(-5n)).value(), -2n);
   // exp()
   assertEquals(new Int32(2n).exp(new Int32(3n)).value(), 8n);
   assertEquals(

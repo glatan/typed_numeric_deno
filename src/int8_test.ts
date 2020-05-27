@@ -48,6 +48,9 @@ Deno.test("Int8", () => {
   // rem()
   assertEquals(new Int8(2).rem(new Int8(3)).value(), 2);
   assertEquals(new Int8(3).rem(new Int8(2)).value(), 1);
+  assertEquals(new Int8(12).rem(new Int8(-5)).value(), 2);
+  assertEquals(new Int8(-12).rem(new Int8(5)).value(), -2);
+  assertEquals(new Int8(-12).rem(new Int8(-5)).value(), -2);
   // exp()
   assertEquals(new Int8(2).exp(new Int8(3)).value(), 8);
   assertEquals(new Int8(0x7F).exp(new Int8(1)).value(), 0x7F);

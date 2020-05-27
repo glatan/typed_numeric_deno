@@ -162,7 +162,32 @@ export class Int128 implements Numeric<Int128> {
     }
   }
   rem(value: Int128): Int128 {
-    return new Int128(this.#value % value.#value);
+    if (
+      this.#value ===
+        (this.#value | 0x80000000_00000000_00000000_00000000n) &&
+      value.#value === (value.#value | 0x80000000_00000000_00000000_00000000n)
+    ) {
+      return new Int128(
+        (~(this.#value & 0x7FFFFFFF_FFFFFFFF_FFFFFFFF_FFFFFFFFn) + 1n) %
+          (~(value.#value & 0x7FFFFFFF_FFFFFFFF_FFFFFFFF_FFFFFFFFn) + 1n),
+      );
+    } else if (
+      this.#value === (this.#value | 0x80000000_00000000_00000000_00000000n)
+    ) {
+      return new Int128(
+        ~((this.#value & 0x7FFFFFFF_FFFFFFFF_FFFFFFFF_FFFFFFFFn) %
+          value.#value) + 1n,
+      );
+    } else if (
+      value.#value === (value.#value | 0x80000000_00000000_00000000_00000000n)
+    ) {
+      return new Int128(
+        this.#value %
+          (value.#value & 0x7FFFFFFF_FFFFFFFF_FFFFFFFF_FFFFFFFFn),
+      );
+    } else {
+      return new Int128(this.#value % value.#value);
+    }
   }
   exp(value: Int128): Int128 {
     return new Int128(this.#value ** value.#value);
