@@ -57,6 +57,14 @@ Deno.test("Int64", () => {
   assertThrows((): void => {
     new Int64(0x7FFFFFFF_FFFFFFFFn).exp(new Int64(0x7FFFFFFF_FFFFFFFFn));
   });
+  assertThrows(() => {
+    new Int64(2n).exp(new Int64(-5n));
+  });
+  assertEquals(new Int64(-2n).exp(new Int64(4n)).value(), 16n);
+  assertEquals(new Int64(-2n).exp(new Int64(5n)).value(), -32n);
+  assertThrows(() => {
+    new Int64(-2n).exp(new Int64(-5n));
+  });
   // and()
   assertEquals(new Int64(0n).and(new Int64(0n)).value(), 0n);
   assertEquals(new Int64(0x7FFFFFFF_FFFFFFFFn).and(new Int64(0n)).value(), 0n);

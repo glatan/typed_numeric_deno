@@ -274,7 +274,21 @@ export class Int256 implements Numeric<Int256> {
     }
   }
   exp(value: Int256): Int256 {
-    return new Int256(this.#value ** value.#value);
+    if (value.#value === 0n) {
+      return new Int256(1n);
+    } else if (value.#value === (value.#value | (MAX + 1n))) {
+      throw new Error(
+        "Invalid Value Error: Expected value is greater than 0",
+      );
+    } else if (this.#value === (this.#value | (MAX + 1n))) {
+      if (value.rem(new Int256(2n)).value() === 0n) {
+        return new Int256((this.#value & MAX) ** value.#value);
+      } else {
+        return new Int256(~((this.#value & MAX) ** value.#value) + 1n);
+      }
+    } else {
+      return new Int256(this.#value ** value.#value);
+    }
   }
   and(value: Int256): Int256 {
     return new Int256(this.#value & value.#value);

@@ -57,6 +57,14 @@ Deno.test("Int32", () => {
   assertThrows((): void => {
     new Int32(0x7FFF_FFFFn).exp(new Int32(0x7FFF_FFFFn));
   });
+  assertThrows(() => {
+    new Int32(2n).exp(new Int32(-5n));
+  });
+  assertEquals(new Int32(-2n).exp(new Int32(4n)).value(), 16n);
+  assertEquals(new Int32(-2n).exp(new Int32(5n)).value(), -32n);
+  assertThrows(() => {
+    new Int32(-2n).exp(new Int32(-5n));
+  });
   // and()
   assertEquals(new Int32(0n).and(new Int32(0n)).value(), 0n);
   assertEquals(new Int32(0x7FFF_FFFFn).and(new Int32(0n)).value(), 0n);

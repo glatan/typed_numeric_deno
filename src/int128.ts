@@ -190,7 +190,21 @@ export class Int128 implements Numeric<Int128> {
     }
   }
   exp(value: Int128): Int128 {
-    return new Int128(this.#value ** value.#value);
+    if (value.#value === 0n) {
+      return new Int128(1n);
+    } else if (value.#value === (value.#value | (MAX + 1n))) {
+      throw new Error(
+        "Invalid Value Error: Expected value is greater than 0",
+      );
+    } else if (this.#value === (this.#value | (MAX + 1n))) {
+      if (value.rem(new Int128(2n)).value() === 0n) {
+        return new Int128((this.#value & MAX) ** value.#value);
+      } else {
+        return new Int128(~((this.#value & MAX) ** value.#value) + 1n);
+      }
+    } else {
+      return new Int128(this.#value ** value.#value);
+    }
   }
   and(value: Int128): Int128 {
     return new Int128(this.#value & value.#value);

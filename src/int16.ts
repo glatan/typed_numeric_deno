@@ -123,7 +123,21 @@ export class Int16 implements Numeric<Int16> {
     }
   }
   exp(value: Int16): Int16 {
-    return new Int16(this.#value ** value.#value);
+    if (value.#value === 0) {
+      return new Int16(1);
+    } else if (value.#value === (value.#value | (MAX + 1))) {
+      throw new Error(
+        "Invalid Value Error: Expected value is greater than 0",
+      );
+    } else if (this.#value === (this.#value | (MAX + 1))) {
+      if (value.rem(new Int16(2)).value() === 0) {
+        return new Int16((this.#value & MAX) ** value.#value);
+      } else {
+        return new Int16(~((this.#value & MAX) ** value.#value) + 1);
+      }
+    } else {
+      return new Int16(this.#value ** value.#value);
+    }
   }
   and(value: Int16): Int16 {
     return new Int16(this.#value & value.#value);

@@ -150,7 +150,21 @@ export class Int64 implements Numeric<Int64> {
     }
   }
   exp(value: Int64): Int64 {
-    return new Int64(this.#value ** value.#value);
+    if (value.#value === 0n) {
+      return new Int64(1n);
+    } else if (value.#value === (value.#value | (MAX + 1n))) {
+      throw new Error(
+        "Invalid Value Error: Expected value is greater than 0",
+      );
+    } else if (this.#value === (this.#value | (MAX + 1n))) {
+      if (value.rem(new Int64(2n)).value() === 0n) {
+        return new Int64((this.#value & MAX) ** value.#value);
+      } else {
+        return new Int64(~((this.#value & MAX) ** value.#value) + 1n);
+      }
+    } else {
+      return new Int64(this.#value ** value.#value);
+    }
   }
   and(value: Int64): Int64 {
     return new Int64(this.#value & value.#value);

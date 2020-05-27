@@ -104,6 +104,14 @@ Deno.test("Int256", () => {
       ),
     );
   });
+  assertThrows(() => {
+    new Int256(2n).exp(new Int256(-5n));
+  });
+  assertEquals(new Int256(-2n).exp(new Int256(4n)).value(), 16n);
+  assertEquals(new Int256(-2n).exp(new Int256(5n)).value(), -32n);
+  assertThrows(() => {
+    new Int256(-2n).exp(new Int256(-5n));
+  });
   // and()
   assertEquals(new Int256(0n).and(new Int256(0n)).value(), 0n);
   assertEquals(

@@ -74,6 +74,14 @@ Deno.test("Int128", () => {
       new Int128(0x7FFFFFFF_FFFFFFFF_FFFFFFFF_FFFFFFFFn),
     );
   });
+  assertThrows(() => {
+    new Int128(2n).exp(new Int128(-5n));
+  });
+  assertEquals(new Int128(-2n).exp(new Int128(4n)).value(), 16n);
+  assertEquals(new Int128(-2n).exp(new Int128(5n)).value(), -32n);
+  assertThrows(() => {
+    new Int128(-2n).exp(new Int128(-5n));
+  });
   // and()
   assertEquals(new Int128(0n).and(new Int128(0n)).value(), 0n);
   assertEquals(
