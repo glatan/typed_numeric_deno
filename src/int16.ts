@@ -9,18 +9,18 @@ export class Int16 implements Numeric<Int16> {
   constructor(value: number) {
     if (value < 0) {
       // 一度符号を外してからマスク、その後符号を(Int16の最上位ビットを1にする形で)戻す
-      this.#value = ((~value + 1) & MAX) | 0x8000;
-    } else if (value === (value | 0x8000)) {
+      this.#value = ((~value + 1) & MAX) | (MAX + 1);
+    } else if (value === (value | (MAX + 1))) {
       // Int16での最上位ビットが1の場合
-      this.#value = value & 0xFFFF;
+      this.#value = value & (MAX | (MAX + 1));
     } else {
       this.#value = value & MAX;
     }
   }
   value(): number {
-    if ((this.#value | 0x8000) === this.#value) {
+    if ((this.#value | (MAX + 1)) === this.#value) {
       // Int16での最上位ビットが1の場合
-      return ~(this.#value & 0x7FFF) + 1;
+      return ~(this.#value & MAX) + 1;
     } else {
       return this.#value;
     }
@@ -33,17 +33,17 @@ export class Int16 implements Numeric<Int16> {
   }
   add(value: Int16): Int16 {
     if (
-      this.#value === (this.#value | 0x8000) &&
-      value.#value === (value.#value | 0x8000)
+      this.#value === (this.#value | (MAX + 1)) &&
+      value.#value === (value.#value | (MAX + 1))
     ) {
       // -Num + -Num
-      return new Int16(~(this.#value & 0x7F) + ~(value.#value & 0x7FFF) + 2);
-    } else if (this.#value === (this.#value | 0x8000)) {
+      return new Int16(~(this.#value & 0x7F) + ~(value.#value & MAX) + 2);
+    } else if (this.#value === (this.#value | (MAX + 1))) {
       // -Num + Num
-      return new Int16(value.#value + ~(this.#value & 0x7FFF) + 1);
-    } else if (value.#value === (value.#value | 0x8000)) {
+      return new Int16(value.#value + ~(this.#value & MAX) + 1);
+    } else if (value.#value === (value.#value | (MAX + 1))) {
       // Num + -Num
-      return new Int16(this.#value + ~(value.#value & 0x7FFF) + 1);
+      return new Int16(this.#value + ~(value.#value & MAX) + 1);
     } else {
       // Num + Num
       return new Int16(this.#value + value.#value);
@@ -51,24 +51,22 @@ export class Int16 implements Numeric<Int16> {
   }
   sub(value: Int16): Int16 {
     if (
-      // -Num - -Num
-      this.#value === (this.#value | 0x8000) &&
-      value.#value === (value.#value | 0x8000)
+      this.#value === (this.#value | (MAX + 1)) &&
+      value.#value === (value.#value | (MAX + 1))
     ) {
+      // -Num - -Num
       if (this.#value < value.#value) {
         // -Num + Num
-        return new Int16(~(this.#value & 0x7FFF) + (value.#value & 0x7FFF) + 1);
+        return new Int16(~(this.#value & MAX) + (value.#value & MAX) + 1);
       } else {
-        return new Int16(
-          ~(this.#value & 0x7FFF) + ~(value.#value & 0x7FFF) + 2,
-        );
+        return new Int16(~(this.#value & MAX) + ~(value.#value & MAX) + 2);
       }
-    } else if (this.#value === (this.#value | 0x8000)) {
+    } else if (this.#value === (this.#value | (MAX + 1))) {
       // -Num - Num
-      return new Int16(~(this.#value & 0x7FFF) + ~(value.#value & 0x7FFF) + 2);
-    } else if (value.#value === (value.#value | 0x8000)) {
+      return new Int16(~(this.#value & MAX) + ~(value.#value & MAX) + 2);
+    } else if (value.#value === (value.#value | (MAX + 1))) {
       // Num - -Num
-      return new Int16(this.#value + (value.#value & 0x7FFF));
+      return new Int16(this.#value + (value.#value & MAX));
     } else {
       // Num - Num
       return new Int16(this.#value + ~value.#value + 1);
@@ -76,48 +74,48 @@ export class Int16 implements Numeric<Int16> {
   }
   div(value: Int16): Int16 {
     if (
-      this.#value === (this.#value | 0x8000) &&
-      value.#value === (value.#value | 0x8000)
+      this.#value === (this.#value | (MAX + 1)) &&
+      value.#value === (value.#value | (MAX + 1))
     ) {
       return new Int16(
-        (~(this.#value & 0x7FFF) + 1) / (~(value.#value & 0x7FFF) + 1),
+        (~(this.#value & MAX) + 1) / (~(value.#value & MAX) + 1),
       );
-    } else if (this.#value === (this.#value | 0x8000)) {
-      return new Int16(~((this.#value & 0x7FFF) / value.#value) + 1);
-    } else if (value.#value === (value.#value | 0x8000)) {
-      return new Int16(~(this.#value / (value.#value & 0x7FFF)) + 1);
+    } else if (this.#value === (this.#value | (MAX + 1))) {
+      return new Int16(~((this.#value & MAX) / value.#value) + 1);
+    } else if (value.#value === (value.#value | (MAX + 1))) {
+      return new Int16(~(this.#value / (value.#value & MAX)) + 1);
     } else {
       return new Int16(this.#value / value.#value);
     }
   }
   mul(value: Int16): Int16 {
     if (
-      this.#value === (this.#value | 0x8000) &&
-      value.#value === (value.#value | 0x8000)
+      this.#value === (this.#value | (MAX + 1)) &&
+      value.#value === (value.#value | (MAX + 1))
     ) {
       return new Int16(
-        (~(this.#value & 0x7FFF) + 1) * (~(value.#value & 0x7FFF) + 1),
+        (~(this.#value & MAX) + 1) * (~(value.#value & MAX) + 1),
       );
-    } else if (this.#value === (this.#value | 0x8000)) {
-      return new Int16(~((this.#value & 0x7FFF) * value.#value) + 1);
-    } else if (value.#value === (value.#value | 0x8000)) {
-      return new Int16(~(this.#value * (value.#value & 0x7FFF)) + 1);
+    } else if (this.#value === (this.#value | (MAX + 1))) {
+      return new Int16(~((this.#value & MAX) * value.#value) + 1);
+    } else if (value.#value === (value.#value | (MAX + 1))) {
+      return new Int16(~(this.#value * (value.#value & MAX)) + 1);
     } else {
       return new Int16(this.#value * value.#value);
     }
   }
   rem(value: Int16): Int16 {
     if (
-      this.#value === (this.#value | 0x8000) &&
-      value.#value === (value.#value | 0x8000)
+      this.#value === (this.#value | (MAX + 1)) &&
+      value.#value === (value.#value | (MAX + 1))
     ) {
       return new Int16(
-        (~(this.#value & 0x7FFF) + 1) % (~(value.#value & 0x7FFF) + 1),
+        (~(this.#value & MAX) + 1) % (~(value.#value & MAX) + 1),
       );
-    } else if (this.#value === (this.#value | 0x8000)) {
-      return new Int16(~((this.#value & 0x7FFF) % value.#value) + 1);
-    } else if (value.#value === (value.#value | 0x8000)) {
-      return new Int16(this.#value % (value.#value & 0x7FFF));
+    } else if (this.#value === (this.#value | (MAX + 1))) {
+      return new Int16(~((this.#value & MAX) % value.#value) + 1);
+    } else if (value.#value === (value.#value | (MAX + 1))) {
+      return new Int16(this.#value % (value.#value & MAX));
     } else {
       return new Int16(this.#value % value.#value);
     }
