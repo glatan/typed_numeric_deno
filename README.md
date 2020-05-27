@@ -62,7 +62,7 @@ TypedNumeric.prototype.mul(TypedNumeric)
 TypedNumeric.prototype.rem(TypedNumeric)
 
 // Exponentiation
-TypedNumeric.prototype.exp(TypedNumeric)
+TypedNumeric.prototype.exp(TypedNumeric >= 0)
 
 // AND
 TypedNumeric.prototype.and(TypedNumeric)

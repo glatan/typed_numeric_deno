@@ -105,10 +105,37 @@ export class Int8 implements Numeric<Int8> {
     }
   }
   rem(value: Int8): Int8 {
-    return new Int8(this.#value % value.#value);
+    if (
+      this.#value === (this.#value | 0x80) &&
+      value.#value === (value.#value | 0x80)
+    ) {
+      return new Int8(
+        (~(this.#value & 0x7F) + 1) % (~(value.#value & 0x7F) + 1),
+      );
+    } else if (this.#value === (this.#value | 0x80)) {
+      return new Int8(~((this.#value & 0x7F) % value.#value) + 1);
+    } else if (value.#value === (value.#value | 0x80)) {
+      return new Int8(this.#value % (value.#value & 0x7F));
+    } else {
+      return new Int8(this.#value % value.#value);
+    }
   }
   exp(value: Int8): Int8 {
-    return new Int8(this.#value ** value.#value);
+    if (value.#value === 0) {
+      return new Int8(1);
+    } else if (value.#value === (value.#value | (MAX + 1))) {
+      throw new Error(
+        "Invalid Value Error: Expected value is greater than 0",
+      );
+    } else if (this.#value === (this.#value | (MAX + 1))) {
+      if (value.rem(new Int8(2)).value() === 0) {
+        return new Int8((this.#value & MAX) ** value.#value);
+      } else {
+        return new Int8(~((this.#value & MAX) ** value.#value) + 1);
+      }
+    } else {
+      return new Int8(this.#value ** value.#value);
+    }
   }
   and(value: Int8): Int8 {
     return new Int8(this.#value & value.#value);

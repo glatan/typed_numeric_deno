@@ -233,10 +233,62 @@ export class Int256 implements Numeric<Int256> {
     }
   }
   rem(value: Int256): Int256 {
-    return new Int256(this.#value % value.#value);
+    if (
+      this.#value ===
+        (this.#value |
+          0x8000000000000000_0000000000000000_0000000000000000_0000000000000000n) &&
+      value.#value ===
+        (value.#value |
+          0x8000000000000000_0000000000000000_0000000000000000_0000000000000000n)
+    ) {
+      return new Int256(
+        (~(this.#value &
+          0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn) +
+          1n) %
+          (~(value.#value &
+            0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn) +
+            1n),
+      );
+    } else if (
+      this.#value ===
+        (this.#value |
+          0x8000000000000000_0000000000000000_0000000000000000_0000000000000000n)
+    ) {
+      return new Int256(
+        ~((this.#value &
+          0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn) %
+          value.#value) + 1n,
+      );
+    } else if (
+      value.#value ===
+        (value.#value |
+          0x8000000000000000_0000000000000000_0000000000000000_0000000000000000n)
+    ) {
+      return new Int256(
+        this.#value %
+          (value.#value &
+            0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn),
+      );
+    } else {
+      return new Int256(this.#value % value.#value);
+    }
   }
   exp(value: Int256): Int256 {
-    return new Int256(this.#value ** value.#value);
+    if (value.#value === 0n) {
+      return new Int256(1n);
+    } else if (value.#value === (value.#value | (MAX + 1n))) {
+      throw new Error(
+        "Invalid Value Error: Expected value is greater than 0",
+      );
+    } else if (this.#value === (this.#value | (MAX + 1n))) {
+      if (value.rem(new Int256(2n)).value() === 0n) {
+        return new Int256((this.#value & MAX) ** value.#value);
+      } else {
+        return new Int256(~((this.#value & MAX) ** value.#value) + 1n);
+      }
+    } else {
+      return new Int256(this.#value ** value.#value);
+    }
   }
   and(value: Int256): Int256 {
     return new Int256(this.#value & value.#value);

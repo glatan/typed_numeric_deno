@@ -48,11 +48,22 @@ Deno.test("Int16", () => {
   // rem()
   assertEquals(new Int16(2).rem(new Int16(3)).value(), 2);
   assertEquals(new Int16(3).rem(new Int16(2)).value(), 1);
+  assertEquals(new Int16(12).rem(new Int16(-5)).value(), 2);
+  assertEquals(new Int16(-12).rem(new Int16(5)).value(), -2);
+  assertEquals(new Int16(-12).rem(new Int16(-5)).value(), -2);
   // exp()
   assertEquals(new Int16(2).exp(new Int16(3)).value(), 8);
   assertEquals(new Int16(0x7FFF).exp(new Int16(1)).value(), 0x7FFF);
   assertEquals(new Int16(0x7FFF).exp(new Int16(0)).value(), 1);
   assertEquals(new Int16(0x7FFF).exp(new Int16(0x7FFF)).value(), 0);
+  assertThrows(() => {
+    new Int16(2).exp(new Int16(-5));
+  });
+  assertEquals(new Int16(-2).exp(new Int16(4)).value(), 16);
+  assertEquals(new Int16(-2).exp(new Int16(5)).value(), -32);
+  assertThrows(() => {
+    new Int16(-2).exp(new Int16(-5));
+  });
   // and()
   assertEquals(new Int16(0).and(new Int16(0)).value(), 0);
   assertEquals(new Int16(0x7FFF).and(new Int16(0)).value(), 0);

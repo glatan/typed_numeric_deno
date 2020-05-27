@@ -76,6 +76,9 @@ Deno.test("Int256", () => {
   // rem()
   assertEquals(new Int256(2n).rem(new Int256(3n)).value(), 2n);
   assertEquals(new Int256(3n).rem(new Int256(2n)).value(), 1n);
+  assertEquals(new Int256(12n).rem(new Int256(-5n)).value(), 2n);
+  assertEquals(new Int256(-12n).rem(new Int256(5n)).value(), -2n);
+  assertEquals(new Int256(-12n).rem(new Int256(-5n)).value(), -2n);
   // exp()
   assertEquals(new Int256(2n).exp(new Int256(3n)).value(), 8n);
   assertEquals(
@@ -100,6 +103,14 @@ Deno.test("Int256", () => {
         0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn,
       ),
     );
+  });
+  assertThrows(() => {
+    new Int256(2n).exp(new Int256(-5n));
+  });
+  assertEquals(new Int256(-2n).exp(new Int256(4n)).value(), 16n);
+  assertEquals(new Int256(-2n).exp(new Int256(5n)).value(), -32n);
+  assertThrows(() => {
+    new Int256(-2n).exp(new Int256(-5n));
   });
   // and()
   assertEquals(new Int256(0n).and(new Int256(0n)).value(), 0n);

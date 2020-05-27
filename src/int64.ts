@@ -131,10 +131,40 @@ export class Int64 implements Numeric<Int64> {
     }
   }
   rem(value: Int64): Int64 {
-    return new Int64(this.#value % value.#value);
+    if (
+      this.#value === (this.#value | 0x80000000_00000000n) &&
+      value.#value === (value.#value | 0x80000000_00000000n)
+    ) {
+      return new Int64(
+        (~(this.#value & 0x7FFFFFFF_FFFFFFFFn) + 1n) %
+          (~(value.#value & 0x7FFFFFFF_FFFFFFFFn) + 1n),
+      );
+    } else if (this.#value === (this.#value | 0x80000000_00000000n)) {
+      return new Int64(
+        ~((this.#value & 0x7FFFFFFF_FFFFFFFFn) % value.#value) + 1n,
+      );
+    } else if (value.#value === (value.#value | 0x80000000_00000000n)) {
+      return new Int64(this.#value % (value.#value & 0x7FFFFFFF_FFFFFFFFn));
+    } else {
+      return new Int64(this.#value % value.#value);
+    }
   }
   exp(value: Int64): Int64 {
-    return new Int64(this.#value ** value.#value);
+    if (value.#value === 0n) {
+      return new Int64(1n);
+    } else if (value.#value === (value.#value | (MAX + 1n))) {
+      throw new Error(
+        "Invalid Value Error: Expected value is greater than 0",
+      );
+    } else if (this.#value === (this.#value | (MAX + 1n))) {
+      if (value.rem(new Int64(2n)).value() === 0n) {
+        return new Int64((this.#value & MAX) ** value.#value);
+      } else {
+        return new Int64(~((this.#value & MAX) ** value.#value) + 1n);
+      }
+    } else {
+      return new Int64(this.#value ** value.#value);
+    }
   }
   and(value: Int64): Int64 {
     return new Int64(this.#value & value.#value);
