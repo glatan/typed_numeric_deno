@@ -11,28 +11,18 @@ Deno.test("Int256", () => {
     new Int256(
       0xFFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn,
     ).value(),
-    -0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn,
+    Int256.min(),
   );
   assertEquals(
     new Int256(
       -0xFFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn,
     ).value(),
-    -0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn,
+    Int256.min(),
   );
   assertEquals(new Int256(0n).value(), 0n);
   assertEquals(new Int256(-0n).value(), 0n);
-  assertEquals(
-    new Int256(
-      0x8000000000000000_0000000000000000_0000000000000000_0000000000000000n,
-    ).value(),
-    0n,
-  );
-  assertEquals(
-    new Int256(
-      -0x8000000000000000_0000000000000000_0000000000000000_0000000000000000n,
-    ).value(),
-    0n,
-  );
+  assertEquals(new Int256(Int256.max() + 1n).value(), 0n);
+  assertEquals(new Int256(Int256.min() - 1n).value(), 0n);
   // max()
   assertEquals(
     Int256.max(),
@@ -45,13 +35,7 @@ Deno.test("Int256", () => {
   );
   // add()
   assertEquals(new Int256(1n).add(new Int256(2n)).value(), 3n);
-  assertEquals(
-    new Int256(
-      0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn,
-    ).add(new Int256(1n))
-      .value(),
-    0n,
-  );
+  assertEquals(new Int256(Int256.max()).add(new Int256(1n)).value(), 0n);
   assertEquals(new Int256(1n).add(new Int256(-2n)).value(), -1n);
   assertEquals(new Int256(-1n).add(new Int256(2n)).value(), 1n);
   assertEquals(new Int256(-1n).add(new Int256(-2n)).value(), -3n);
@@ -82,27 +66,12 @@ Deno.test("Int256", () => {
   // exp()
   assertEquals(new Int256(2n).exp(new Int256(3n)).value(), 8n);
   assertEquals(
-    new Int256(
-      0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn,
-    ).exp(new Int256(1n))
-      .value(),
-    0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn,
+    new Int256(Int256.max()).exp(new Int256(1n)).value(),
+    Int256.max(),
   );
-  assertEquals(
-    new Int256(
-      0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn,
-    ).exp(new Int256(0n))
-      .value(),
-    1n,
-  );
+  assertEquals(new Int256(Int256.max()).exp(new Int256(0n)).value(), 1n);
   assertThrows((): void => {
-    new Int256(
-      0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn,
-    ).exp(
-      new Int256(
-        0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn,
-      ),
-    );
+    new Int256(Int256.max()).exp(new Int256(Int256.max()));
   });
   assertThrows(() => {
     new Int256(2n).exp(new Int256(-5n));
@@ -114,71 +83,34 @@ Deno.test("Int256", () => {
   });
   // and()
   assertEquals(new Int256(0n).and(new Int256(0n)).value(), 0n);
+  assertEquals(new Int256(Int256.max()).and(new Int256(0n)).value(), 0n);
   assertEquals(
-    new Int256(
-      0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn,
-    ).and(new Int256(0n))
-      .value(),
-    0n,
-  );
-  assertEquals(
-    new Int256(
-      0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn,
-    ).and(
-      new Int256(
-        0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn,
-      ),
-    )
-      .value(),
-    0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn,
+    new Int256(Int256.max()).and(new Int256(Int256.max())).value(),
+    Int256.max(),
   );
   // or()
   assertEquals(new Int256(0n).or(new Int256(0n)).value(), 0n);
   assertEquals(
-    new Int256(
-      0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn,
-    ).or(new Int256(0n))
-      .value(),
-    0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn,
+    new Int256(Int256.max()).or(new Int256(0n)).value(),
+    Int256.max(),
   );
   assertEquals(
-    new Int256(
-      0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn,
-    ).or(
-      new Int256(
-        0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn,
-      ),
-    ).value(),
-    0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn,
+    new Int256(Int256.max()).or(new Int256(Int256.max())).value(),
+    Int256.max(),
   );
   // xor()
   assertEquals(new Int256(0n).xor(new Int256(0n)).value(), 0n);
   assertEquals(
-    new Int256(
-      0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn,
-    ).xor(new Int256(0n))
-      .value(),
-    0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn,
+    new Int256(Int256.max()).xor(new Int256(0n)).value(),
+    Int256.max(),
   );
   assertEquals(
-    new Int256(
-      0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn,
-    ).xor(
-      new Int256(
-        0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn,
-      ),
-    )
-      .value(),
+    new Int256(Int256.max()).xor(new Int256(Int256.max())).value(),
     0n,
   );
   // not()
   assertEquals(new Int256(0n).not().value(), -1n);
-  assertEquals(
-    new Int256(
-      0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn,
-    ).not().value(),
-    0n,
-  );
+  assertEquals(new Int256(Int256.max()).not().value(), 0n);
   // logicalLeft()
   assertEquals(
     new Int256(
@@ -195,22 +127,19 @@ Deno.test("Int256", () => {
   assertEquals(
     new Int256(
       0x1234567890123456_7890123456789012_3456789012345678_9012345678901234n,
-    ).logicalLeft(256n)
-      .value(),
+    ).logicalLeft(256n).value(),
     0n,
   );
   assertEquals(
     new Int256(
       0x1234567890123456_7890123456789012_3456789012345678_9012345678901234n,
-    ).logicalLeft(512n)
-      .value(),
+    ).logicalLeft(512n).value(),
     0n,
   );
   assertEquals(
     new Int256(
       0x1234567890123456_7890123456789012_3456789012345678_9012345678901234n,
-    ).logicalLeft(1024n)
-      .value(),
+    ).logicalLeft(1024n).value(),
     0n,
   );
   assertEquals(
@@ -222,48 +151,39 @@ Deno.test("Int256", () => {
   assertEquals(
     new Int256(
       -0x1234567890123456_7890123456789012_3456789012345678_9012345678901234n,
-    ).logicalLeft(128n)
-      .value(),
+    ).logicalLeft(128n).value(),
     0x3456789012345678_9012345678901234_0000000000000000_0000000000000000n,
   );
   assertEquals(
     new Int256(
       -0x1234567890123456_7890123456789012_3456789012345678_9012345678901234n,
-    ).logicalLeft(129n)
-      .value(),
+    ).logicalLeft(129n).value(),
     0x68ACF1202468ACF1_202468ACF1202468_0000000000000000_0000000000000000n,
   );
   assertEquals(
     new Int256(
       -0x1234567890123456_7890123456789012_3456789012345678_9012345678901234n,
-    ).logicalLeft(256n)
-      .value(),
+    ).logicalLeft(256n).value(),
     0n,
   );
   assertEquals(
     new Int256(
       -0x1234567890123456_7890123456789012_3456789012345678_9012345678901234n,
-    ).logicalLeft(512n)
-      .value(),
+    ).logicalLeft(512n).value(),
     0n,
   );
   assertEquals(
     new Int256(
       -0x1234567890123456_7890123456789012_3456789012345678_9012345678901234n,
-    ).logicalLeft(1024n)
-      .value(),
+    ).logicalLeft(1024n).value(),
     0n,
   );
   assertEquals(
-    new Int256(
-      0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn,
-    ).logicalLeft(1n).value(),
+    new Int256(Int256.max()).logicalLeft(1n).value(),
     -0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFEn,
   );
   assertEquals(
-    new Int256(
-      -0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn,
-    ).logicalLeft(1n).value(),
+    new Int256(Int256.min()).logicalLeft(1n).value(),
     -0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFEn,
   );
   // logicalRight()
@@ -276,86 +196,68 @@ Deno.test("Int256", () => {
   assertEquals(
     new Int256(
       0x1234567890123456_7890123456789012_3456789012345678_9012345678901234n,
-    ).logicalRight(128n)
-      .value(),
+    ).logicalRight(128n).value(),
     0x0000000000000000_0000000000000000_1234567890123456_7890123456789012n,
   );
   assertEquals(
     new Int256(
       0x1234567890123456_7890123456789012_3456789012345678_9012345678901234n,
-    ).logicalRight(256n)
-      .value(),
+    ).logicalRight(256n).value(),
     0n,
   );
   assertEquals(
     new Int256(
       0x1234567890123456_7890123456789012_3456789012345678_9012345678901234n,
-    ).logicalRight(512n)
-      .value(),
+    ).logicalRight(512n).value(),
     0n,
   );
   assertEquals(
     new Int256(
       0x1234567890123456_7890123456789012_3456789012345678_9012345678901234n,
-    ).logicalRight(1024n)
-      .value(),
+    ).logicalRight(1024n).value(),
     0n,
   );
   assertEquals(
     new Int256(
       -0x1234567890123456_7890123456789012_3456789012345678_9012345678901234n,
-    ).logicalRight(0n)
-      .value(),
+    ).logicalRight(0n).value(),
     -0x1234567890123456_7890123456789012_3456789012345678_9012345678901234n,
   );
   assertEquals(
     new Int256(
       -0x1234567890123456_7890123456789012_3456789012345678_9012345678901234n,
-    ).logicalRight(128n)
-      .value(),
+    ).logicalRight(128n).value(),
     0x9234567890123456_7890123456789012n,
   );
   assertEquals(
     new Int256(
       -0x1234567890123456_7890123456789012_3456789012345678_9012345678901234n,
-    ).logicalRight(129n)
-      .value(),
+    ).logicalRight(129n).value(),
     0x491A2B3C48091A2B_3C48091A2B3C4809n,
   );
   assertEquals(
     new Int256(
       -0x1234567890123456_7890123456789012_3456789012345678_9012345678901234n,
-    ).logicalRight(256n)
-      .value(),
+    ).logicalRight(256n).value(),
     0n,
   );
   assertEquals(
     new Int256(
       -0x1234567890123456_7890123456789012_3456789012345678_9012345678901234n,
-    ).logicalRight(512n)
-      .value(),
+    ).logicalRight(512n).value(),
     0n,
   );
   assertEquals(
     new Int256(
       -0x1234567890123456_7890123456789012_3456789012345678_9012345678901234n,
-    ).logicalRight(1024n)
-      .value(),
+    ).logicalRight(1024n).value(),
     0n,
   );
   assertEquals(
-    new Int256(
-      0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn,
-    ).logicalRight(1n).value(),
+    new Int256(Int256.max()).logicalRight(1n).value(),
     0x3FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn,
   );
-  assertEquals(
-    new Int256(
-      -0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn,
-    ).logicalRight(1n)
-      .value(),
-    0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn,
-  );
+  assertEquals(new Int256(Int256.min()).logicalRight(1n).value(), Int256.max());
   // rotateLeft()
   assertEquals(
     new Int256(
@@ -415,22 +317,19 @@ Deno.test("Int256", () => {
   assertEquals(
     new Int256(
       0x1234567890123456_7890123456789012_3456789012345678_9012345678901234n,
-    ).rotateRight(256n)
-      .value(),
+    ).rotateRight(256n).value(),
     0x1234567890123456_7890123456789012_3456789012345678_9012345678901234n,
   );
   assertEquals(
     new Int256(
       0x1234567890123456_7890123456789012_3456789012345678_9012345678901234n,
-    ).rotateRight(512n)
-      .value(),
+    ).rotateRight(512n).value(),
     0x1234567890123456_7890123456789012_3456789012345678_9012345678901234n,
   );
   assertEquals(
     new Int256(
       0x1234567890123456_7890123456789012_3456789012345678_9012345678901234n,
-    ).rotateRight(1024n)
-      .value(),
+    ).rotateRight(1024n).value(),
     0x1234567890123456_7890123456789012_3456789012345678_9012345678901234n,
   );
   // fromBeBytes()
@@ -516,10 +415,7 @@ Deno.test("Int256", () => {
     ).value(),
     Int256.max(),
   );
-  assertEquals(
-    Int256.fromBeBytes(new Uint8Array(32)).value(),
-    0n,
-  );
+  assertEquals(Int256.fromBeBytes(new Uint8Array(32)).value(), 0n);
   assertThrows((): void => {
     // Invalid Length
     Int256.fromBeBytes(new Uint8Array(33));
@@ -607,10 +503,7 @@ Deno.test("Int256", () => {
     ).value(),
     Int256.max(),
   );
-  assertEquals(
-    Int256.fromLeBytes(new Uint8Array(32)).value(),
-    0n,
-  );
+  assertEquals(Int256.fromLeBytes(new Uint8Array(32)).value(), 0n);
   assertThrows((): void => {
     // Invalid Length
     Int256.fromLeBytes(new Uint8Array(33));
@@ -694,10 +587,7 @@ Deno.test("Int256", () => {
       ],
     ),
   );
-  assertEquals(
-    new Int256(0n).toBeBytes(),
-    new Uint8Array(32),
-  );
+  assertEquals(new Int256(0n).toBeBytes(), new Uint8Array(32));
   // toLeBytes()
   assertEquals(
     new Int256(
@@ -777,8 +667,5 @@ Deno.test("Int256", () => {
       ],
     ),
   );
-  assertEquals(
-    new Int256(0n).toLeBytes(),
-    new Uint8Array(32),
-  );
+  assertEquals(new Int256(0n).toLeBytes(), new Uint8Array(32));
 });

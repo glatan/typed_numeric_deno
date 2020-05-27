@@ -7,9 +7,8 @@ import { Uint64 } from "./uint64.ts";
 
 Deno.test("Uint64", () => {
   // value()
-  assertEquals(new Uint64(0x1_00000000_00000000n).value(), 0n);
-  assertEquals(new Uint64(0n).value(), 0n);
-  assertEquals(new Uint64(-1n).value(), 0xFFFFFFFF_FFFFFFFFn);
+  assertEquals(new Uint64(Uint64.max() + 1n).value(), Uint64.min());
+  assertEquals(new Uint64(Uint64.min() - 1n).value(), Uint64.max());
   // max()
   assertEquals(Uint64.max(), 0xFFFFFFFF_FFFFFFFFn);
   // min()
@@ -17,24 +16,26 @@ Deno.test("Uint64", () => {
   // add()
   assertEquals(new Uint64(1n).add(new Uint64(2n)).value(), 3n);
   assertEquals(
-    new Uint64(0xFFFFFFFF_FFFFFFFFn).add(new Uint64(1n)).value(),
-    0n,
+    new Uint64(Uint64.max()).add(new Uint64(1n)).value(),
+    Uint64.min(),
   );
   // sub()
   assertEquals(new Uint64(3n).sub(new Uint64(2n)).value(), 1n);
   assertEquals(
-    new Uint64(0n).sub(new Uint64(1n)).value(),
-    0xFFFFFFFF_FFFFFFFFn,
+    new Uint64(Uint64.min()).sub(new Uint64(1n)).value(),
+    Uint64.max(),
   );
   // div()
-  assertEquals(new Uint64(2n).div(new Uint64(3n)).value(), 0n);
+  assertEquals(new Uint64(2n).div(new Uint64(3n)).value(), Uint64.min());
   assertEquals(new Uint64(3n).div(new Uint64(2n)).value(), 1n);
   // mul()
   assertEquals(new Uint64(1n).mul(new Uint64(2n)).value(), 2n);
-  assertEquals(new Uint64(1n).mul(new Uint64(0n)).value(), 0n);
   assertEquals(
-    new Uint64(0xFFFFFFFF_FFFFFFFFn).mul(new Uint64(0xFFFFFFFF_FFFFFFFFn))
-      .value(),
+    new Uint64(1n).mul(new Uint64(Uint64.min())).value(),
+    Uint64.min(),
+  );
+  assertEquals(
+    new Uint64(Uint64.max()).mul(new Uint64(Uint64.max())).value(),
     1n,
   );
   // rem()
@@ -43,53 +44,59 @@ Deno.test("Uint64", () => {
   // exp()
   assertEquals(new Uint64(2n).exp(new Uint64(3n)).value(), 8n);
   assertEquals(
-    new Uint64(0xFFFFFFFF_FFFFFFFFn).exp(new Uint64(1n)).value(),
-    0xFFFFFFFF_FFFFFFFFn,
+    new Uint64(Uint64.max()).exp(new Uint64(1n)).value(),
+    Uint64.max(),
   );
   assertEquals(
-    new Uint64(0xFFFFFFFF_FFFFFFFFn).exp(new Uint64(0n)).value(),
+    new Uint64(Uint64.max()).exp(new Uint64(Uint64.min())).value(),
     1n,
   );
   assertThrows((): void => {
     // Uncaught RangeError: Maximum BigInt size exceeded
-    new Uint64(0xFFFFFFFF_FFFFFFFFn).exp(new Uint64(0xFFFFFFFF_FFFFFFFFn));
+    new Uint64(Uint64.max()).exp(new Uint64(Uint64.max()));
   });
   // and()
-  assertEquals(new Uint64(0n).and(new Uint64(0n)).value(), 0n);
   assertEquals(
-    new Uint64(0xFFFFFFFF_FFFFFFFFn).and(new Uint64(0n)).value(),
-    0n,
+    new Uint64(Uint64.min()).and(new Uint64(Uint64.min())).value(),
+    Uint64.min(),
   );
   assertEquals(
-    new Uint64(0xFFFFFFFF_FFFFFFFFn).and(new Uint64(0xFFFFFFFF_FFFFFFFFn))
-      .value(),
-    0xFFFFFFFF_FFFFFFFFn,
+    new Uint64(Uint64.max()).and(new Uint64(Uint64.min())).value(),
+    Uint64.min(),
+  );
+  assertEquals(
+    new Uint64(Uint64.max()).and(new Uint64(Uint64.max())).value(),
+    Uint64.max(),
   );
   // or()
-  assertEquals(new Uint64(0n).or(new Uint64(0n)).value(), 0n);
   assertEquals(
-    new Uint64(0xFFFFFFFF_FFFFFFFFn).or(new Uint64(0n)).value(),
-    0xFFFFFFFF_FFFFFFFFn,
+    new Uint64(Uint64.min()).or(new Uint64(Uint64.min())).value(),
+    Uint64.min(),
   );
   assertEquals(
-    new Uint64(0xFFFFFFFF_FFFFFFFFn).or(new Uint64(0xFFFFFFFF_FFFFFFFFn))
-      .value(),
-    0xFFFFFFFF_FFFFFFFFn,
+    new Uint64(Uint64.max()).or(new Uint64(Uint64.min())).value(),
+    Uint64.max(),
+  );
+  assertEquals(
+    new Uint64(Uint64.max()).or(new Uint64(Uint64.max())).value(),
+    Uint64.max(),
   );
   // xor()
-  assertEquals(new Uint64(0n).xor(new Uint64(0n)).value(), 0n);
   assertEquals(
-    new Uint64(0xFFFFFFFF_FFFFFFFFn).xor(new Uint64(0n)).value(),
-    0xFFFFFFFF_FFFFFFFFn,
+    new Uint64(Uint64.min()).xor(new Uint64(Uint64.min())).value(),
+    Uint64.min(),
   );
   assertEquals(
-    new Uint64(0xFFFFFFFF_FFFFFFFFn).xor(new Uint64(0xFFFFFFFF_FFFFFFFFn))
-      .value(),
-    0n,
+    new Uint64(Uint64.max()).xor(new Uint64(Uint64.min())).value(),
+    Uint64.max(),
+  );
+  assertEquals(
+    new Uint64(Uint64.max()).xor(new Uint64(Uint64.max())).value(),
+    Uint64.min(),
   );
   // not()
-  assertEquals(new Uint64(0n).not().value(), 0xFFFFFFFF_FFFFFFFFn);
-  assertEquals(new Uint64(0xFFFFFFFF_FFFFFFFFn).not().value(), 0n);
+  assertEquals(new Uint64(Uint64.min()).not().value(), Uint64.max());
+  assertEquals(new Uint64(Uint64.max()).not().value(), Uint64.min());
   // logicalLeft()
   assertEquals(
     new Uint64(0x12345678_90123456n).logicalLeft(0n).value(),
@@ -101,15 +108,15 @@ Deno.test("Uint64", () => {
   );
   assertEquals(
     new Uint64(0x12345678_90123456n).logicalLeft(64n).value(),
-    0n,
+    Uint64.min(),
   );
   assertEquals(
     new Uint64(0x12345678_90123456n).logicalLeft(128n).value(),
-    0n,
+    Uint64.min(),
   );
   assertEquals(
     new Uint64(0x12345678_90123456n).logicalLeft(256n).value(),
-    0n,
+    Uint64.min(),
   );
   // logicalRight()
   assertEquals(
@@ -118,19 +125,19 @@ Deno.test("Uint64", () => {
   );
   assertEquals(
     new Uint64(0x12345678_90123456n).logicalRight(32n).value(),
-    0x00000000_12345678n,
+    0x12345678n,
   );
   assertEquals(
     new Uint64(0x12345678_90123456n).logicalRight(64n).value(),
-    0n,
+    Uint64.min(),
   );
   assertEquals(
     new Uint64(0x12345678_90123456n).logicalRight(128n).value(),
-    0n,
+    Uint64.min(),
   );
   assertEquals(
     new Uint64(0x12345678_90123456n).logicalRight(256n).value(),
-    0n,
+    Uint64.min(),
   );
   // rotateLeft()
   assertEquals(
@@ -177,10 +184,7 @@ Deno.test("Uint64", () => {
     Uint64.fromBeBytes(new Uint8Array(8).fill(0xFF)).value(),
     Uint64.max(),
   );
-  assertEquals(
-    Uint64.fromBeBytes(new Uint8Array(8)).value(),
-    Uint64.min(),
-  );
+  assertEquals(Uint64.fromBeBytes(new Uint8Array(8)).value(), Uint64.min());
   assertThrows((): void => {
     // Invalid Length
     Uint64.fromBeBytes(new Uint8Array(9));
@@ -196,10 +200,7 @@ Deno.test("Uint64", () => {
     Uint64.fromLeBytes(new Uint8Array(8).fill(0xFF)).value(),
     Uint64.max(),
   );
-  assertEquals(
-    Uint64.fromLeBytes(new Uint8Array(8)).value(),
-    Uint64.min(),
-  );
+  assertEquals(Uint64.fromLeBytes(new Uint8Array(8)).value(), Uint64.min());
   assertThrows((): void => {
     // Invalid Length
     Uint64.fromLeBytes(new Uint8Array(9));
@@ -213,10 +214,7 @@ Deno.test("Uint64", () => {
     new Uint64(Uint64.max()).toBeBytes(),
     new Uint8Array(8).fill(0xFF),
   );
-  assertEquals(
-    new Uint64(Uint64.min()).toBeBytes(),
-    new Uint8Array(8),
-  );
+  assertEquals(new Uint64(Uint64.min()).toBeBytes(), new Uint8Array(8));
   // toLeBytes()
   assertEquals(
     new Uint64(0x12345678_90123456n).toLeBytes(),
@@ -226,8 +224,5 @@ Deno.test("Uint64", () => {
     new Uint64(Uint64.max()).toLeBytes(),
     new Uint8Array(8).fill(0xFF),
   );
-  assertEquals(
-    new Uint64(Uint64.min()).toLeBytes(),
-    new Uint8Array(8),
-  );
+  assertEquals(new Uint64(Uint64.min()).toLeBytes(), new Uint8Array(8));
 });
