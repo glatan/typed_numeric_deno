@@ -176,7 +176,7 @@ export class Int16 implements Numeric<Int16> {
   static fromBeBytes(bytes: Uint8Array): Int16 {
     if (bytes.length === (BIT_LENGTH / 8)) {
       return new Int16(
-        ((bytes[0] << 8) & 0xFF00) |
+        ((bytes[0] << 8) & (0xFF << 8)) |
           (bytes[1] & 0xFF),
       );
     }
@@ -187,7 +187,7 @@ export class Int16 implements Numeric<Int16> {
   static fromLeBytes(bytes: Uint8Array): Int16 {
     if (bytes.length === (BIT_LENGTH / 8)) {
       return new Int16(
-        ((bytes[1] << 8) & 0xFF00) |
+        ((bytes[1] << 8) & (0xFF << 8)) |
           (bytes[0] & 0xFF),
       );
     }

@@ -69,9 +69,9 @@ export class Uint32 implements Numeric<Uint32> {
   static fromBeBytes(bytes: Uint8Array): Uint32 {
     if (bytes.length === (Number(BIT_LENGTH) / 8)) {
       return new Uint32(
-        ((BigInt(bytes[0]) << 24n) & 0xFF00_0000n) |
-          ((BigInt(bytes[1]) << 16n) & 0xFF_0000n) |
-          ((BigInt(bytes[2]) << 8n) & 0xFF00n) |
+        ((BigInt(bytes[0]) << 24n) & (0xFFn << 24n)) |
+          ((BigInt(bytes[1]) << 16n) & (0xFFn << 16n)) |
+          ((BigInt(bytes[2]) << 8n) & (0xFFn << 8n)) |
           (BigInt(bytes[3]) & 0xFFn),
       );
     }
@@ -82,9 +82,9 @@ export class Uint32 implements Numeric<Uint32> {
   static fromLeBytes(bytes: Uint8Array): Uint32 {
     if (bytes.length === (Number(BIT_LENGTH) / 8)) {
       return new Uint32(
-        ((BigInt(bytes[3]) << 24n) & 0xFF00_0000n) |
-          ((BigInt(bytes[2]) << 16n) & 0xFF_0000n) |
-          ((BigInt(bytes[1]) << 8n) & 0xFF00n) |
+        ((BigInt(bytes[3]) << 24n) & (0xFFn << 24n)) |
+          ((BigInt(bytes[2]) << 16n) & (0xFFn << 16n)) |
+          ((BigInt(bytes[1]) << 8n) & (0xFFn << 8n)) |
           (BigInt(bytes[0]) & 0xFFn),
       );
     }
