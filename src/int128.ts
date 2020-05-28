@@ -1,7 +1,7 @@
 import { Numeric } from "./mod.ts";
 
 const MAX: bigint = 0x7FFFFFFF_FFFFFFFF_FFFFFFFF_FFFFFFFFn;
-const MIN: bigint = -0x7FFFFFFF_FFFFFFFF_FFFFFFFF_FFFFFFFFn;
+const MIN: bigint = -MAX;
 const BIT_LENGTH: bigint = 128n;
 
 export class Int128 implements Numeric<Int128> {
@@ -175,23 +175,23 @@ export class Int128 implements Numeric<Int128> {
     );
   }
   static fromBeBytes(bytes: Uint8Array): Int128 {
-    if (bytes.length === 16) {
+    if (bytes.length === (Number(BIT_LENGTH) / 8)) {
       return new Int128(
-        ((BigInt(bytes[0]) << 120n) & 0xFF000000_00000000_00000000_00000000n) |
-          ((BigInt(bytes[1]) << 112n) & 0xFF0000_00000000_00000000_00000000n) |
-          ((BigInt(bytes[2]) << 104n) & 0xFF00_00000000_00000000_00000000n) |
-          ((BigInt(bytes[3]) << 96n) & 0xFF_00000000_00000000_00000000n) |
-          ((BigInt(bytes[4]) << 88n) & 0xFF000000_00000000_00000000n) |
-          ((BigInt(bytes[5]) << 80n) & 0xFF0000_00000000_00000000n) |
-          ((BigInt(bytes[6]) << 72n) & 0xFF00_00000000_00000000n) |
-          ((BigInt(bytes[7]) << 64n) & 0xFF_00000000_00000000n) |
-          ((BigInt(bytes[8]) << 56n) & 0xFF000000_00000000n) |
-          ((BigInt(bytes[9]) << 48n) & 0xFF0000_00000000n) |
-          ((BigInt(bytes[10]) << 40n) & 0xFF00_00000000n) |
-          ((BigInt(bytes[11]) << 32n) & 0xFF_00000000n) |
-          ((BigInt(bytes[12]) << 24n) & 0xFF000000n) |
-          ((BigInt(bytes[13]) << 16n) & 0xFF0000n) |
-          ((BigInt(bytes[14]) << 8n) & 0xFF00n) |
+        ((BigInt(bytes[0]) << 120n) & (0xFFn << 120n)) |
+          ((BigInt(bytes[1]) << 112n) & (0xFFn << 112n)) |
+          ((BigInt(bytes[2]) << 104n) & (0xFFn << 104n)) |
+          ((BigInt(bytes[3]) << 96n) & (0xFFn << 96n)) |
+          ((BigInt(bytes[4]) << 88n) & (0xFFn << 88n)) |
+          ((BigInt(bytes[5]) << 80n) & (0xFFn << 80n)) |
+          ((BigInt(bytes[6]) << 72n) & (0xFFn << 72n)) |
+          ((BigInt(bytes[7]) << 64n) & (0xFFn << 64n)) |
+          ((BigInt(bytes[8]) << 56n) & (0xFFn << 56n)) |
+          ((BigInt(bytes[9]) << 48n) & (0xFFn << 48n)) |
+          ((BigInt(bytes[10]) << 40n) & (0xFFn << 40n)) |
+          ((BigInt(bytes[11]) << 32n) & (0xFFn << 32n)) |
+          ((BigInt(bytes[12]) << 24n) & (0xFFn << 24n)) |
+          ((BigInt(bytes[13]) << 16n) & (0xFFn << 16n)) |
+          ((BigInt(bytes[14]) << 8n) & (0xFFn << 8n)) |
           (BigInt(bytes[15]) & 0xFFn),
       );
     }
@@ -200,23 +200,23 @@ export class Int128 implements Numeric<Int128> {
     );
   }
   static fromLeBytes(bytes: Uint8Array): Int128 {
-    if (bytes.length === 16) {
+    if (bytes.length === (Number(BIT_LENGTH) / 8)) {
       return new Int128(
-        ((BigInt(bytes[15]) << 120n) & 0xFF000000_00000000_00000000_00000000n) |
-          ((BigInt(bytes[14]) << 112n) & 0xFF0000_00000000_00000000_00000000n) |
-          ((BigInt(bytes[13]) << 104n) & 0xFF00_00000000_00000000_00000000n) |
-          ((BigInt(bytes[12]) << 96n) & 0xFF_00000000_00000000_00000000n) |
-          ((BigInt(bytes[11]) << 88n) & 0xFF000000_00000000_00000000n) |
-          ((BigInt(bytes[10]) << 80n) & 0xFF0000_00000000_00000000n) |
-          ((BigInt(bytes[9]) << 72n) & 0xFF00_00000000_00000000n) |
-          ((BigInt(bytes[8]) << 64n) & 0xFF_00000000_00000000n) |
-          ((BigInt(bytes[7]) << 56n) & 0xFF000000_00000000n) |
-          ((BigInt(bytes[6]) << 48n) & 0xFF0000_00000000n) |
-          ((BigInt(bytes[5]) << 40n) & 0xFF00_00000000n) |
-          ((BigInt(bytes[4]) << 32n) & 0xFF_00000000n) |
-          ((BigInt(bytes[3]) << 24n) & 0xFF00_0000n) |
-          ((BigInt(bytes[2]) << 16n) & 0xFF_0000n) |
-          ((BigInt(bytes[1]) << 8n) & 0xFF00n) |
+        ((BigInt(bytes[15]) << 120n) & (0xFFn << 120n)) |
+          ((BigInt(bytes[14]) << 112n) & (0xFFn << 112n)) |
+          ((BigInt(bytes[13]) << 104n) & (0xFFn << 104n)) |
+          ((BigInt(bytes[12]) << 96n) & (0xFFn << 96n)) |
+          ((BigInt(bytes[11]) << 88n) & (0xFFn << 88n)) |
+          ((BigInt(bytes[10]) << 80n) & (0xFFn << 80n)) |
+          ((BigInt(bytes[9]) << 72n) & (0xFFn << 72n)) |
+          ((BigInt(bytes[8]) << 64n) & (0xFFn << 64n)) |
+          ((BigInt(bytes[7]) << 56n) & (0xFFn << 56n)) |
+          ((BigInt(bytes[6]) << 48n) & (0xFFn << 48n)) |
+          ((BigInt(bytes[5]) << 40n) & (0xFFn << 40n)) |
+          ((BigInt(bytes[4]) << 32n) & (0xFFn << 32n)) |
+          ((BigInt(bytes[3]) << 24n) & (0xFFn << 24n)) |
+          ((BigInt(bytes[2]) << 16n) & (0xFFn << 16n)) |
+          ((BigInt(bytes[1]) << 8n) & (0xFFn << 8n)) |
           (BigInt(bytes[0]) & 0xFFn),
       );
     }
