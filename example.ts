@@ -1,4 +1,4 @@
-import { Uint32 } from "./mod.ts";
+import { Uint32 } from "https://deno.land/x/typed_numeric/mod.ts";
 
 const a = new Uint32(200n);
 const b = new Uint32(100n);
