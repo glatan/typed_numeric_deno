@@ -2,8 +2,7 @@ import { Numeric } from "./mod.ts";
 
 const MAX: bigint =
   0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn;
-const MIN: bigint =
-  -0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn;
+const MIN: bigint = -MAX;
 const BIT_LENGTH: bigint = 256n;
 
 export class Int256 implements Numeric<Int256> {
@@ -176,7 +175,7 @@ export class Int256 implements Numeric<Int256> {
     );
   }
   static fromBeBytes(bytes: Uint8Array): Int256 {
-    if (bytes.length === 32) {
+    if (bytes.length === (Number(BIT_LENGTH) / 8)) {
       return new Int256(
         ((BigInt(bytes[0]) << 248n) &
           0xFF00000000000000_0000000000000000_0000000000000000_0000000000000000n) |
@@ -234,7 +233,7 @@ export class Int256 implements Numeric<Int256> {
     );
   }
   static fromLeBytes(bytes: Uint8Array): Int256 {
-    if (bytes.length === 32) {
+    if (bytes.length === (Number(BIT_LENGTH) / 8)) {
       return new Int256(
         ((BigInt(bytes[31]) << 248n) &
           0xFF00000000000000_0000000000000000_0000000000000000_0000000000000000n) |

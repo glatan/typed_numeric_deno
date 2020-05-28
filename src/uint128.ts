@@ -67,7 +67,7 @@ export class Uint128 implements Numeric<Uint128> {
     );
   }
   static fromBeBytes(bytes: Uint8Array): Uint128 {
-    if (bytes.length === 16) {
+    if (bytes.length === (Number(BIT_LENGTH) / 8)) {
       return new Uint128(
         ((BigInt(bytes[0]) << 120n) & 0xFF000000_00000000_00000000_00000000n) |
           ((BigInt(bytes[1]) << 112n) & 0xFF0000_00000000_00000000_00000000n) |
@@ -92,7 +92,7 @@ export class Uint128 implements Numeric<Uint128> {
     );
   }
   static fromLeBytes(bytes: Uint8Array): Uint128 {
-    if (bytes.length === 16) {
+    if (bytes.length === (Number(BIT_LENGTH) / 8)) {
       return new Uint128(
         ((BigInt(bytes[15]) << 120n) & 0xFF000000_00000000_00000000_00000000n) |
           ((BigInt(bytes[14]) << 112n) & 0xFF0000_00000000_00000000_00000000n) |

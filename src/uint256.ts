@@ -68,7 +68,7 @@ export class Uint256 implements Numeric<Uint256> {
     );
   }
   static fromBeBytes(bytes: Uint8Array): Uint256 {
-    if (bytes.length === 32) {
+    if (bytes.length === (Number(BIT_LENGTH) / 8)) {
       return new Uint256(
         ((BigInt(bytes[0]) << 248n) &
           0xFF00000000000000_0000000000000000_0000000000000000_0000000000000000n) |
@@ -126,7 +126,7 @@ export class Uint256 implements Numeric<Uint256> {
     );
   }
   static fromLeBytes(bytes: Uint8Array): Uint256 {
-    if (bytes.length === 32) {
+    if (bytes.length === (Number(BIT_LENGTH) / 8)) {
       return new Uint256(
         ((BigInt(bytes[31]) << 248n) &
           0xFF00000000000000_0000000000000000_0000000000000000_0000000000000000n) |

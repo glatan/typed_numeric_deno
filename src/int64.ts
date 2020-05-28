@@ -1,7 +1,7 @@
 import { Numeric } from "./mod.ts";
 
 const MAX: bigint = 0x7FFFFFFF_FFFFFFFFn;
-const MIN: bigint = -0x7FFFFFFF_FFFFFFFFn;
+const MIN: bigint = -MAX;
 const BIT_LENGTH: bigint = 64n;
 
 export class Int64 implements Numeric<Int64> {
@@ -174,7 +174,7 @@ export class Int64 implements Numeric<Int64> {
     );
   }
   static fromBeBytes(bytes: Uint8Array): Int64 {
-    if (bytes.length === 8) {
+    if (bytes.length === (Number(BIT_LENGTH) / 8)) {
       return new Int64(
         ((BigInt(bytes[0]) << 56n) & 0xFF000000_00000000n) |
           ((BigInt(bytes[1]) << 48n) & 0xFF0000_00000000n) |
@@ -191,7 +191,7 @@ export class Int64 implements Numeric<Int64> {
     );
   }
   static fromLeBytes(bytes: Uint8Array): Int64 {
-    if (bytes.length === 8) {
+    if (bytes.length === (Number(BIT_LENGTH) / 8)) {
       return new Int64(
         ((BigInt(bytes[7]) << 56n) & 0xFF000000_00000000n) |
           ((BigInt(bytes[6]) << 48n) & 0xFF0000_00000000n) |

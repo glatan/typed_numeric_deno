@@ -1,7 +1,7 @@
 import { Numeric } from "./mod.ts";
 
 const MAX: number = 0x7F;
-const MIN: number = -0x7F;
+const MIN: number = -MAX;
 const BIT_LENGTH: number = 8;
 
 export class Int8 implements Numeric<Int8> {
@@ -20,7 +20,7 @@ export class Int8 implements Numeric<Int8> {
   value(): number {
     if ((this.#value | (MAX + 1)) === this.#value) {
       // Int8での最上位ビットが1の場合
-      return ~(this.#value & 0x7F) + 1;
+      return ~(this.#value & MAX) + 1;
     } else {
       return this.#value;
     }
@@ -37,13 +37,13 @@ export class Int8 implements Numeric<Int8> {
       value.#value === (value.#value | (MAX + 1))
     ) {
       // -Num + -Num
-      return new Int8(~(this.#value & 0x7F) + ~(value.#value & 0x7F) + 2);
+      return new Int8(~(this.#value & MAX) + ~(value.#value & MAX) + 2);
     } else if (this.#value === (this.#value | (MAX + 1))) {
       // -Num + Num
-      return new Int8(value.#value + ~(this.#value & 0x7F) + 1);
+      return new Int8(value.#value + ~(this.#value & MAX) + 1);
     } else if (value.#value === (value.#value | (MAX + 1))) {
       // Num + -Num
-      return new Int8(this.#value + ~(value.#value & 0x7F) + 1);
+      return new Int8(this.#value + ~(value.#value & MAX) + 1);
     } else {
       // Num + Num
       return new Int8(this.#value + value.#value);
@@ -57,16 +57,16 @@ export class Int8 implements Numeric<Int8> {
     ) {
       if (this.#value < value.#value) {
         // -Num + Num
-        return new Int8(~(this.#value & 0x7F) + (value.#value & 0x7F) + 1);
+        return new Int8(~(this.#value & MAX) + (value.#value & MAX) + 1);
       } else {
-        return new Int8(~(this.#value & 0x7F) + ~(value.#value & 0x7F) + 2);
+        return new Int8(~(this.#value & MAX) + ~(value.#value & MAX) + 2);
       }
     } else if (this.#value === (this.#value | (MAX + 1))) {
       // -Num - Num
-      return new Int8(~(this.#value & 0x7F) + ~(value.#value & 0x7F) + 2);
+      return new Int8(~(this.#value & MAX) + ~(value.#value & MAX) + 2);
     } else if (value.#value === (value.#value | (MAX + 1))) {
       // Num - -Num
-      return new Int8(this.#value + (value.#value & 0x7F));
+      return new Int8(this.#value + (value.#value & MAX));
     } else {
       // Num - Num
       return new Int8(this.#value + ~value.#value + 1);
@@ -78,12 +78,12 @@ export class Int8 implements Numeric<Int8> {
       value.#value === (value.#value | (MAX + 1))
     ) {
       return new Int8(
-        (~(this.#value & 0x7F) + 1) / (~(value.#value & 0x7F) + 1),
+        (~(this.#value & MAX) + 1) / (~(value.#value & MAX) + 1),
       );
     } else if (this.#value === (this.#value | (MAX + 1))) {
-      return new Int8(~((this.#value & 0x7F) / value.#value) + 1);
+      return new Int8(~((this.#value & MAX) / value.#value) + 1);
     } else if (value.#value === (value.#value | (MAX + 1))) {
-      return new Int8(~(this.#value / (value.#value & 0x7F)) + 1);
+      return new Int8(~(this.#value / (value.#value & MAX)) + 1);
     } else {
       return new Int8(this.#value / value.#value);
     }
@@ -94,12 +94,12 @@ export class Int8 implements Numeric<Int8> {
       value.#value === (value.#value | (MAX + 1))
     ) {
       return new Int8(
-        (~(this.#value & 0x7F) + 1) * (~(value.#value & 0x7F) + 1),
+        (~(this.#value & MAX) + 1) * (~(value.#value & MAX) + 1),
       );
     } else if (this.#value === (this.#value | (MAX + 1))) {
-      return new Int8(~((this.#value & 0x7F) * value.#value) + 1);
+      return new Int8(~((this.#value & MAX) * value.#value) + 1);
     } else if (value.#value === (value.#value | (MAX + 1))) {
-      return new Int8(~(this.#value * (value.#value & 0x7F)) + 1);
+      return new Int8(~(this.#value * (value.#value & MAX)) + 1);
     } else {
       return new Int8(this.#value * value.#value);
     }
@@ -110,12 +110,12 @@ export class Int8 implements Numeric<Int8> {
       value.#value === (value.#value | (MAX + 1))
     ) {
       return new Int8(
-        (~(this.#value & 0x7F) + 1) % (~(value.#value & 0x7F) + 1),
+        (~(this.#value & MAX) + 1) % (~(value.#value & MAX) + 1),
       );
     } else if (this.#value === (this.#value | (MAX + 1))) {
-      return new Int8(~((this.#value & 0x7F) % value.#value) + 1);
+      return new Int8(~((this.#value & MAX) % value.#value) + 1);
     } else if (value.#value === (value.#value | (MAX + 1))) {
-      return new Int8(this.#value % (value.#value & 0x7F));
+      return new Int8(this.#value % (value.#value & MAX));
     } else {
       return new Int8(this.#value % value.#value);
     }
