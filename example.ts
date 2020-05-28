@@ -21,4 +21,4 @@ const e = Uint32.fromLeBytes(
 );
 
 console.log(d.value()); // 305419896n(0x1234_5678n)
-console.log(e.value()); // 2018915346n(0x78563412n)
+console.log(e.value()); // 2018915346n(0x7856_3412n)
