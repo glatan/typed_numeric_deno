@@ -32,10 +32,12 @@ const e = Uint32.fromLeBytes(
 );
 
 console.log(d.value()); // 305419896n(0x1234_5678n)
-console.log(e.value()); // 2018915346n(0x78563412n)
+console.log(e.value()); // 2018915346n(0x7856_3412n)
 ```
 
 ## Usage
+
+### Methods
 
 ```ts
 // Create new TypedNumeric
@@ -46,69 +48,73 @@ new TypedNumeric(value: number | bigint)
 // Get value
 TypedNumeric.prototype.value(): number | bigint
 
+// Addition
+TypedNumeric.prototype.add(value: TypedNumeric): TypedNumeric
+
+// Subtraction
+TypedNumeric.prototype.sub(value: TypedNumeric): TypedNumeric
+
+// Division
+TypedNumeric.prototype.div(value: TypedNumeric): TypedNumeric
+
+// Multiplication
+TypedNumeric.prototype.mul(value: TypedNumeric): TypedNumeric
+
+// Remainder
+TypedNumeric.prototype.rem(value: TypedNumeric): TypedNumeric
+
+// Exponentiation
+TypedNumeric.prototype.exp(value: TypedNumeric >= 0): TypedNumeric
+
+// AND
+TypedNumeric.prototype.and(value: TypedNumeric): TypedNumeric
+
+// OR
+TypedNumeric.prototype.or(value: TypedNumeric): TypedNumeric
+
+// XOR
+TypedNumeric.prototype.xor(value: TypedNumeric): TypedNumeric
+
+// NOT
+TypedNumeric.prototype.not(value: TypedNumeric): TypedNumeric
+
+// Logical left shift
+TypedNumeric.prototype.logicalLeft(n: TypedNumeric): TypedNumeric
+
+// Logical right shift
+TypedNumeric.prototype.logicalRight(n: TypedNumeric): TypedNumeric
+
+// Rotate left shift
+TypedNumeric.prototype.rotateLeft(n: TypedNumeric): TypedNumeric
+
+// Rotate right shift
+TypedNumeric.prototype.rotateRight(n: TypedNumeric): TypedNumeric
+
+// Create Uint8Array from TypedNumeric
+
+// to big endian bytes
+TypedNumeric.prototype.toBeBytes(): Uint8Array
+
+// to litle endian bytes
+TypedNumeric.prototype.toLeBytes(): Uint8Array
+```
+
+### Static Methods
+
+```ts
 // Get max value
 TypedNumeric.max(): number | bigint
 
 // Get min value
 TypedNumeric.min(): number | bigint
 
-// Addition
-TypedNumeric.prototype.add(TypedNumeric)
-
-// Subtraction
-TypedNumeric.prototype.sub(TypedNumeric)
-
-// Division
-TypedNumeric.prototype.div(TypedNumeric)
-
-// Multiplication
-TypedNumeric.prototype.mul(TypedNumeric)
-
-// Remainder
-TypedNumeric.prototype.rem(TypedNumeric)
-
-// Exponentiation
-TypedNumeric.prototype.exp(TypedNumeric >= 0)
-
-// AND
-TypedNumeric.prototype.and(TypedNumeric)
-
-// OR
-TypedNumeric.prototype.or(TypedNumeric)
-
-// XOR
-TypedNumeric.prototype.xor(TypedNumeric)
-
-// NOT
-TypedNumeric.prototype.not(TypedNumeric)
-
-// Logical left shift
-TypedNumeric.prototype.logicalLeft(TypedNumeric)
-
-// Logical right shift
-TypedNumeric.prototype.logicalRight(TypedNumeric)
-
-// Rotate left shift
-TypedNumeric.prototype.rotateLeft(TypedNumeric)
-
-// Rotate right shift
-TypedNumeric.prototype.rotateRight(TypedNumeric)
-
 // Create TypedNumeric from Uint8Array
 // Uint8Array.length must be equal TypedNumeric byte length.
 // e.g. OK: new Uint8Array(4) => Uint32, ERROR: new Uint8Array(3) => Uint32
 
 // from big endian bytes
-TypedNumeric.fromBeBytes(TypedNumeric)
+TypedNumeric.fromBeBytes(Uint8Array): TypedNumeric
 
 // from little endian bytes
-TypedNumeric.fromLeBytes(TypedNumeric)
-
-// Create Uint8Array from TypedNumeric
-
-// to big endian bytes
-TypedNumeric.prototype.toBeBytes(TypedNumeric)
-
-// to litle endian bytes
-TypedNumeric.prototype.toLeBytes(TypedNumeric)
+TypedNumeric.fromLeBytes(Uint8Array): TypedNumeric
 ```
