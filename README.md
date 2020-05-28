@@ -9,7 +9,7 @@ This library provides Int{8, 16, 32, 64, 128, 256} and Uint{8, 16, 32, 64, 128, 
 ## Example
 
 ```ts
-import { Uint32 } from "./mod.ts";
+import { Uint32 } from "https://deno.land/x/typed_numeric/mod.ts";
 
 const a = new Uint32(200n);
 const b = new Uint32(100n);
