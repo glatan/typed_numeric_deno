@@ -10,6 +10,12 @@ export class Int8Vector extends Vector<Int8> {
       super(arg as Array<Int8>);
     }
   }
+  fill(value: Int8): Int8Vector {
+    for (let i = 0; i < this.inner.length; i++) {
+      this.inner[i] = value;
+    }
+    return new Int8Vector(this.inner);
+  }
   toTypedArray(): Int8Array {
     let array = new Int8Array(this.inner.length);
     for (let i = 0; i < this.inner.length; i++) {

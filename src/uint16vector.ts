@@ -10,6 +10,12 @@ export class Uint16Vector extends Vector<Uint16> {
       super(arg as Array<Uint16>);
     }
   }
+  fill(value: Uint16): Uint16Vector {
+    for (let i = 0; i < this.inner.length; i++) {
+      this.inner[i] = value;
+    }
+    return new Uint16Vector(this.inner);
+  }
   toTypedArray(): Uint16Array {
     let array = new Uint16Array(this.inner.length);
     for (let i = 0; i < this.inner.length; i++) {
