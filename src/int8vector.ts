@@ -6,7 +6,7 @@ export class Int8Vector extends Vector<Int8> {
     if (typeof arg === "number") {
       super(new Array(arg).fill(new Int8(0)));
     }
-    if (arg instanceof Int8Array) {
+    if (arg instanceof Array) {
       super(arg as Array<Int8>);
     }
   }

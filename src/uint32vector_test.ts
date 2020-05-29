@@ -6,6 +6,12 @@ import { Uint32 } from "./uint32.ts";
 Deno.test("Uint32Vector", () => {
   const vec = new Uint32Vector(2);
   assertEquals(vec.length, 2);
+  // Uint32Vector from Array<Uint32>
+  assertEquals(
+    new Uint32Vector(Array.from([new Uint32(Uint32.max())])).value_by_index(0)
+      .value(),
+    Uint32.max(),
+  );
   // value_by_index
   assertEquals(vec.value_by_index(0).value(), 0n);
   assertEquals(vec.value_by_index(1).value(), 0n);

@@ -6,7 +6,7 @@ export class Uint16Vector extends Vector<Uint16> {
     if (typeof arg === "number") {
       super(new Array(arg).fill(new Uint16(0)));
     }
-    if (arg instanceof Uint16Array) {
+    if (arg instanceof Array) {
       super(arg as Array<Uint16>);
     }
   }

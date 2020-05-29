@@ -6,6 +6,12 @@ import { Uint8 } from "./uint8.ts";
 Deno.test("Uint8Vector", () => {
   const vec = new Uint8Vector(2);
   assertEquals(vec.length, 2);
+  // Uint8Vector from Array<Uint8>
+  assertEquals(
+    new Uint8Vector(Array.from([new Uint8(Uint8.max())])).value_by_index(0)
+      .value(),
+    Uint8.max(),
+  );
   // value_by_index
   assertEquals(vec.value_by_index(0).value(), 0);
   assertEquals(vec.value_by_index(1).value(), 0);

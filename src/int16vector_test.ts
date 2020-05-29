@@ -6,6 +6,12 @@ import { Int16 } from "./int16.ts";
 Deno.test("Int16Vector", () => {
   const vec = new Int16Vector(2);
   assertEquals(vec.length, 2);
+  // Int16Vector from Array<Int16>
+  assertEquals(
+    new Int16Vector(Array.from([new Int16(Int16.max())])).value_by_index(0)
+      .value(),
+    Int16.max(),
+  );
   // value_by_index
   assertEquals(vec.value_by_index(0).value(), 0);
   assertEquals(vec.value_by_index(1).value(), 0);
