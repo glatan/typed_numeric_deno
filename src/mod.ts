@@ -44,3 +44,61 @@ export interface Numeric<T> {
   // T to little endian Uint8Array
   toLeBytes(): Uint8Array;
 }
+
+export class Vector<T extends Numeric<T>> {
+  protected inner: Array<T>;
+  length: number;
+  protected constructor(array: Array<T>) {
+    this.inner = array;
+    this.length = array.length;
+  }
+  *[Symbol.iterator](): Iterator<T> {
+    for (let i = 0; i < this.inner.length; i++) {
+      yield this.inner[i];
+    }
+  }
+  value_by_index(index: number): T {
+    if (this.length === 0) {
+      throw new Error("This Vector<T> is empty.");
+    }
+    if (index < 0 || index >= this.length) {
+      throw new Error("Index out of range.");
+    }
+    return this.inner[index];
+  }
+  push(value: T) {
+    this.inner.push(value);
+    this.length += 1;
+  }
+  pop(): T {
+    if (this.length === 0) {
+      throw new Error("This Vector<T> is empty.");
+    } else {
+      this.length -= 1;
+      return this.inner.pop() as T;
+    }
+  }
+  concat(other: Vector<T>) {
+    for (const value of other) {
+      this.inner.push(value);
+    }
+    this.length += other.length;
+  }
+  fill(value: T): Vector<T> {
+    for (let i = 0; i < this.inner.length; i++) {
+      this.inner[i] = value;
+    }
+    return new Vector<T>(this.inner);
+  }
+  equals(other: Vector<T>): boolean {
+    for (let i = 0; i < this.inner.length; i++) {
+      if (this.inner[i].value() !== other.inner[i].value()) {
+        return false;
+      }
+    }
+    return true;
+  }
+  slice(start: number, end: number): Vector<T> {
+    return new Vector<T>(this.inner.slice(start, end));
+  }
+}
