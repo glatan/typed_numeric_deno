@@ -52,8 +52,7 @@ Deno.test("Uint16Vector", () => {
   assertEquals(
     Uint16Vector.fromTypedArray(new Uint16Array(3)).fill(
       new Uint16(Uint16.max()),
-    )
-      .equals(vec),
+    ).equals(vec),
     true,
   );
   // slice
