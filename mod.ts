@@ -11,3 +11,11 @@ export { Uint32 } from "./src/uint32.ts";
 export { Uint64 } from "./src/uint64.ts";
 export { Uint128 } from "./src/uint128.ts";
 export { Uint256 } from "./src/uint256.ts";
+
+export { Int8Vector } from "./src/int8vector.ts"
+export { Int16Vector } from "./src/int16vector.ts"
+export { Int32Vector } from "./src/int32vector.ts"
+
+export { Uint8Vector } from "./src/uint8vector.ts"
+export { Uint16Vector } from "./src/uint16vector.ts"
+export { Uint32Vector } from "./src/uint32vector.ts"
