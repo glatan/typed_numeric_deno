@@ -1,3 +1,5 @@
+import { sprintf } from "../depends.ts";
+
 import { Uint8 } from "./uint8.ts";
 import { Vector } from "./mod.ts";
 
@@ -23,6 +25,34 @@ export class Uint8Vector extends Vector<Uint8> {
   }
   slice(start: number, end: number): Uint8Vector {
     return new Uint8Vector(this.inner.slice(start, end));
+  }
+  toBeBytesLowerHex(): string {
+    let hex = "";
+    for (const byte of this.inner) {
+      hex += sprintf("%02x", byte.value());
+    }
+    return hex;
+  }
+  toLeBytesLowerHex(): string {
+    let hex = "";
+    for (const byte of this.reverse().inner) {
+      hex += sprintf("%02x", byte.value());
+    }
+    return hex;
+  }
+  toBeBytesUpperHex(): string {
+    let hex = "";
+    for (const byte of this.inner) {
+      hex += sprintf("%02X", byte.value());
+    }
+    return hex;
+  }
+  toLeBytesUpperHex(): string {
+    let hex = "";
+    for (const byte of this.reverse().inner) {
+      hex += sprintf("%02X", byte.value());
+    }
+    return hex;
   }
   toTypedArray(): Uint8Array {
     let array = new Uint8Array(this.inner.length);
