@@ -53,7 +53,7 @@ type TypedNumeric = Int8 | Int16 | Int32 | Int64 |Int128 | Int256 | Uint8 | Uint
 // Int8, Int16, Uint8, Uint16: number
 // Int32, Int64, Int128, Int256, Uint32, Uint64, Uint128, Uint256: bigint
 // e.g. new Uint8(10), Uint32(10n)
-new TypedNumeric(value: number | bigint)
+new TypedNumeric(value: number | bigint = 0 | 0n)
 ```
 
 #### Methods
@@ -151,7 +151,7 @@ type TypedVector = Int8Vector | Int16Vector | Int32Vector | Int64Vector | Uint8V
 // Array<TypedNumeric>: convert Array<TypedNumeric> to TypedVector
 // e.g. new Uint8Vector(Array.from([new Uint8(0xFF)])); 
 ///  Uint8Vector { length: 1, inner { Uint8 {/* value: 0xFF */} } }
-new TypedVector(arg: number | Array<TypedNumeric>)
+new TypedVector(arg: number | Array<TypedNumeric> = 0)
 ```
 
 #### Methods
