@@ -6,7 +6,7 @@ const BIT_LENGTH: number = 8;
 
 export class Uint8 implements Numeric<Uint8> {
   #value: number;
-  constructor(value: number) {
+  constructor(value: number = 0) {
     this.#value = value & MAX;
   }
   value(): number {

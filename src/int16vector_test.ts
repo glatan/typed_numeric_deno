@@ -4,14 +4,16 @@ import { Int16Vector } from "./int16vector.ts";
 import { Int16 } from "./int16.ts";
 
 Deno.test("Int16Vector", () => {
-  const vec = new Int16Vector(2);
-  assertEquals(vec.length, 2);
+  // constructor
+  assertEquals(new Int16Vector().length, new Int16Vector(0).length);
   // Int16Vector from Array<Int16>
   assertEquals(
     new Int16Vector(Array.from([new Int16(Int16.max())])).value_by_index(0)
       .value(),
     Int16.max(),
   );
+  const vec = new Int16Vector(2);
+  assertEquals(vec.length, 2);
   // value_by_index
   assertEquals(vec.value_by_index(0).value(), 0);
   assertEquals(vec.value_by_index(1).value(), 0);

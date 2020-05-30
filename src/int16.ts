@@ -6,7 +6,7 @@ const BIT_LENGTH: number = 16;
 
 export class Int16 implements Numeric<Int16> {
   #value: number;
-  constructor(value: number) {
+  constructor(value: number = 0) {
     if (value < 0) {
       // 一度符号を外してからマスク、その後符号を(Int16の最上位ビットを1にする形で)戻す
       this.#value = ((~value + 1) & MAX) | (MAX + 1);

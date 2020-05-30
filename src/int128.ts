@@ -6,7 +6,7 @@ const BIT_LENGTH: bigint = 128n;
 
 export class Int128 implements Numeric<Int128> {
   #value: bigint;
-  constructor(value: bigint) {
+  constructor(value: bigint = 0n) {
     if (value < 0) {
       // 一度符号を外してからマスク、その後符号を(Int128の最上位ビットを1にする形で)戻す
       this.#value = ((~value + 1n) & MAX) |

@@ -6,7 +6,7 @@ const BIT_LENGTH: bigint = 32n;
 
 export class Uint32 implements Numeric<Uint32> {
   #value: bigint;
-  constructor(value: bigint) {
+  constructor(value: bigint = 0n) {
     this.#value = value & MAX;
   }
   value(): bigint {

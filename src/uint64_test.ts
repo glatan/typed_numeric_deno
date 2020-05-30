@@ -3,6 +3,8 @@ import { assertEquals, assertThrows } from "../depends.ts";
 import { Uint64 } from "./uint64.ts";
 
 Deno.test("Uint64", () => {
+  // constructor
+  assertEquals(new Uint64().value(), 0n);
   // value()
   assertEquals(new Uint64(Uint64.max() + 1n).value(), Uint64.min());
   assertEquals(new Uint64(Uint64.min() - 1n).value(), Uint64.max());

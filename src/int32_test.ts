@@ -3,6 +3,8 @@ import { assertEquals, assertThrows } from "../depends.ts";
 import { Int32 } from "./int32.ts";
 
 Deno.test("Int32", () => {
+  // constructor
+  assertEquals(new Int32().value(), 0n);
   // value()
   assertEquals(new Int32(0xFFFF_FFFFn).value(), Int32.min());
   assertEquals(new Int32(-0xFFFF_FFFFn).value(), Int32.min());

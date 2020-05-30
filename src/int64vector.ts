@@ -2,7 +2,7 @@ import { Int64 } from "./int64.ts";
 import { Vector } from "./mod.ts";
 
 export class Int64Vector extends Vector<Int64> {
-  constructor(arg: number | Array<Int64>) {
+  constructor(arg: number | Array<Int64> = 0) {
     if (typeof arg === "number") {
       super(new Array(arg).fill(new Int64(0n)));
     }

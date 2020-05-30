@@ -6,7 +6,7 @@ const BIT_LENGTH: bigint = 32n;
 
 export class Int32 implements Numeric<Int32> {
   #value: bigint;
-  constructor(value: bigint) {
+  constructor(value: bigint = 0n) {
     if (value < 0) {
       // 一度符号を外してからマスク、その後符号を(Int32の最上位ビットを1にする形で)戻す
       this.#value = ((~value + 1n) & MAX) | (MAX + 1n);

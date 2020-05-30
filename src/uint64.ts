@@ -6,7 +6,7 @@ const BIT_LENGTH: bigint = 64n;
 
 export class Uint64 implements Numeric<Uint64> {
   #value: bigint;
-  constructor(value: bigint) {
+  constructor(value: bigint = 0n) {
     this.#value = value & MAX;
   }
   value(): bigint {

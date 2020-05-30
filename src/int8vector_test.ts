@@ -4,14 +4,16 @@ import { Int8Vector } from "./int8vector.ts";
 import { Int8 } from "./int8.ts";
 
 Deno.test("Int8Vector", () => {
-  const vec = new Int8Vector(2);
-  assertEquals(vec.length, 2);
+  // constructor
+  assertEquals(new Int8Vector().length, new Int8Vector(0).length);
   // Int8Vector from Array<Int8>
   assertEquals(
     new Int8Vector(Array.from([new Int8(Int8.max())])).value_by_index(0)
       .value(),
     Int8.max(),
   );
+  const vec = new Int8Vector(2);
+  assertEquals(vec.length, 2);
   // value_by_index
   assertEquals(vec.value_by_index(0).value(), 0);
   assertEquals(vec.value_by_index(1).value(), 0);

@@ -2,7 +2,7 @@ import { Uint16 } from "./uint16.ts";
 import { Vector } from "./mod.ts";
 
 export class Uint16Vector extends Vector<Uint16> {
-  constructor(arg: number | Array<Uint16>) {
+  constructor(arg: number | Array<Uint16> = 0) {
     if (typeof arg === "number") {
       super(new Array(arg).fill(new Uint16(0)));
     }
