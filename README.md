@@ -185,6 +185,17 @@ TypedVector.prototype.slice(start: number, end: number): TypedVector;
 // toTypedArray
 // e.g. Uint8Vector.prototype.toTypedArray(): Uint8Array
 TypedVector.prototype.toTypedArray(): TypedArray;
+
+// Only for Uint8Vector
+// Create hex string.
+// toBeBytesLowerHex
+Uint8Vector.prototype.toBeBytesLowerHex(): string;
+// toLeBytesLowerHex
+Uint8Vector.prototype.toLeBytesLowerHex(): string;
+// toBeBytesUpperHex
+Uint8Vector.prototype.toBeBytesUpperHex(): string;
+// toLeBytesUpperHex
+Uint8Vector.prototype.toLeBytesUpperHex(): string;
 ```
 
 #### Static Methods

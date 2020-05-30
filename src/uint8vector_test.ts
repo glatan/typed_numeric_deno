@@ -84,4 +84,68 @@ Deno.test("Uint8Vector", () => {
   );
   // slice
   assertEquals(new Uint8Vector(5).slice(0, 3).equals(new Uint8Vector(3)), true);
+  // toBeBytesLowerHex
+  assertEquals(
+    Uint8Vector.fromTypedArray(new Uint8Array([0x12, 0x34, 0xAB, 0xCD]))
+      .toBeBytesLowerHex(),
+    "1234abcd",
+  );
+  assertEquals(
+    Uint8Vector.fromTypedArray(new Uint8Array([0xFF, 0xFF, 0xFF, 0xFF]))
+      .toBeBytesLowerHex(),
+    "ffffffff",
+  );
+  assertEquals(
+    Uint8Vector.fromTypedArray(new Uint8Array([0, 0, 0, 0]))
+      .toBeBytesLowerHex(),
+    "00000000",
+  );
+  // toLeBytesLowerHex
+  assertEquals(
+    Uint8Vector.fromTypedArray(new Uint8Array([0x12, 0x34, 0xAB, 0xCD]))
+      .toLeBytesLowerHex(),
+    "cdab3412",
+  );
+  assertEquals(
+    Uint8Vector.fromTypedArray(new Uint8Array([0xFF, 0xFF, 0xFF, 0xFF]))
+      .toLeBytesLowerHex(),
+    "ffffffff",
+  );
+  assertEquals(
+    Uint8Vector.fromTypedArray(new Uint8Array([0, 0, 0, 0]))
+      .toLeBytesLowerHex(),
+    "00000000",
+  );
+  // toBeBytesUpperHex
+  assertEquals(
+    Uint8Vector.fromTypedArray(new Uint8Array([0x12, 0x34, 0xAB, 0xCD]))
+      .toBeBytesUpperHex(),
+    "1234ABCD",
+  );
+  assertEquals(
+    Uint8Vector.fromTypedArray(new Uint8Array([0xFF, 0xFF, 0xFF, 0xFF]))
+      .toBeBytesUpperHex(),
+    "FFFFFFFF",
+  );
+  assertEquals(
+    Uint8Vector.fromTypedArray(new Uint8Array([0, 0, 0, 0]))
+      .toBeBytesUpperHex(),
+    "00000000",
+  );
+  // toLeBytesUpperHex
+  assertEquals(
+    Uint8Vector.fromTypedArray(new Uint8Array([0x12, 0x34, 0xAB, 0xCD]))
+      .toLeBytesUpperHex(),
+    "CDAB3412",
+  );
+  assertEquals(
+    Uint8Vector.fromTypedArray(new Uint8Array([0xFF, 0xFF, 0xFF, 0xFF]))
+      .toLeBytesUpperHex(),
+    "FFFFFFFF",
+  );
+  assertEquals(
+    Uint8Vector.fromTypedArray(new Uint8Array([0, 0, 0, 0]))
+      .toLeBytesUpperHex(),
+    "00000000",
+  );
 });
