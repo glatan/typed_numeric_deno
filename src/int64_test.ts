@@ -3,6 +3,8 @@ import { assertEquals, assertThrows } from "../depends.ts";
 import { Int64 } from "./int64.ts";
 
 Deno.test("Int64", () => {
+  // constructor
+  assertEquals(new Int64().value(), 0n);
   // value()
   assertEquals(new Int64(0xFFFFFFFF_FFFFFFFFn).value(), Int64.min());
   assertEquals(new Int64(-0xFFFFFFFF_FFFFFFFFn).value(), Int64.min());

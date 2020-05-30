@@ -3,6 +3,8 @@ import { assertEquals, assertThrows } from "../depends.ts";
 import { Int128 } from "./int128.ts";
 
 Deno.test("Int128", () => {
+  // constructor
+  assertEquals(new Int128().value(), 0n);
   // value()
   assertEquals(
     new Int128(0xFFFFFFFF_FFFFFFFF_FFFFFFFF_FFFFFFFFn).value(),

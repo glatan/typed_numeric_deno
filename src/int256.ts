@@ -7,7 +7,7 @@ const BIT_LENGTH: bigint = 256n;
 
 export class Int256 implements Numeric<Int256> {
   #value: bigint;
-  constructor(value: bigint) {
+  constructor(value: bigint = 0n) {
     if (value < 0) {
       // 一度符号を外してからマスク、その後符号を(Int256の最上位ビットを1にする形で)戻す
       this.#value = ((~value + 1n) & MAX) | (MAX + 1n);

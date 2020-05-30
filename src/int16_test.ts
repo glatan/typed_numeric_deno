@@ -3,6 +3,8 @@ import { assertEquals, assertThrows } from "../depends.ts";
 import { Int16 } from "./int16.ts";
 
 Deno.test("Int16", () => {
+  // constructor
+  assertEquals(new Int16().value(), 0);
   // value()
   assertEquals(new Int16(Number.MAX_SAFE_INTEGER).value(), Int16.max());
   assertEquals(new Int16(Number.MIN_SAFE_INTEGER).value(), Int16.min());

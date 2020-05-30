@@ -6,7 +6,7 @@ const BIT_LENGTH: number = 16;
 
 export class Uint16 implements Numeric<Uint16> {
   #value: number;
-  constructor(value: number) {
+  constructor(value: number = 0) {
     this.#value = value & MAX;
   }
   value(): number {

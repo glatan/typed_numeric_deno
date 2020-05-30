@@ -3,6 +3,8 @@ import { assertEquals, assertThrows } from "../depends.ts";
 import { Uint256 } from "./uint256.ts";
 
 Deno.test("Uint256", () => {
+  // constructor
+  assertEquals(new Uint256().value(), 0n);
   // value()
   assertEquals(new Uint256(Uint256.max() + 1n).value(), Uint256.min());
   assertEquals(new Uint256(Uint256.min() - 1n).value(), Uint256.max());
