@@ -10,9 +10,11 @@ export class Uint16Vector extends Vector<Uint16> {
       super(arg as Array<Uint16>);
     }
   }
-  fill(value: Uint16): Uint16Vector {
-    for (let i = 0; i < this.inner.length; i++) {
-      this.inner[i] = value;
+  fill(value: Uint16 | number): Uint16Vector {
+    if (typeof value === "number") {
+      super.fill(new Uint16(value));
+    } else {
+      super.fill(value);
     }
     return new Uint16Vector(this.inner);
   }

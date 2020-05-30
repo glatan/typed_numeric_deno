@@ -42,16 +42,27 @@ Deno.test("Uint32Vector", () => {
   vec.concat(new Uint32Vector(3));
   assertEquals(vec.length, 3);
   // toTypedArray
-  assertEquals(vec.toTypedArray(), new Uint32Array(3));
+  assertEquals(new Uint32Vector(3).toTypedArray(), new Uint32Array(3));
   assertEquals(
-    new Uint32Vector(5).fill(new Uint32(Uint32.max())).toTypedArray(),
-    new Uint32Array(5).fill(Number(Uint32.max())),
+    new Uint32Vector(3).fill(Uint32.max()).toTypedArray(),
+    new Uint32Array(3).fill(Number(Uint32.max())),
   );
   // fill
-  vec.fill(new Uint32(Uint32.max()));
   assertEquals(
-    vec.toTypedArray(),
+    new Uint32Vector(3).fill(new Uint32(Uint32.max())).toTypedArray(),
     new Uint32Array(3).fill(Number(Uint32.max())),
+  );
+  assertEquals(
+    new Uint32Vector(3).fill(Uint32.max()).toTypedArray(),
+    new Uint32Array(3).fill(Number(Uint32.max())),
+  );
+  assertEquals(
+    new Uint32Vector(3).fill(new Uint32(Uint32.min())).toTypedArray(),
+    new Uint32Array(3).fill(Number(Uint32.min())),
+  );
+  assertEquals(
+    new Uint32Vector(3).fill(Uint32.min()).toTypedArray(),
+    new Uint32Array(3).fill(Number(Uint32.min())),
   );
   // fromTypedArray and equals
   assertEquals(
@@ -59,19 +70,15 @@ Deno.test("Uint32Vector", () => {
     true,
   );
   assertEquals(
-    Uint32Vector.fromTypedArray(new Uint32Array(3)).equals(vec),
+    Uint32Vector.fromTypedArray(new Uint32Array(3)).equals(
+      new Uint32Vector(3).fill(Uint32.max()),
+    ),
     false,
   );
   assertEquals(
     Uint32Vector.fromTypedArray(new Uint32Array(3)).fill(
       new Uint32(Uint32.max()),
-    ).equals(vec),
-    true,
-  );
-  assertEquals(
-    Uint32Vector.fromTypedArray(
-      new Uint32Array(5).fill(Number(Uint32.max())),
-    ).equals(new Uint32Vector(5).fill(new Uint32(Uint32.max()))),
+    ).equals(new Uint32Vector(3).fill(Uint32.max())),
     true,
   );
   // slice

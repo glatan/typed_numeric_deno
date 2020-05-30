@@ -42,24 +42,46 @@ Deno.test("Int8Vector", () => {
   vec.concat(new Int8Vector(3));
   assertEquals(vec.length, 3);
   // toTypedArray
-  assertEquals(vec.toTypedArray(), new Int8Array(3));
+  assertEquals(new Int8Vector(3).toTypedArray(), new Int8Array(3));
+  assertEquals(
+    new Int8Vector(3).fill(Int8.max()).toTypedArray(),
+    new Int8Array(3).fill(Int8.max()),
+  );
+  assertEquals(
+    new Int8Vector(3).fill(Int8.min()).toTypedArray(),
+    new Int8Array(3).fill(Int8.min()),
+  );
   // fill
-  vec.fill(new Int8(Int8.max()));
-  assertEquals(vec.toTypedArray(), new Int8Array(3).fill(Int8.max()));
-  vec.fill(new Int8(Int8.min()));
-  assertEquals(vec.toTypedArray(), new Int8Array(3).fill(Int8.min()));
+  assertEquals(
+    new Int8Vector(3).fill(new Int8(Int8.max())).toTypedArray(),
+    new Int8Array(3).fill(Int8.max()),
+  );
+  assertEquals(
+    new Int8Vector(3).fill(Int8.max()).toTypedArray(),
+    new Int8Array(3).fill(Int8.max()),
+  );
+  assertEquals(
+    new Int8Vector(3).fill(new Int8(Int8.min())).toTypedArray(),
+    new Int8Array(3).fill(Int8.min()),
+  );
+  assertEquals(
+    new Int8Vector(3).fill(Int8.min()).toTypedArray(),
+    new Int8Array(3).fill(Int8.min()),
+  );
   // fromTypedArray and equals
   assertEquals(
     Int8Vector.fromTypedArray(new Int8Array(3)).equals(new Int8Vector(3)),
     true,
   );
   assertEquals(
-    Int8Vector.fromTypedArray(new Int8Array(3)).equals(vec),
+    Int8Vector.fromTypedArray(new Int8Array(3)).equals(
+      new Int8Vector(3).fill(Int8.max()),
+    ),
     false,
   );
   assertEquals(
     Int8Vector.fromTypedArray(new Int8Array(3)).fill(new Int8(Int8.max()))
-      .equals(new Int8Vector(3).fill(new Int8(Int8.max()))),
+      .equals(new Int8Vector(3).fill(Int8.max())),
     true,
   );
   // slice

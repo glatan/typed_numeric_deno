@@ -10,9 +10,11 @@ export class Int32Vector extends Vector<Int32> {
       super(arg as Array<Int32>);
     }
   }
-  fill(value: Int32): Int32Vector {
-    for (let i = 0; i < this.inner.length; i++) {
-      this.inner[i] = value;
+  fill(value: Int32 | bigint): Int32Vector {
+    if (typeof value === "bigint") {
+      super.fill(new Int32(value));
+    } else {
+      super.fill(value);
     }
     return new Int32Vector(this.inner);
   }

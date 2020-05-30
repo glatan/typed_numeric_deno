@@ -98,6 +98,9 @@ export class Vector<T extends Numeric<T>> {
     }
     return true;
   }
+  reverse(): Vector<T> {
+    return new Vector<T>(this.inner.reverse());
+  }
   slice(start: number, end: number): Vector<T> {
     return new Vector<T>(this.inner.slice(start, end));
   }

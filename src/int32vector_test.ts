@@ -42,43 +42,48 @@ Deno.test("Int32Vector", () => {
   vec.concat(new Int32Vector(3));
   assertEquals(vec.length, 3);
   // toTypedArray
-  assertEquals(vec.toTypedArray(), new Int32Array(3));
+  assertEquals(new Int32Vector(3).toTypedArray(), new Int32Array(3));
   assertEquals(
-    new Int32Vector(5).fill(new Int32(Int32.max())).toTypedArray(),
-    new Int32Array(5).fill(Number(Int32.max())),
-  );
-  // fill
-  vec.fill(new Int32(Int32.max()));
-  assertEquals(
-    vec.toTypedArray(),
+    new Int32Vector(3).fill(Int32.max()).toTypedArray(),
     new Int32Array(3).fill(Number(Int32.max())),
   );
-  vec.fill(new Int32(Int32.min()));
-  assertEquals(vec.toTypedArray(), new Int32Array(3).fill(Number(Int32.min())));
+  assertEquals(
+    new Int32Vector(3).fill(Int32.min()).toTypedArray(),
+    new Int32Array(3).fill(Number(Int32.min())),
+  );
+  // fill
+  assertEquals(
+    new Int32Vector(3).fill(new Int32(Int32.max())).toTypedArray(),
+    new Int32Array(3).fill(Number(Int32.max())),
+  );
+  assertEquals(
+    new Int32Vector(3).fill(Int32.max()).toTypedArray(),
+    new Int32Array(3).fill(Number(Int32.max())),
+  );
+  assertEquals(
+    new Int32Vector(3).fill(new Int32(Int32.min())).toTypedArray(),
+    new Int32Array(3).fill(Number(Int32.min())),
+  );
+  assertEquals(
+    new Int32Vector(3).fill(Int32.min()).toTypedArray(),
+    new Int32Array(3).fill(Number(Int32.min())),
+  );
   // fromTypedArray and equals
   assertEquals(
     Int32Vector.fromTypedArray(new Int32Array(3)).equals(new Int32Vector(3)),
     true,
   );
   assertEquals(
-    Int32Vector.fromTypedArray(new Int32Array(3)).equals(vec),
+    Int32Vector.fromTypedArray(new Int32Array(3)).equals(
+      new Int32Vector(3).fill(Int32.max()),
+    ),
     false,
   );
   assertEquals(
-    Int32Vector.fromTypedArray(new Int32Array(3)).fill(
-      new Int32(Int32.max()),
-    ).equals(vec),
-    false,
-  );
-  assertEquals(
-    Int32Vector.fromTypedArray(
-      new Int32Array(5).fill(Number(Int32.max())),
-    ).equals(new Int32Vector(5).fill(new Int32(Int32.max()))),
+    Int32Vector.fromTypedArray(new Int32Array(3)).fill(new Int32(Int32.max()))
+      .equals(new Int32Vector(3).fill(Int32.max())),
     true,
   );
   // slice
-  assertEquals(
-    new Int32Vector(5).slice(0, 3).equals(new Int32Vector(3)),
-    true,
-  );
+  assertEquals(new Int32Vector(5).slice(0, 3).equals(new Int32Vector(3)), true);
 });

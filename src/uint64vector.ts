@@ -10,9 +10,11 @@ export class Uint64Vector extends Vector<Uint64> {
       super(arg as Array<Uint64>);
     }
   }
-  fill(value: Uint64): Uint64Vector {
-    for (let i = 0; i < this.inner.length; i++) {
-      this.inner[i] = value;
+  fill(value: Uint64 | bigint): Uint64Vector {
+    if (typeof value === "bigint") {
+      super.fill(new Uint64(value));
+    } else {
+      super.fill(value);
     }
     return new Uint64Vector(this.inner);
   }
