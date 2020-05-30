@@ -18,6 +18,12 @@ export class Int16Vector extends Vector<Int16> {
     }
     return new Int16Vector(this.inner);
   }
+  reverse(): Int16Vector {
+    return new Int16Vector(this.inner.reverse());
+  }
+  slice(start: number, end: number): Int16Vector {
+    return new Int16Vector(this.inner.slice(start, end));
+  }
   toTypedArray(): Int16Array {
     let array = new Int16Array(this.inner.length);
     for (let i = 0; i < this.inner.length; i++) {
