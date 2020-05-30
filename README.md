@@ -169,12 +169,15 @@ TypedVector.prototype.pop(): TypedNumeric;
 // concat
 TypedVector.prototype.concat(other: TypedVector): TypedVector;
 
+// compare
+TypedVector.prototype.equals(other: TypedVector): boolean;
+
 // fill
 // e.g. Uint8Vector.prototype.fill(value: Uint8): Uint8Vector
 TypedVector.prototype.fill(value: TypedNumeric): TypedVector;
 
-// compare
-TypedVector.prototype.equals(other: TypedVector): boolean;
+// reverse
+TypedVector.prototype.reverse(): TypedVector;
 
 // slice
 TypedVector.prototype.slice(start: number, end: number): TypedVector;
