@@ -18,6 +18,12 @@ export class Int32Vector extends Vector<Int32> {
     }
     return new Int32Vector(this.inner);
   }
+  reverse(): Int32Vector {
+    return new Int32Vector(this.inner.reverse());
+  }
+  slice(start: number, end: number): Int32Vector {
+    return new Int32Vector(this.inner.slice(start, end));
+  }
   toTypedArray(): Int32Array {
     let array = new Int32Array(this.inner.length);
     for (let i = 0; i < this.inner.length; i++) {

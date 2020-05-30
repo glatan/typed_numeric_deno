@@ -18,6 +18,12 @@ export class Int64Vector extends Vector<Int64> {
     }
     return new Int64Vector(this.inner);
   }
+  reverse(): Int64Vector {
+    return new Int64Vector(this.inner.reverse());
+  }
+  slice(start: number, end: number): Int64Vector {
+    return new Int64Vector(this.inner.slice(start, end));
+  }
   toTypedArray(): BigInt64Array {
     let array = new BigInt64Array(this.inner.length);
     for (let i = 0; i < this.inner.length; i++) {
