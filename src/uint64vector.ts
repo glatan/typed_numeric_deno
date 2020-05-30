@@ -12,9 +12,9 @@ export class Uint64Vector extends Vector<Uint64> {
   }
   fill(value: Uint64 | bigint): Uint64Vector {
     if (typeof value === "bigint") {
-      super.fill(new Uint64(value)) as Uint64Vector;
+      super.fill(new Uint64(value));
     } else {
-      super.fill(value) as Uint64Vector;
+      super.fill(value);
     }
     return new Uint64Vector(this.inner);
   }

@@ -14,7 +14,7 @@ export class Uint32Vector extends Vector<Uint32> {
     if (typeof value === "bigint") {
       super.fill(new Uint32(value));
     } else {
-      super.fill(value) as Uint32Vector;
+      super.fill(value);
     }
     return new Uint32Vector(this.inner);
   }

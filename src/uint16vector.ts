@@ -12,9 +12,9 @@ export class Uint16Vector extends Vector<Uint16> {
   }
   fill(value: Uint16 | number): Uint16Vector {
     if (typeof value === "number") {
-      super.fill(new Uint16(value)) as Uint16Vector;
+      super.fill(new Uint16(value));
     } else {
-      super.fill(value) as Uint16Vector;
+      super.fill(value);
     }
     return new Uint16Vector(this.inner);
   }

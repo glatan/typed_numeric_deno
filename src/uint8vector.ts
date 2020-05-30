@@ -14,7 +14,7 @@ export class Uint8Vector extends Vector<Uint8> {
     if (typeof value === "number") {
       super.fill(new Uint8(value));
     } else {
-      super.fill(value) as Uint8Vector;
+      super.fill(value);
     }
     return new Uint8Vector(this.inner);
   }
