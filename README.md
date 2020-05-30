@@ -53,84 +53,84 @@ type TypedNumeric = Int8 | Int16 | Int32 | Int64 |Int128 | Int256 | Uint8 | Uint
 // Int8, Int16, Uint8, Uint16: number
 // Int32, Int64, Int128, Int256, Uint32, Uint64, Uint128, Uint256: bigint
 // e.g. new Uint8(10), Uint32(10n)
-new TypedNumeric(value: number | bigint)
+new TypedNumeric(value: number | bigint = 0 | 0n);
 ```
 
 #### Methods
 
 ```ts
 // Get value
-TypedNumeric.prototype.value(): number | bigint
+TypedNumeric.prototype.value(): number | bigint;
 
 // Addition
-TypedNumeric.prototype.add(value: TypedNumeric): TypedNumeric
+TypedNumeric.prototype.add(value: TypedNumeric): TypedNumeric;
 
 // Subtraction
-TypedNumeric.prototype.sub(value: TypedNumeric): TypedNumeric
+TypedNumeric.prototype.sub(value: TypedNumeric): TypedNumeric;
 
 // Division
-TypedNumeric.prototype.div(value: TypedNumeric): TypedNumeric
+TypedNumeric.prototype.div(value: TypedNumeric): TypedNumeric;
 
 // Multiplication
-TypedNumeric.prototype.mul(value: TypedNumeric): TypedNumeric
+TypedNumeric.prototype.mul(value: TypedNumeric): TypedNumeric;
 
 // Remainder
-TypedNumeric.prototype.rem(value: TypedNumeric): TypedNumeric
+TypedNumeric.prototype.rem(value: TypedNumeric): TypedNumeric;
 
 // Exponentiation
-TypedNumeric.prototype.exp(value: TypedNumeric >= 0): TypedNumeric
+TypedNumeric.prototype.exp(value: TypedNumeric >= 0): TypedNumeric;
 
 // AND
-TypedNumeric.prototype.and(value: TypedNumeric): TypedNumeric
+TypedNumeric.prototype.and(value: TypedNumeric): TypedNumeric;
 
 // OR
-TypedNumeric.prototype.or(value: TypedNumeric): TypedNumeric
+TypedNumeric.prototype.or(value: TypedNumeric): TypedNumeric;
 
 // XOR
-TypedNumeric.prototype.xor(value: TypedNumeric): TypedNumeric
+TypedNumeric.prototype.xor(value: TypedNumeric): TypedNumeric;
 
 // NOT
-TypedNumeric.prototype.not(value: TypedNumeric): TypedNumeric
+TypedNumeric.prototype.not(value: TypedNumeric): TypedNumeric;
 
 // Logical left shift
-TypedNumeric.prototype.logicalLeft(n: TypedNumeric): TypedNumeric
+TypedNumeric.prototype.logicalLeft(n: TypedNumeric): TypedNumeric;
 
 // Logical right shift
-TypedNumeric.prototype.logicalRight(n: TypedNumeric): TypedNumeric
+TypedNumeric.prototype.logicalRight(n: TypedNumeric): TypedNumeric;
 
 // Rotate left shift
-TypedNumeric.prototype.rotateLeft(n: TypedNumeric): TypedNumeric
+TypedNumeric.prototype.rotateLeft(n: TypedNumeric): TypedNumeric;
 
 // Rotate right shift
-TypedNumeric.prototype.rotateRight(n: TypedNumeric): TypedNumeric
+TypedNumeric.prototype.rotateRight(n: TypedNumeric): TypedNumeric;
 
 // Create Uint8Array from TypedNumeric
 
 // to big endian bytes
-TypedNumeric.prototype.toBeBytes(): Uint8Array
+TypedNumeric.prototype.toBeBytes(): Uint8Array;
 
 // to litle endian bytes
-TypedNumeric.prototype.toLeBytes(): Uint8Array
+TypedNumeric.prototype.toLeBytes(): Uint8Array;
 ```
 
 #### Static Methods
 
 ```ts
 // Get max value
-TypedNumeric.max(): number | bigint
+TypedNumeric.max(): number | bigint;
 
 // Get min value
-TypedNumeric.min(): number | bigint
+TypedNumeric.min(): number | bigint;
 
 // Create TypedNumeric from Uint8Array
 // Uint8Array.length must be equal TypedNumeric byte length.
 // e.g. OK: new Uint8Array(4) => Uint32, ERROR: new Uint8Array(3) => Uint32
 
 // from big endian bytes
-TypedNumeric.fromBeBytes(Uint8Array): TypedNumeric
+TypedNumeric.fromBeBytes(Uint8Array): TypedNumeric;
 
 // from little endian bytes
-TypedNumeric.fromLeBytes(Uint8Array): TypedNumeric
+TypedNumeric.fromLeBytes(Uint8Array): TypedNumeric;
 ```
 
 ### TypedVector
@@ -151,7 +151,7 @@ type TypedVector = Int8Vector | Int16Vector | Int32Vector | Int64Vector | Uint8V
 // Array<TypedNumeric>: convert Array<TypedNumeric> to TypedVector
 // e.g. new Uint8Vector(Array.from([new Uint8(0xFF)])); 
 ///  Uint8Vector { length: 1, inner { Uint8 {/* value: 0xFF */} } }
-new TypedVector(arg: number | Array<TypedNumeric>)
+new TypedVector(arg: number | Array<TypedNumeric> = 0);
 ```
 
 #### Methods
@@ -169,12 +169,15 @@ TypedVector.prototype.pop(): TypedNumeric;
 // concat
 TypedVector.prototype.concat(other: TypedVector): TypedVector;
 
+// compare
+TypedVector.prototype.equals(other: TypedVector): boolean;
+
 // fill
 // e.g. Uint8Vector.prototype.fill(value: Uint8): Uint8Vector
 TypedVector.prototype.fill(value: TypedNumeric): TypedVector;
 
-// compare
-TypedVector.prototype.equals(other: TypedVector): boolean;
+// reverse
+TypedVector.prototype.reverse(): TypedVector;
 
 // slice
 TypedVector.prototype.slice(start: number, end: number): TypedVector;
@@ -182,7 +185,6 @@ TypedVector.prototype.slice(start: number, end: number): TypedVector;
 // toTypedArray
 // e.g. Uint8Vector.prototype.toTypedArray(): Uint8Array
 TypedVector.prototype.toTypedArray(): TypedArray;
-
 ```
 
 #### Static Methods
