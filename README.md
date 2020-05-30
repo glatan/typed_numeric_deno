@@ -37,14 +37,28 @@ console.log(e.value()); // 2018915346n(0x7856_3412n)
 
 ## Usage
 
-### Methods
+### TypedNumeric
+
+Int8, Int16, Uint8 and Uint16 are wrapper of number.
+Int32, Int64, Int128, Int256, Uint32, Uint64, Uint128 and Uint256 are wrapper of bigint.
+
+```ts
+type TypedNumeric = Int8 | Int16 | Int32 | Int64 |Int128 | Int256 | Uint8 | Uint16 | Uint32 | Uint64 | Uint128 | Uint256;
+```
+
+### Constructor
 
 ```ts
 // Create new TypedNumeric
 // Int8, Int16, Uint8, Uint16: number
 // Int32, Int64, Int128, Int256, Uint32, Uint64, Uint128, Uint256: bigint
+// e.g. new Uint8(10), Uint32(10n)
 new TypedNumeric(value: number | bigint)
+```
 
+#### Methods
+
+```ts
 // Get value
 TypedNumeric.prototype.value(): number | bigint
 
@@ -99,7 +113,7 @@ TypedNumeric.prototype.toBeBytes(): Uint8Array
 TypedNumeric.prototype.toLeBytes(): Uint8Array
 ```
 
-### Static Methods
+#### Static Methods
 
 ```ts
 // Get max value
@@ -117,4 +131,64 @@ TypedNumeric.fromBeBytes(Uint8Array): TypedNumeric
 
 // from little endian bytes
 TypedNumeric.fromLeBytes(Uint8Array): TypedNumeric
+```
+
+### TypedVector
+
+TypedVector is wrapper of Array<TypedNumeric>.
+This type provide conversion between TypedArray.
+
+```ts
+type TypedVector = Int8Vector | Int16Vector | Int32Vector | Int64Vector | Uint8Vector | Uint16Vector | Uint32Vector | Uint64Vector;
+```
+
+#### Constructor
+
+```ts
+// number: Array Length
+// e.g. new Uint8Vector(10).length; 
+///  10
+// Array<TypedNumeric>: convert Array<TypedNumeric> to TypedVector
+// e.g. new Uint8Vector(Array.from([new Uint8(0xFF)])); 
+///  Uint8Vector { length: 1, inner { Uint8 {/* value: 0xFF */} } }
+new TypedVector(arg: number | Array<TypedNumeric>)
+```
+
+#### Methods
+
+```ts
+// Array[index]
+TypedVector.prototype.value_by_index(index: number): TypedNumeric;
+
+// push
+TypedVector.prototype.push(value: TypedNumeric);
+
+// pop
+TypedVector.prototype.pop(): TypedNumeric;
+
+// concat
+TypedVector.prototype.concat(other: TypedVector): TypedVector;
+
+// fill
+// e.g. Uint8Vector.prototype.fill(value: Uint8): Uint8Vector
+TypedVector.prototype.fill(value: TypedNumeric): TypedVector;
+
+// compare
+TypedVector.prototype.equals(other: TypedVector): boolean;
+
+// slice
+TypedVector.prototype.slice(start: number, end: number): TypedVector;
+
+// toTypedArray
+// e.g. Uint8Vector.prototype.toTypedArray(): Uint8Array
+TypedVector.prototype.toTypedArray(): TypedArray;
+
+```
+
+#### Static Methods
+
+```ts
+// fromTypedArray
+// e.g. Uint8Vector.fromTypedArray(array: Uint8Array): Uint8Vector;
+TypedVector.fromTypedArray(array: TypedArray): TypedVector;
 ```
