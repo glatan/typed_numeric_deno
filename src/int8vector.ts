@@ -18,6 +18,12 @@ export class Int8Vector extends Vector<Int8> {
     }
     return new Int8Vector(this.inner);
   }
+  reverse(): Int8Vector {
+    return new Int8Vector(this.inner.reverse());
+  }
+  slice(start: number, end: number): Int8Vector {
+    return new Int8Vector(this.inner.slice(start, end));
+  }
   toTypedArray(): Int8Array {
     let array = new Int8Array(this.inner.length);
     for (let i = 0; i < this.inner.length; i++) {

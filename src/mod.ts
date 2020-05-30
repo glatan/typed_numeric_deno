@@ -45,7 +45,7 @@ export interface Numeric<T> {
   toLeBytes(): Uint8Array;
 }
 
-export class Vector<T extends Numeric<T>> {
+export abstract class Vector<T extends Numeric<T>> {
   protected inner: Array<T>;
   length: number;
   protected constructor(array: Array<T>) {
@@ -84,11 +84,10 @@ export class Vector<T extends Numeric<T>> {
     }
     this.length += other.length;
   }
-  fill(value: T): Vector<T> {
+  fill(value: T) {
     for (let i = 0; i < this.inner.length; i++) {
       this.inner[i] = value;
     }
-    return new Vector<T>(this.inner);
   }
   equals(other: Vector<T>): boolean {
     for (let i = 0; i < this.inner.length; i++) {
@@ -98,10 +97,6 @@ export class Vector<T extends Numeric<T>> {
     }
     return true;
   }
-  reverse(): Vector<T> {
-    return new Vector<T>(this.inner.reverse());
-  }
-  slice(start: number, end: number): Vector<T> {
-    return new Vector<T>(this.inner.slice(start, end));
-  }
+  abstract reverse(): Vector<T>;
+  abstract slice(start: number, end: number): Vector<T>;
 }
