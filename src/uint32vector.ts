@@ -10,9 +10,11 @@ export class Uint32Vector extends Vector<Uint32> {
       super(arg as Array<Uint32>);
     }
   }
-  fill(value: Uint32): Uint32Vector {
-    for (let i = 0; i < this.inner.length; i++) {
-      this.inner[i] = value;
+  fill(value: Uint32 | bigint): Uint32Vector {
+    if (typeof value === "bigint") {
+      super.fill(new Uint32(value));
+    } else {
+      super.fill(value) as Uint32Vector;
     }
     return new Uint32Vector(this.inner);
   }

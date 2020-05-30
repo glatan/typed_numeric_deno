@@ -42,16 +42,31 @@ Deno.test("Int64Vector", () => {
   vec.concat(new Int64Vector(3));
   assertEquals(vec.length, 3);
   // toTypedArray
-  assertEquals(vec.toTypedArray(), new BigInt64Array(3));
+  assertEquals(new Int64Vector(3).toTypedArray(), new BigInt64Array(3));
   assertEquals(
-    new Int64Vector(5).fill(new Int64(Int64.max())).toTypedArray(),
-    new BigInt64Array(5).fill(Int64.max()),
+    new Int64Vector(3).fill(Int64.max()).toTypedArray(),
+    new BigInt64Array(3).fill(Int64.max()),
+  );
+  assertEquals(
+    new Int64Vector(3).fill(Int64.min()).toTypedArray(),
+    new BigInt64Array(3).fill(Int64.min()),
   );
   // fill
-  vec.fill(new Int64(Int64.max()));
   assertEquals(
-    vec.toTypedArray(),
+    new Int64Vector(3).fill(new Int64(Int64.max())).toTypedArray(),
     new BigInt64Array(3).fill(Int64.max()),
+  );
+  assertEquals(
+    new Int64Vector(3).fill(Int64.max()).toTypedArray(),
+    new BigInt64Array(3).fill(Int64.max()),
+  );
+  assertEquals(
+    new Int64Vector(3).fill(new Int64(Int64.min())).toTypedArray(),
+    new BigInt64Array(3).fill(Int64.min()),
+  );
+  assertEquals(
+    new Int64Vector(3).fill(Int64.min()).toTypedArray(),
+    new BigInt64Array(3).fill(Int64.min()),
   );
   // fromTypedArray and equals
   assertEquals(
@@ -59,24 +74,18 @@ Deno.test("Int64Vector", () => {
     true,
   );
   assertEquals(
-    Int64Vector.fromTypedArray(new BigInt64Array(3)).equals(vec),
+    Int64Vector.fromTypedArray(new BigInt64Array(3)).equals(
+      new Int64Vector(3).fill(Int64.max()),
+    ),
     false,
   );
   assertEquals(
     Int64Vector.fromTypedArray(new BigInt64Array(3)).fill(
       new Int64(Int64.max()),
-    ).equals(vec),
-    true,
-  );
-  assertEquals(
-    Int64Vector.fromTypedArray(
-      new BigInt64Array(5).fill(Int64.max()),
-    ).equals(new Int64Vector(5).fill(new Int64(Int64.max()))),
+    )
+      .equals(new Int64Vector(3).fill(Int64.max())),
     true,
   );
   // slice
-  assertEquals(
-    new Int64Vector(5).slice(0, 3).equals(new Int64Vector(3)),
-    true,
-  );
+  assertEquals(new Int64Vector(5).slice(0, 3).equals(new Int64Vector(3)), true);
 });

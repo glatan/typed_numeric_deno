@@ -10,9 +10,11 @@ export class Int8Vector extends Vector<Int8> {
       super(arg as Array<Int8>);
     }
   }
-  fill(value: Int8): Int8Vector {
-    for (let i = 0; i < this.inner.length; i++) {
-      this.inner[i] = value;
+  fill(value: Int8 | number): Int8Vector {
+    if (typeof value === "number") {
+      super.fill(new Int8(value));
+    } else {
+      super.fill(value);
     }
     return new Int8Vector(this.inner);
   }

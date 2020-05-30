@@ -42,23 +42,43 @@ Deno.test("Uint16Vector", () => {
   vec.concat(new Uint16Vector(3));
   assertEquals(vec.length, 3);
   // toTypedArray
-  assertEquals(vec.toTypedArray(), new Uint16Array(3));
+  assertEquals(new Uint16Vector(3).toTypedArray(), new Uint16Array(3));
+  assertEquals(
+    new Uint16Vector(3).fill(Uint16.max()).toTypedArray(),
+    new Uint16Array(3).fill(Uint16.max()),
+  );
   // fill
-  vec.fill(new Uint16(Uint16.max()));
-  assertEquals(vec.toTypedArray(), new Uint16Array(3).fill(Uint16.max()));
+  assertEquals(
+    new Uint16Vector(3).fill(new Uint16(Uint16.max())).toTypedArray(),
+    new Uint16Array(3).fill(Uint16.max()),
+  );
+  assertEquals(
+    new Uint16Vector(3).fill(Uint16.max()).toTypedArray(),
+    new Uint16Array(3).fill(Uint16.max()),
+  );
+  assertEquals(
+    new Uint16Vector(3).fill(new Uint16(Uint16.min())).toTypedArray(),
+    new Uint16Array(3).fill(Uint16.min()),
+  );
+  assertEquals(
+    new Uint16Vector(3).fill(Uint16.min()).toTypedArray(),
+    new Uint16Array(3).fill(Uint16.min()),
+  );
   // fromTypedArray and equals
   assertEquals(
     Uint16Vector.fromTypedArray(new Uint16Array(3)).equals(new Uint16Vector(3)),
     true,
   );
   assertEquals(
-    Uint16Vector.fromTypedArray(new Uint16Array(3)).equals(vec),
+    Uint16Vector.fromTypedArray(new Uint16Array(3)).equals(
+      new Uint16Vector(3).fill(Uint16.max()),
+    ),
     false,
   );
   assertEquals(
     Uint16Vector.fromTypedArray(new Uint16Array(3)).fill(
       new Uint16(Uint16.max()),
-    ).equals(vec),
+    ).equals(new Uint16Vector(3).fill(Uint16.max())),
     true,
   );
   // slice

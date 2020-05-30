@@ -42,22 +42,42 @@ Deno.test("Uint8Vector", () => {
   vec.concat(new Uint8Vector(3));
   assertEquals(vec.length, 3);
   // toTypedArray
-  assertEquals(vec.toTypedArray(), new Uint8Array(3));
+  assertEquals(new Uint8Vector(3).toTypedArray(), new Uint8Array(3));
+  assertEquals(
+    new Uint8Vector(3).fill(Uint8.max()).toTypedArray(),
+    new Uint8Array(3).fill(Uint8.max()),
+  );
   // fill
-  vec.fill(new Uint8(Uint8.max()));
-  assertEquals(vec.toTypedArray(), new Uint8Array(3).fill(Uint8.max()));
+  assertEquals(
+    new Uint8Vector(3).fill(new Uint8(Uint8.max())).toTypedArray(),
+    new Uint8Array(3).fill(Uint8.max()),
+  );
+  assertEquals(
+    new Uint8Vector(3).fill(Uint8.max()).toTypedArray(),
+    new Uint8Array(3).fill(Uint8.max()),
+  );
+  assertEquals(
+    new Uint8Vector(3).fill(new Uint8(Uint8.min())).toTypedArray(),
+    new Uint8Array(3).fill(Uint8.min()),
+  );
+  assertEquals(
+    new Uint8Vector(3).fill(Uint8.min()).toTypedArray(),
+    new Uint8Array(3).fill(Uint8.min()),
+  );
   // fromTypedArray and equals
   assertEquals(
     Uint8Vector.fromTypedArray(new Uint8Array(3)).equals(new Uint8Vector(3)),
     true,
   );
   assertEquals(
-    Uint8Vector.fromTypedArray(new Uint8Array(3)).equals(vec),
+    Uint8Vector.fromTypedArray(new Uint8Array(3)).equals(
+      new Uint8Vector(3).fill(Uint8.max()),
+    ),
     false,
   );
   assertEquals(
     Uint8Vector.fromTypedArray(new Uint8Array(3)).fill(new Uint8(Uint8.max()))
-      .equals(vec),
+      .equals(new Uint8Vector(3).fill(Uint8.max())),
     true,
   );
   // slice

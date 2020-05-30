@@ -42,16 +42,27 @@ Deno.test("Uint64Vector", () => {
   vec.concat(new Uint64Vector(3));
   assertEquals(vec.length, 3);
   // toTypedArray
-  assertEquals(vec.toTypedArray(), new BigUint64Array(3));
+  assertEquals(new Uint64Vector(3).toTypedArray(), new BigUint64Array(3));
   assertEquals(
-    new Uint64Vector(5).fill(new Uint64(Uint64.max())).toTypedArray(),
-    new BigUint64Array(5).fill(Uint64.max()),
+    new Uint64Vector(3).fill(Uint64.max()).toTypedArray(),
+    new BigUint64Array(3).fill(Uint64.max()),
   );
   // fill
-  vec.fill(new Uint64(Uint64.max()));
   assertEquals(
-    vec.toTypedArray(),
+    new Uint64Vector(3).fill(new Uint64(Uint64.max())).toTypedArray(),
     new BigUint64Array(3).fill(Uint64.max()),
+  );
+  assertEquals(
+    new Uint64Vector(3).fill(Uint64.max()).toTypedArray(),
+    new BigUint64Array(3).fill(Uint64.max()),
+  );
+  assertEquals(
+    new Uint64Vector(3).fill(new Uint64(Uint64.min())).toTypedArray(),
+    new BigUint64Array(3).fill(Uint64.min()),
+  );
+  assertEquals(
+    new Uint64Vector(3).fill(Uint64.min()).toTypedArray(),
+    new BigUint64Array(3).fill(Uint64.min()),
   );
   // fromTypedArray and equals
   assertEquals(
@@ -61,19 +72,15 @@ Deno.test("Uint64Vector", () => {
     true,
   );
   assertEquals(
-    Uint64Vector.fromTypedArray(new BigUint64Array(3)).equals(vec),
+    Uint64Vector.fromTypedArray(new BigUint64Array(3)).equals(
+      new Uint64Vector(3).fill(Uint64.max()),
+    ),
     false,
   );
   assertEquals(
     Uint64Vector.fromTypedArray(new BigUint64Array(3)).fill(
       new Uint64(Uint64.max()),
-    ).equals(vec),
-    true,
-  );
-  assertEquals(
-    Uint64Vector.fromTypedArray(
-      new BigUint64Array(5).fill(Uint64.max()),
-    ).equals(new Uint64Vector(5).fill(new Uint64(Uint64.max()))),
+    ).equals(new Uint64Vector(3).fill(Uint64.max())),
     true,
   );
   // slice
