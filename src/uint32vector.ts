@@ -2,7 +2,7 @@ import { Uint32 } from "./uint32.ts";
 import { Vector } from "./mod.ts";
 
 export class Uint32Vector extends Vector<Uint32> {
-  constructor(arg: number | Array<Uint32>) {
+  constructor(arg: number | Array<Uint32> = 0) {
     if (typeof arg === "number") {
       super(new Array(arg).fill(new Uint32(0n)));
     }

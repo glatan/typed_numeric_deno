@@ -4,14 +4,16 @@ import { Int32Vector } from "./int32vector.ts";
 import { Int32 } from "./int32.ts";
 
 Deno.test("Int32Vector", () => {
-  const vec = new Int32Vector(2);
-  assertEquals(vec.length, 2);
+  // constructor
+  assertEquals(new Int32Vector().length, new Int32Vector(0).length);
   // Int32Vector from Array<Int32>
   assertEquals(
     new Int32Vector(Array.from([new Int32(Int32.max())])).value_by_index(0)
       .value(),
     Int32.max(),
   );
+  const vec = new Int32Vector(2);
+  assertEquals(vec.length, 2);
   // value_by_index
   assertEquals(vec.value_by_index(0).value(), 0n);
   assertEquals(vec.value_by_index(1).value(), 0n);

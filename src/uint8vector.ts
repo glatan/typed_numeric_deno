@@ -2,7 +2,7 @@ import { Uint8 } from "./uint8.ts";
 import { Vector } from "./mod.ts";
 
 export class Uint8Vector extends Vector<Uint8> {
-  constructor(arg: number | Array<Uint8>) {
+  constructor(arg: number | Array<Uint8> = 0) {
     if (typeof arg === "number") {
       super(new Array(arg).fill(new Uint8(0)));
     }

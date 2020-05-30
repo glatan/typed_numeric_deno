@@ -4,14 +4,16 @@ import { Int64Vector } from "./int64vector.ts";
 import { Int64 } from "./int64.ts";
 
 Deno.test("Int64Vector", () => {
-  const vec = new Int64Vector(2);
-  assertEquals(vec.length, 2);
+  // constructor
+  assertEquals(new Int64Vector().length, new Int64Vector(0).length);
   // Int64Vector from Array<Int64>
   assertEquals(
     new Int64Vector(Array.from([new Int64(Int64.max())])).value_by_index(0)
       .value(),
     Int64.max(),
   );
+  const vec = new Int64Vector(2);
+  assertEquals(vec.length, 2);
   // value_by_index
   assertEquals(vec.value_by_index(0).value(), 0n);
   assertEquals(vec.value_by_index(1).value(), 0n);
