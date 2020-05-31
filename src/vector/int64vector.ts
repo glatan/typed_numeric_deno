@@ -7,7 +7,7 @@ export class Int64Vector extends Vector<Int64> {
       super(new Array(arg).fill(new Int64(0n)));
     }
     if (arg instanceof Array) {
-      super(arg as Array<Int64>);
+      super(arg);
     }
   }
   concat(other: Int64Vector): Int64Vector {

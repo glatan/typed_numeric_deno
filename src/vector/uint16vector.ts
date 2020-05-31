@@ -7,7 +7,7 @@ export class Uint16Vector extends Vector<Uint16> {
       super(new Array(arg).fill(new Uint16(0)));
     }
     if (arg instanceof Array) {
-      super(arg as Array<Uint16>);
+      super(arg);
     }
   }
   concat(other: Uint16Vector): Uint16Vector {

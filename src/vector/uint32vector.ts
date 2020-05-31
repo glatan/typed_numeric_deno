@@ -7,7 +7,7 @@ export class Uint32Vector extends Vector<Uint32> {
       super(new Array(arg).fill(new Uint32(0n)));
     }
     if (arg instanceof Array) {
-      super(arg as Array<Uint32>);
+      super(arg);
     }
   }
   concat(other: Uint32Vector): Uint32Vector {

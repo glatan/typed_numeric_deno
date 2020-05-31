@@ -9,7 +9,7 @@ export class Uint8Vector extends Vector<Uint8> {
       super(new Array(arg).fill(new Uint8(0)));
     }
     if (arg instanceof Array) {
-      super(arg as Array<Uint8>);
+      super(arg);
     }
   }
   concat(other: Uint8Vector): Uint8Vector {

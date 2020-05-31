@@ -7,7 +7,7 @@ export class Int8Vector extends Vector<Int8> {
       super(new Array(arg).fill(new Int8(0)));
     }
     if (arg instanceof Array) {
-      super(arg as Array<Int8>);
+      super(arg);
     }
   }
   concat(other: Int8Vector): Int8Vector {
