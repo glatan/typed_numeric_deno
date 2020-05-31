@@ -1,7 +1,7 @@
-import { assertEquals, assertThrows } from "../depends.ts";
+import { assertEquals, assertThrows } from "../../depends.ts";
 
 import { Uint8Vector } from "./uint8vector.ts";
-import { Uint8 } from "./uint8.ts";
+import { Uint8 } from "../numeric/uint8.ts";
 
 Deno.test("Vector", () => {
   // include
@@ -183,7 +183,8 @@ Deno.test("Vector", () => {
     [12, 34, 56, 78].toString(),
   );
   assertEquals(
-    Uint8Vector.fromTypedArray(new Uint8Array([12, 34, 56, 78, 90, 0xAB, 0xCD])).toString(),
+    Uint8Vector.fromTypedArray(new Uint8Array([12, 34, 56, 78, 90, 0xAB, 0xCD]))
+      .toString(),
     [12, 34, 56, 78, 90, 0xAB, 0xCD].toString(),
   );
   assertEquals(

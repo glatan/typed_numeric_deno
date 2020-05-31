@@ -1,4 +1,4 @@
-import { assertEquals, assertThrows } from "../depends.ts";
+import { assertEquals, assertThrows } from "../../depends.ts";
 
 import { Int8 } from "./int8.ts";
 

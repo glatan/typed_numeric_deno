@@ -1,4 +1,4 @@
-import { Int8 } from "./int8.ts";
+import { Int8 } from "../numeric/int8.ts";
 import { Vector } from "./mod.ts";
 
 export class Int8Vector extends Vector<Int8> {

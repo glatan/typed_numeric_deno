@@ -1,6 +1,6 @@
-import { sprintf } from "../depends.ts";
+import { sprintf } from "../../depends.ts";
 
-import { Uint8 } from "./uint8.ts";
+import { Uint8 } from "../numeric/uint8.ts";
 import { Vector } from "./mod.ts";
 
 export class Uint8Vector extends Vector<Uint8> {
