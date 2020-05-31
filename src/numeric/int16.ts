@@ -4,25 +4,24 @@ const MAX: number = 0x7FFF;
 const MIN: number = -MAX;
 const BIT_LENGTH: number = 16;
 
-export class Int16 implements Numeric<Int16> {
-  #value: number;
+export class Int16 extends Numeric<Int16, number> {
   constructor(value: number = 0) {
     if (value < 0) {
       // 一度符号を外してからマスク、その後符号を(Int16の最上位ビットを1にする形で)戻す
-      this.#value = ((~value + 1) & MAX) | (MAX + 1);
+      super(((~value + 1) & MAX) | (MAX + 1));
     } else if (value === (value | (MAX + 1))) {
       // Int16での最上位ビットが1の場合
-      this.#value = value & (MAX | (MAX + 1));
+      super(value & (MAX | (MAX + 1)));
     } else {
-      this.#value = value & MAX;
+      super(value & MAX);
     }
   }
   value(): number {
-    if ((this.#value | (MAX + 1)) === this.#value) {
+    if ((this.inner | (MAX + 1)) === this.inner) {
       // Int16での最上位ビットが1の場合
-      return ~(this.#value & MAX) + 1;
+      return ~(this.inner & MAX) + 1;
     } else {
-      return this.#value;
+      return this.inner;
     }
   }
   static max(): number {
@@ -33,144 +32,144 @@ export class Int16 implements Numeric<Int16> {
   }
   add(value: Int16): Int16 {
     if (
-      this.#value === (this.#value | (MAX + 1)) &&
-      value.#value === (value.#value | (MAX + 1))
+      this.inner === (this.inner | (MAX + 1)) &&
+      value.inner === (value.inner | (MAX + 1))
     ) {
       // -Num + -Num
-      return new Int16(~(this.#value & 0x7F) + ~(value.#value & MAX) + 2);
-    } else if (this.#value === (this.#value | (MAX + 1))) {
+      return new Int16(~(this.inner & 0x7F) + ~(value.inner & MAX) + 2);
+    } else if (this.inner === (this.inner | (MAX + 1))) {
       // -Num + Num
-      return new Int16(value.#value + ~(this.#value & MAX) + 1);
-    } else if (value.#value === (value.#value | (MAX + 1))) {
+      return new Int16(value.inner + ~(this.inner & MAX) + 1);
+    } else if (value.inner === (value.inner | (MAX + 1))) {
       // Num + -Num
-      return new Int16(this.#value + ~(value.#value & MAX) + 1);
+      return new Int16(this.inner + ~(value.inner & MAX) + 1);
     } else {
       // Num + Num
-      return new Int16(this.#value + value.#value);
+      return new Int16(this.inner + value.inner);
     }
   }
   sub(value: Int16): Int16 {
     if (
-      this.#value === (this.#value | (MAX + 1)) &&
-      value.#value === (value.#value | (MAX + 1))
+      this.inner === (this.inner | (MAX + 1)) &&
+      value.inner === (value.inner | (MAX + 1))
     ) {
       // -Num - -Num
-      if (this.#value < value.#value) {
+      if (this.inner < value.inner) {
         // -Num + Num
-        return new Int16(~(this.#value & MAX) + (value.#value & MAX) + 1);
+        return new Int16(~(this.inner & MAX) + (value.inner & MAX) + 1);
       } else {
-        return new Int16(~(this.#value & MAX) + ~(value.#value & MAX) + 2);
+        return new Int16(~(this.inner & MAX) + ~(value.inner & MAX) + 2);
       }
-    } else if (this.#value === (this.#value | (MAX + 1))) {
+    } else if (this.inner === (this.inner | (MAX + 1))) {
       // -Num - Num
-      return new Int16(~(this.#value & MAX) + ~(value.#value & MAX) + 2);
-    } else if (value.#value === (value.#value | (MAX + 1))) {
+      return new Int16(~(this.inner & MAX) + ~(value.inner & MAX) + 2);
+    } else if (value.inner === (value.inner | (MAX + 1))) {
       // Num - -Num
-      return new Int16(this.#value + (value.#value & MAX));
+      return new Int16(this.inner + (value.inner & MAX));
     } else {
       // Num - Num
-      return new Int16(this.#value + ~value.#value + 1);
+      return new Int16(this.inner + ~value.inner + 1);
     }
   }
   div(value: Int16): Int16 {
     if (
-      this.#value === (this.#value | (MAX + 1)) &&
-      value.#value === (value.#value | (MAX + 1))
+      this.inner === (this.inner | (MAX + 1)) &&
+      value.inner === (value.inner | (MAX + 1))
     ) {
       return new Int16(
-        (~(this.#value & MAX) + 1) / (~(value.#value & MAX) + 1),
+        (~(this.inner & MAX) + 1) / (~(value.inner & MAX) + 1),
       );
-    } else if (this.#value === (this.#value | (MAX + 1))) {
-      return new Int16(~((this.#value & MAX) / value.#value) + 1);
-    } else if (value.#value === (value.#value | (MAX + 1))) {
-      return new Int16(~(this.#value / (value.#value & MAX)) + 1);
+    } else if (this.inner === (this.inner | (MAX + 1))) {
+      return new Int16(~((this.inner & MAX) / value.inner) + 1);
+    } else if (value.inner === (value.inner | (MAX + 1))) {
+      return new Int16(~(this.inner / (value.inner & MAX)) + 1);
     } else {
-      return new Int16(this.#value / value.#value);
+      return new Int16(this.inner / value.inner);
     }
   }
   mul(value: Int16): Int16 {
     if (
-      this.#value === (this.#value | (MAX + 1)) &&
-      value.#value === (value.#value | (MAX + 1))
+      this.inner === (this.inner | (MAX + 1)) &&
+      value.inner === (value.inner | (MAX + 1))
     ) {
       return new Int16(
-        (~(this.#value & MAX) + 1) * (~(value.#value & MAX) + 1),
+        (~(this.inner & MAX) + 1) * (~(value.inner & MAX) + 1),
       );
-    } else if (this.#value === (this.#value | (MAX + 1))) {
-      return new Int16(~((this.#value & MAX) * value.#value) + 1);
-    } else if (value.#value === (value.#value | (MAX + 1))) {
-      return new Int16(~(this.#value * (value.#value & MAX)) + 1);
+    } else if (this.inner === (this.inner | (MAX + 1))) {
+      return new Int16(~((this.inner & MAX) * value.inner) + 1);
+    } else if (value.inner === (value.inner | (MAX + 1))) {
+      return new Int16(~(this.inner * (value.inner & MAX)) + 1);
     } else {
-      return new Int16(this.#value * value.#value);
+      return new Int16(this.inner * value.inner);
     }
   }
   rem(value: Int16): Int16 {
     if (
-      this.#value === (this.#value | (MAX + 1)) &&
-      value.#value === (value.#value | (MAX + 1))
+      this.inner === (this.inner | (MAX + 1)) &&
+      value.inner === (value.inner | (MAX + 1))
     ) {
       return new Int16(
-        (~(this.#value & MAX) + 1) % (~(value.#value & MAX) + 1),
+        (~(this.inner & MAX) + 1) % (~(value.inner & MAX) + 1),
       );
-    } else if (this.#value === (this.#value | (MAX + 1))) {
-      return new Int16(~((this.#value & MAX) % value.#value) + 1);
-    } else if (value.#value === (value.#value | (MAX + 1))) {
-      return new Int16(this.#value % (value.#value & MAX));
+    } else if (this.inner === (this.inner | (MAX + 1))) {
+      return new Int16(~((this.inner & MAX) % value.inner) + 1);
+    } else if (value.inner === (value.inner | (MAX + 1))) {
+      return new Int16(this.inner % (value.inner & MAX));
     } else {
-      return new Int16(this.#value % value.#value);
+      return new Int16(this.inner % value.inner);
     }
   }
   exp(value: Int16): Int16 {
-    if (value.#value === 0) {
+    if (value.inner === 0) {
       return new Int16(1);
-    } else if (value.#value === (value.#value | (MAX + 1))) {
+    } else if (value.inner === (value.inner | (MAX + 1))) {
       throw new Error(
         "Invalid Value Error: Expected value is greater than 0",
       );
-    } else if (this.#value === (this.#value | (MAX + 1))) {
+    } else if (this.inner === (this.inner | (MAX + 1))) {
       if (value.rem(new Int16(2)).value() === 0) {
-        return new Int16((this.#value & MAX) ** value.#value);
+        return new Int16((this.inner & MAX) ** value.inner);
       } else {
-        return new Int16(~((this.#value & MAX) ** value.#value) + 1);
+        return new Int16(~((this.inner & MAX) ** value.inner) + 1);
       }
     } else {
-      return new Int16(this.#value ** value.#value);
+      return new Int16(this.inner ** value.inner);
     }
   }
   and(value: Int16): Int16 {
-    return new Int16(this.#value & value.#value);
+    return new Int16(this.inner & value.inner);
   }
   or(value: Int16): Int16 {
-    return new Int16(this.#value | value.#value);
+    return new Int16(this.inner | value.inner);
   }
   xor(value: Int16): Int16 {
-    return new Int16(this.#value ^ value.#value);
+    return new Int16(this.inner ^ value.inner);
   }
   not(): Int16 {
-    return new Int16(~this.#value);
+    return new Int16(~this.inner);
   }
   logicalLeft(n: number): Int16 {
     if (n >= BIT_LENGTH) {
       return new Int16(0);
     }
-    return new Int16(this.#value << n);
+    return new Int16(this.inner << n);
   }
   logicalRight(n: number): Int16 {
     if (n >= BIT_LENGTH) {
       return new Int16(0);
     }
-    return new Int16(this.#value >> n);
+    return new Int16(this.inner >> n);
   }
   rotateLeft(n: number): Int16 {
     return new Int16(
-      (this.#value << (n % BIT_LENGTH)) |
-        (this.#value >> ((BIT_LENGTH - n) % BIT_LENGTH)),
+      (this.inner << (n % BIT_LENGTH)) |
+        (this.inner >> ((BIT_LENGTH - n) % BIT_LENGTH)),
     );
   }
   rotateRight(n: number): Int16 {
     return new Int16(
-      (this.#value >> (n % BIT_LENGTH)) |
-        (this.#value << ((BIT_LENGTH - n) % BIT_LENGTH)),
+      (this.inner >> (n % BIT_LENGTH)) |
+        (this.inner << ((BIT_LENGTH - n) % BIT_LENGTH)),
     );
   }
   static fromBeBytes(bytes: Uint8Array): Int16 {
@@ -196,9 +195,9 @@ export class Int16 implements Numeric<Int16> {
     );
   }
   toBeBytes(): Uint8Array {
-    return Uint8Array.from([(this.#value >> 8) & 0xFF, this.#value & 0xFF]);
+    return Uint8Array.from([(this.inner >> 8) & 0xFF, this.inner & 0xFF]);
   }
   toLeBytes(): Uint8Array {
-    return Uint8Array.from([this.#value & 0xFF, (this.#value >> 8) & 0xFF]);
+    return Uint8Array.from([this.inner & 0xFF, (this.inner >> 8) & 0xFF]);
   }
 }

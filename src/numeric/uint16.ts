@@ -4,13 +4,12 @@ const MAX: number = 0xFFFF;
 const MIN: number = 0;
 const BIT_LENGTH: number = 16;
 
-export class Uint16 implements Numeric<Uint16> {
-  #value: number;
+export class Uint16 extends Numeric<Uint16, number> {
   constructor(value: number = 0) {
-    this.#value = value & MAX;
+    super(value & MAX);
   }
   value(): number {
-    return this.#value;
+    return this.inner;
   }
   static max(): number {
     return MAX;
@@ -19,57 +18,57 @@ export class Uint16 implements Numeric<Uint16> {
     return MIN;
   }
   add(value: Uint16): Uint16 {
-    return new Uint16(this.#value + value.#value);
+    return new Uint16(this.inner + value.inner);
   }
   sub(value: Uint16): Uint16 {
-    return new Uint16(this.#value - value.#value);
+    return new Uint16(this.inner - value.inner);
   }
   div(value: Uint16): Uint16 {
-    return new Uint16(this.#value / value.#value);
+    return new Uint16(this.inner / value.inner);
   }
   mul(value: Uint16): Uint16 {
-    return new Uint16(this.#value * value.#value);
+    return new Uint16(this.inner * value.inner);
   }
   rem(value: Uint16): Uint16 {
-    return new Uint16(this.#value % value.#value);
+    return new Uint16(this.inner % value.inner);
   }
   exp(value: Uint16): Uint16 {
-    return new Uint16(this.#value ** value.#value);
+    return new Uint16(this.inner ** value.inner);
   }
   and(value: Uint16): Uint16 {
-    return new Uint16(this.#value & value.#value);
+    return new Uint16(this.inner & value.inner);
   }
   or(value: Uint16): Uint16 {
-    return new Uint16(this.#value | value.#value);
+    return new Uint16(this.inner | value.inner);
   }
   xor(value: Uint16): Uint16 {
-    return new Uint16(this.#value ^ value.#value);
+    return new Uint16(this.inner ^ value.inner);
   }
   not(): Uint16 {
-    return new Uint16(~this.#value);
+    return new Uint16(~this.inner);
   }
   logicalLeft(n: number): Uint16 {
     if (n >= BIT_LENGTH) {
       return new Uint16(0);
     }
-    return new Uint16(this.#value << n);
+    return new Uint16(this.inner << n);
   }
   logicalRight(n: number): Uint16 {
     if (n >= BIT_LENGTH) {
       return new Uint16(0);
     }
-    return new Uint16(this.#value >> n);
+    return new Uint16(this.inner >> n);
   }
   rotateLeft(n: number): Uint16 {
     return new Uint16(
-      (this.#value << (n % BIT_LENGTH)) |
-        (this.#value >> ((BIT_LENGTH - n) % BIT_LENGTH)),
+      (this.inner << (n % BIT_LENGTH)) |
+        (this.inner >> ((BIT_LENGTH - n) % BIT_LENGTH)),
     );
   }
   rotateRight(n: number): Uint16 {
     return new Uint16(
-      (this.#value >> (n % BIT_LENGTH)) |
-        (this.#value << ((BIT_LENGTH - n) % BIT_LENGTH)),
+      (this.inner >> (n % BIT_LENGTH)) |
+        (this.inner << ((BIT_LENGTH - n) % BIT_LENGTH)),
     );
   }
   static fromBeBytes(bytes: Uint8Array): Uint16 {
@@ -96,14 +95,14 @@ export class Uint16 implements Numeric<Uint16> {
   }
   toBeBytes(): Uint8Array {
     return Uint8Array.from([
-      (this.#value >> 8) & 0xFF,
-      this.#value & 0xFF,
+      (this.inner >> 8) & 0xFF,
+      this.inner & 0xFF,
     ]);
   }
   toLeBytes(): Uint8Array {
     return Uint8Array.from([
-      this.#value & 0xFF,
-      (this.#value >> 8) & 0xFF,
+      this.inner & 0xFF,
+      (this.inner >> 8) & 0xFF,
     ]);
   }
 }

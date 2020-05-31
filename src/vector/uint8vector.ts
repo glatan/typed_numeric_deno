@@ -3,7 +3,7 @@ import { sprintf } from "../../depends.ts";
 import { Uint8 } from "../numeric/uint8.ts";
 import { Vector } from "./mod.ts";
 
-export class Uint8Vector extends Vector<Uint8> {
+export class Uint8Vector extends Vector<Uint8, number> {
   constructor(arg: number | Array<Uint8> = 0) {
     if (typeof arg === "number") {
       super(new Array(arg).fill(new Uint8(0)));
