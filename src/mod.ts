@@ -141,6 +141,27 @@ export abstract class Vector<T extends Numeric<T>> {
     }
     return result;
   }
+  lastIndexOf(
+    searchElement: T,
+    fromIndex: number = this.inner.length - 1,
+  ): number {
+    if (fromIndex >= this.inner.length) {
+      fromIndex = this.inner.length - 1;
+    }
+    if (fromIndex < 0) {
+      if (Math.abs(fromIndex) > this.inner.length) {
+        return -1;
+      } else {
+        fromIndex = this.inner.length + fromIndex;
+      }
+    }
+    for (let i = fromIndex; i >= 0; i--) {
+      if (searchElement.value() === this.inner[i].value()) {
+        return i;
+      }
+    }
+    return -1;
+  }
   equals(other: Vector<T>): boolean {
     for (let i = 0; i < this.inner.length; i++) {
       if (this.inner[i].value() !== other.inner[i].value()) {
