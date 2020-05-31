@@ -11,8 +11,7 @@ export class Int16Vector extends Vector<Int16> {
     }
   }
   concat(other: Int16Vector): Int16Vector {
-    super.concat(other);
-    return new Int16Vector(this.inner);
+    return new Int16Vector(this.inner.concat(other.inner));
   }
   fill(value: Int16 | number): Int16Vector {
     if (typeof value === "number") {

@@ -11,8 +11,7 @@ export class Uint64Vector extends Vector<Uint64> {
     }
   }
   concat(other: Uint64Vector): Uint64Vector {
-    super.concat(other);
-    return new Uint64Vector(this.inner);
+    return new Uint64Vector(this.inner.concat(other.inner));
   }
   fill(value: Uint64 | bigint): Uint64Vector {
     if (typeof value === "bigint") {

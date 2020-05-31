@@ -11,8 +11,7 @@ export class Uint32Vector extends Vector<Uint32> {
     }
   }
   concat(other: Uint32Vector): Uint32Vector {
-    super.concat(other);
-    return new Uint32Vector(this.inner);
+    return new Uint32Vector(this.inner.concat(other.inner));
   }
   fill(value: Uint32 | bigint): Uint32Vector {
     if (typeof value === "bigint") {
