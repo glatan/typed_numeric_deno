@@ -89,6 +89,58 @@ export abstract class Vector<T extends Numeric<T>> {
       this.inner[i] = value;
     }
   }
+  include(valueToFind: T, fromIndex: number = 0): boolean {
+    if (fromIndex >= this.inner.length) {
+      // fromIndex is greater than or equal to the array length
+      return false;
+    }
+    if (fromIndex < 0) {
+      if (Math.abs(fromIndex) < this.inner.length) {
+        fromIndex = fromIndex + this.inner.length;
+      } else {
+        // Computed index is less than 0
+        fromIndex = 0;
+      }
+    }
+    for (let i = fromIndex; i < this.inner.length; i++) {
+      if (valueToFind.value() === this.inner[i].value()) {
+        return true;
+      }
+    }
+    return false;
+  }
+  indexOf(searchElement: T, fromIndex: number = 0): number {
+    if (fromIndex >= this.inner.length) {
+      // fromIndex is greater than or equal to the array length
+      return -1;
+    }
+    if (fromIndex < 0) {
+      if (Math.abs(fromIndex) < this.inner.length) {
+        fromIndex = fromIndex + this.inner.length;
+      } else {
+        // Computed index is less than 0
+        fromIndex = 0;
+      }
+    }
+    for (let i = fromIndex; i < this.inner.length; i++) {
+      if (searchElement.value() === this.inner[i].value()) {
+        return i;
+      }
+    }
+    return -1;
+  }
+  join(separator: string = ","): string {
+    let result = "";
+    for (let i = 0; i < this.inner.length; i++) {
+      if (i === 0) {
+        result += this.inner[0].value();
+        continue;
+      }
+      result += separator;
+      result += this.inner[i].value();
+    }
+    return result;
+  }
   equals(other: Vector<T>): boolean {
     for (let i = 0; i < this.inner.length; i++) {
       if (this.inner[i].value() !== other.inner[i].value()) {
