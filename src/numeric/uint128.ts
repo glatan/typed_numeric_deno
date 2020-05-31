@@ -4,13 +4,12 @@ const MAX: bigint = 0xFFFFFFFF_FFFFFFFF_FFFFFFFF_FFFFFFFFn;
 const MIN: bigint = 0n;
 const BIT_LENGTH: bigint = 128n;
 
-export class Uint128 implements Numeric<Uint128> {
-  #value: bigint;
+export class Uint128 extends Numeric<Uint128, bigint> {
   constructor(value: bigint = 0n) {
-    this.#value = value & MAX;
+    super(value & MAX);
   }
   value(): bigint {
-    return this.#value;
+    return this.inner;
   }
   static max(): bigint {
     return MAX;
@@ -19,51 +18,51 @@ export class Uint128 implements Numeric<Uint128> {
     return MIN;
   }
   add(value: Uint128): Uint128 {
-    return new Uint128(this.#value + value.#value);
+    return new Uint128(this.inner + value.inner);
   }
   sub(value: Uint128): Uint128 {
-    return new Uint128(this.#value - value.#value);
+    return new Uint128(this.inner - value.inner);
   }
   div(value: Uint128): Uint128 {
-    return new Uint128(this.#value / value.#value);
+    return new Uint128(this.inner / value.inner);
   }
   mul(value: Uint128): Uint128 {
-    return new Uint128(this.#value * value.#value);
+    return new Uint128(this.inner * value.inner);
   }
   rem(value: Uint128): Uint128 {
-    return new Uint128(this.#value % value.#value);
+    return new Uint128(this.inner % value.inner);
   }
   exp(value: Uint128): Uint128 {
-    return new Uint128(this.#value ** value.#value);
+    return new Uint128(this.inner ** value.inner);
   }
   and(value: Uint128): Uint128 {
-    return new Uint128(this.#value & value.#value);
+    return new Uint128(this.inner & value.inner);
   }
   or(value: Uint128): Uint128 {
-    return new Uint128(this.#value | value.#value);
+    return new Uint128(this.inner | value.inner);
   }
   xor(value: Uint128): Uint128 {
-    return new Uint128(this.#value ^ value.#value);
+    return new Uint128(this.inner ^ value.inner);
   }
   not(): Uint128 {
-    return new Uint128(~this.#value);
+    return new Uint128(~this.inner);
   }
   logicalLeft(n: bigint): Uint128 {
-    return new Uint128(this.#value << n);
+    return new Uint128(this.inner << n);
   }
   logicalRight(n: bigint): Uint128 {
-    return new Uint128(this.#value >> n);
+    return new Uint128(this.inner >> n);
   }
   rotateLeft(n: bigint): Uint128 {
     return new Uint128(
-      (this.#value << (n % BIT_LENGTH)) |
-        (this.#value >> ((BIT_LENGTH - n) % BIT_LENGTH)),
+      (this.inner << (n % BIT_LENGTH)) |
+        (this.inner >> ((BIT_LENGTH - n) % BIT_LENGTH)),
     );
   }
   rotateRight(n: bigint): Uint128 {
     return new Uint128(
-      (this.#value >> (n % BIT_LENGTH)) |
-        (this.#value << ((BIT_LENGTH - n) % BIT_LENGTH)),
+      (this.inner >> (n % BIT_LENGTH)) |
+        (this.inner << ((BIT_LENGTH - n) % BIT_LENGTH)),
     );
   }
   static fromBeBytes(bytes: Uint8Array): Uint128 {
@@ -118,42 +117,42 @@ export class Uint128 implements Numeric<Uint128> {
   }
   toBeBytes(): Uint8Array {
     return Uint8Array.from([
-      Number((this.#value >> 120n) & 0xFFn),
-      Number((this.#value >> 112n) & 0xFFn),
-      Number((this.#value >> 104n) & 0xFFn),
-      Number((this.#value >> 96n) & 0xFFn),
-      Number((this.#value >> 88n) & 0xFFn),
-      Number((this.#value >> 80n) & 0xFFn),
-      Number((this.#value >> 72n) & 0xFFn),
-      Number((this.#value >> 64n) & 0xFFn),
-      Number((this.#value >> 56n) & 0xFFn),
-      Number((this.#value >> 48n) & 0xFFn),
-      Number((this.#value >> 40n) & 0xFFn),
-      Number((this.#value >> 32n) & 0xFFn),
-      Number((this.#value >> 24n) & 0xFFn),
-      Number((this.#value >> 16n) & 0xFFn),
-      Number((this.#value >> 8n) & 0xFFn),
-      Number(this.#value & 0xFFn),
+      Number((this.inner >> 120n) & 0xFFn),
+      Number((this.inner >> 112n) & 0xFFn),
+      Number((this.inner >> 104n) & 0xFFn),
+      Number((this.inner >> 96n) & 0xFFn),
+      Number((this.inner >> 88n) & 0xFFn),
+      Number((this.inner >> 80n) & 0xFFn),
+      Number((this.inner >> 72n) & 0xFFn),
+      Number((this.inner >> 64n) & 0xFFn),
+      Number((this.inner >> 56n) & 0xFFn),
+      Number((this.inner >> 48n) & 0xFFn),
+      Number((this.inner >> 40n) & 0xFFn),
+      Number((this.inner >> 32n) & 0xFFn),
+      Number((this.inner >> 24n) & 0xFFn),
+      Number((this.inner >> 16n) & 0xFFn),
+      Number((this.inner >> 8n) & 0xFFn),
+      Number(this.inner & 0xFFn),
     ]);
   }
   toLeBytes(): Uint8Array {
     return Uint8Array.from([
-      Number(this.#value & 0xFFn),
-      Number((this.#value >> 8n) & 0xFFn),
-      Number((this.#value >> 16n) & 0xFFn),
-      Number((this.#value >> 24n) & 0xFFn),
-      Number((this.#value >> 32n) & 0xFFn),
-      Number((this.#value >> 40n) & 0xFFn),
-      Number((this.#value >> 48n) & 0xFFn),
-      Number((this.#value >> 56n) & 0xFFn),
-      Number((this.#value >> 64n) & 0xFFn),
-      Number((this.#value >> 72n) & 0xFFn),
-      Number((this.#value >> 80n) & 0xFFn),
-      Number((this.#value >> 88n) & 0xFFn),
-      Number((this.#value >> 96n) & 0xFFn),
-      Number((this.#value >> 104n) & 0xFFn),
-      Number((this.#value >> 112n) & 0xFFn),
-      Number((this.#value >> 120n) & 0xFFn),
+      Number(this.inner & 0xFFn),
+      Number((this.inner >> 8n) & 0xFFn),
+      Number((this.inner >> 16n) & 0xFFn),
+      Number((this.inner >> 24n) & 0xFFn),
+      Number((this.inner >> 32n) & 0xFFn),
+      Number((this.inner >> 40n) & 0xFFn),
+      Number((this.inner >> 48n) & 0xFFn),
+      Number((this.inner >> 56n) & 0xFFn),
+      Number((this.inner >> 64n) & 0xFFn),
+      Number((this.inner >> 72n) & 0xFFn),
+      Number((this.inner >> 80n) & 0xFFn),
+      Number((this.inner >> 88n) & 0xFFn),
+      Number((this.inner >> 96n) & 0xFFn),
+      Number((this.inner >> 104n) & 0xFFn),
+      Number((this.inner >> 112n) & 0xFFn),
+      Number((this.inner >> 120n) & 0xFFn),
     ]);
   }
 }

@@ -1,6 +1,6 @@
 import { Numeric } from "../numeric/mod.ts";
 
-export abstract class Vector<T extends Numeric<T>> {
+export abstract class Vector<T extends Numeric<T, N>, N> {
   protected inner: Array<T>;
   length: number;
   protected constructor(array: Array<T>) {
@@ -33,7 +33,7 @@ export abstract class Vector<T extends Numeric<T>> {
       return this.inner.pop() as T;
     }
   }
-  abstract concat(other: Vector<T>): Vector<T>;
+  abstract concat(other: Vector<T, N>): Vector<T, N>;
   fill(value: T) {
     for (let i = 0; i < this.inner.length; i++) {
       this.inner[i] = value;
@@ -115,7 +115,7 @@ export abstract class Vector<T extends Numeric<T>> {
   toString(): string {
     return this.join();
   }
-  equals(other: Vector<T>): boolean {
+  equals(other: Vector<T, N>): boolean {
     for (let i = 0; i < this.inner.length; i++) {
       if (this.inner[i].value() !== other.inner[i].value()) {
         return false;
@@ -123,6 +123,6 @@ export abstract class Vector<T extends Numeric<T>> {
     }
     return true;
   }
-  abstract reverse(): Vector<T>;
-  abstract slice(start: number, end: number): Vector<T>;
+  abstract reverse(): Vector<T, N>;
+  abstract slice(start: number, end: number): Vector<T, N>;
 }

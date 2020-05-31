@@ -1,7 +1,7 @@
 import { Int32 } from "../numeric/int32.ts";
 import { Vector } from "./mod.ts";
 
-export class Int32Vector extends Vector<Int32> {
+export class Int32Vector extends Vector<Int32, bigint> {
   constructor(arg: number | Array<Int32> = 0) {
     if (typeof arg === "number") {
       super(new Array(arg).fill(new Int32(0n)));

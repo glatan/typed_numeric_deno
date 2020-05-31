@@ -4,13 +4,12 @@ const MAX: bigint = 0xFFFF_FFFFn;
 const MIN: bigint = 0n;
 const BIT_LENGTH: bigint = 32n;
 
-export class Uint32 implements Numeric<Uint32> {
-  #value: bigint;
+export class Uint32 extends Numeric<Uint32, bigint> {
   constructor(value: bigint = 0n) {
-    this.#value = value & MAX;
+    super(value & MAX);
   }
   value(): bigint {
-    return this.#value;
+    return this.inner;
   }
   static max(): bigint {
     return MAX;
@@ -19,51 +18,51 @@ export class Uint32 implements Numeric<Uint32> {
     return MIN;
   }
   add(value: Uint32): Uint32 {
-    return new Uint32(this.#value + value.#value);
+    return new Uint32(this.inner + value.inner);
   }
   sub(value: Uint32): Uint32 {
-    return new Uint32(this.#value - value.#value);
+    return new Uint32(this.inner - value.inner);
   }
   div(value: Uint32): Uint32 {
-    return new Uint32(this.#value / value.#value);
+    return new Uint32(this.inner / value.inner);
   }
   mul(value: Uint32): Uint32 {
-    return new Uint32(this.#value * value.#value);
+    return new Uint32(this.inner * value.inner);
   }
   rem(value: Uint32): Uint32 {
-    return new Uint32(this.#value % value.#value);
+    return new Uint32(this.inner % value.inner);
   }
   exp(value: Uint32): Uint32 {
-    return new Uint32(this.#value ** value.#value);
+    return new Uint32(this.inner ** value.inner);
   }
   and(value: Uint32): Uint32 {
-    return new Uint32(this.#value & value.#value);
+    return new Uint32(this.inner & value.inner);
   }
   or(value: Uint32): Uint32 {
-    return new Uint32(this.#value | value.#value);
+    return new Uint32(this.inner | value.inner);
   }
   xor(value: Uint32): Uint32 {
-    return new Uint32(this.#value ^ value.#value);
+    return new Uint32(this.inner ^ value.inner);
   }
   not(): Uint32 {
-    return new Uint32(~this.#value);
+    return new Uint32(~this.inner);
   }
   logicalLeft(n: bigint): Uint32 {
-    return new Uint32(this.#value << n);
+    return new Uint32(this.inner << n);
   }
   logicalRight(n: bigint): Uint32 {
-    return new Uint32(this.#value >> n);
+    return new Uint32(this.inner >> n);
   }
   rotateLeft(n: bigint): Uint32 {
     return new Uint32(
-      (this.#value << (n % BIT_LENGTH)) |
-        (this.#value >> ((BIT_LENGTH - n) % BIT_LENGTH)),
+      (this.inner << (n % BIT_LENGTH)) |
+        (this.inner >> ((BIT_LENGTH - n) % BIT_LENGTH)),
     );
   }
   rotateRight(n: bigint): Uint32 {
     return new Uint32(
-      (this.#value >> (n % BIT_LENGTH)) |
-        (this.#value << ((BIT_LENGTH - n) % BIT_LENGTH)),
+      (this.inner >> (n % BIT_LENGTH)) |
+        (this.inner << ((BIT_LENGTH - n) % BIT_LENGTH)),
     );
   }
   static fromBeBytes(bytes: Uint8Array): Uint32 {
@@ -94,18 +93,18 @@ export class Uint32 implements Numeric<Uint32> {
   }
   toBeBytes(): Uint8Array {
     return Uint8Array.from([
-      Number((this.#value >> 24n) & 0xFFn),
-      Number((this.#value >> 16n) & 0xFFn),
-      Number((this.#value >> 8n) & 0xFFn),
-      Number(this.#value & 0xFFn),
+      Number((this.inner >> 24n) & 0xFFn),
+      Number((this.inner >> 16n) & 0xFFn),
+      Number((this.inner >> 8n) & 0xFFn),
+      Number(this.inner & 0xFFn),
     ]);
   }
   toLeBytes(): Uint8Array {
     return Uint8Array.from([
-      Number(this.#value & 0xFFn),
-      Number((this.#value >> 8n) & 0xFFn),
-      Number((this.#value >> 16n) & 0xFFn),
-      Number((this.#value >> 24n) & 0xFFn),
+      Number(this.inner & 0xFFn),
+      Number((this.inner >> 8n) & 0xFFn),
+      Number((this.inner >> 16n) & 0xFFn),
+      Number((this.inner >> 24n) & 0xFFn),
     ]);
   }
 }

@@ -4,25 +4,24 @@ const MAX: bigint = 0x7FFF_FFFFn;
 const MIN: bigint = -MAX;
 const BIT_LENGTH: bigint = 32n;
 
-export class Int32 implements Numeric<Int32> {
-  #value: bigint;
+export class Int32 extends Numeric<Int32, bigint> {
   constructor(value: bigint = 0n) {
     if (value < 0) {
       // 一度符号を外してからマスク、その後符号を(Int32の最上位ビットを1にする形で)戻す
-      this.#value = ((~value + 1n) & MAX) | (MAX + 1n);
+      super(((~value + 1n) & MAX) | (MAX + 1n));
     } else if (value === (value | (MAX + 1n))) {
       // Int32での最上位ビットが1の場合
-      this.#value = value & (MAX | (MAX + 1n));
+      super(value & (MAX | (MAX + 1n)));
     } else {
-      this.#value = value & MAX;
+      super(value & MAX);
     }
   }
   value(): bigint {
-    if ((this.#value | (MAX + 1n)) === this.#value) {
+    if ((this.inner | (MAX + 1n)) === this.inner) {
       // Int32での最上位ビットが1の場合
-      return ~(this.#value & MAX) + 1n;
+      return ~(this.inner & MAX) + 1n;
     } else {
-      return this.#value;
+      return this.inner;
     }
   }
   static max(): bigint {
@@ -33,144 +32,144 @@ export class Int32 implements Numeric<Int32> {
   }
   add(value: Int32): Int32 {
     if (
-      this.#value === (this.#value | (MAX + 1n)) &&
-      value.#value === (value.#value | (MAX + 1n))
+      this.inner === (this.inner | (MAX + 1n)) &&
+      value.inner === (value.inner | (MAX + 1n))
     ) {
       // -Num + -Num
-      return new Int32(~(this.#value & MAX) + ~(value.#value & MAX) + 2n);
-    } else if (this.#value === (this.#value | (MAX + 1n))) {
+      return new Int32(~(this.inner & MAX) + ~(value.inner & MAX) + 2n);
+    } else if (this.inner === (this.inner | (MAX + 1n))) {
       // -Num + Num
-      return new Int32(value.#value + ~(this.#value & MAX) + 1n);
-    } else if (value.#value === (value.#value | (MAX + 1n))) {
+      return new Int32(value.inner + ~(this.inner & MAX) + 1n);
+    } else if (value.inner === (value.inner | (MAX + 1n))) {
       // Num + -Num
-      return new Int32(this.#value + ~(value.#value & MAX) + 1n);
+      return new Int32(this.inner + ~(value.inner & MAX) + 1n);
     } else {
       // Num + Num
-      return new Int32(this.#value + value.#value);
+      return new Int32(this.inner + value.inner);
     }
   }
   sub(value: Int32): Int32 {
     if (
-      this.#value === (this.#value | (MAX + 1n)) &&
-      value.#value === (value.#value | (MAX + 1n))
+      this.inner === (this.inner | (MAX + 1n)) &&
+      value.inner === (value.inner | (MAX + 1n))
     ) {
       // -Num - -Num
-      if (this.#value < value.#value) {
+      if (this.inner < value.inner) {
         // -Num + Num
-        return new Int32(~(this.#value & MAX) + (value.#value & MAX) + 1n);
+        return new Int32(~(this.inner & MAX) + (value.inner & MAX) + 1n);
       } else {
-        return new Int32(~(this.#value & MAX) + ~(value.#value & MAX) + 2n);
+        return new Int32(~(this.inner & MAX) + ~(value.inner & MAX) + 2n);
       }
-    } else if (this.#value === (this.#value | (MAX + 1n))) {
+    } else if (this.inner === (this.inner | (MAX + 1n))) {
       // -Num - Num
-      return new Int32(~(this.#value & MAX) + ~(value.#value & MAX) + 2n);
-    } else if (value.#value === (value.#value | (MAX + 1n))) {
+      return new Int32(~(this.inner & MAX) + ~(value.inner & MAX) + 2n);
+    } else if (value.inner === (value.inner | (MAX + 1n))) {
       // Num - -Num
-      return new Int32(this.#value + (value.#value & MAX));
+      return new Int32(this.inner + (value.inner & MAX));
     } else {
       // Num - Num
-      return new Int32(this.#value + ~value.#value + 1n);
+      return new Int32(this.inner + ~value.inner + 1n);
     }
   }
   div(value: Int32): Int32 {
     if (
-      this.#value === (this.#value | (MAX + 1n)) &&
-      value.#value === (value.#value | (MAX + 1n))
+      this.inner === (this.inner | (MAX + 1n)) &&
+      value.inner === (value.inner | (MAX + 1n))
     ) {
       return new Int32(
-        (~(this.#value & MAX) + 1n) / (~(value.#value & MAX) + 1n),
+        (~(this.inner & MAX) + 1n) / (~(value.inner & MAX) + 1n),
       );
-    } else if (this.#value === (this.#value | (MAX + 1n))) {
-      return new Int32(~((this.#value & MAX) / value.#value) + 1n);
-    } else if (value.#value === (value.#value | (MAX + 1n))) {
-      return new Int32(~(this.#value / (value.#value & MAX)) + 1n);
+    } else if (this.inner === (this.inner | (MAX + 1n))) {
+      return new Int32(~((this.inner & MAX) / value.inner) + 1n);
+    } else if (value.inner === (value.inner | (MAX + 1n))) {
+      return new Int32(~(this.inner / (value.inner & MAX)) + 1n);
     } else {
-      return new Int32(this.#value / value.#value);
+      return new Int32(this.inner / value.inner);
     }
   }
   mul(value: Int32): Int32 {
     if (
-      this.#value === (this.#value | (MAX + 1n)) &&
-      value.#value === (value.#value | (MAX + 1n))
+      this.inner === (this.inner | (MAX + 1n)) &&
+      value.inner === (value.inner | (MAX + 1n))
     ) {
       return new Int32(
-        (~(this.#value & MAX) + 1n) * (~(value.#value & MAX) + 1n),
+        (~(this.inner & MAX) + 1n) * (~(value.inner & MAX) + 1n),
       );
-    } else if (this.#value === (this.#value | (MAX + 1n))) {
-      return new Int32(~((this.#value & MAX) * value.#value) + 1n);
-    } else if (value.#value === (value.#value | (MAX + 1n))) {
-      return new Int32(~(this.#value * (value.#value & MAX)) + 1n);
+    } else if (this.inner === (this.inner | (MAX + 1n))) {
+      return new Int32(~((this.inner & MAX) * value.inner) + 1n);
+    } else if (value.inner === (value.inner | (MAX + 1n))) {
+      return new Int32(~(this.inner * (value.inner & MAX)) + 1n);
     } else {
-      return new Int32(this.#value * value.#value);
+      return new Int32(this.inner * value.inner);
     }
   }
   rem(value: Int32): Int32 {
     if (
-      this.#value === (this.#value | (MAX + 1n)) &&
-      value.#value === (value.#value | (MAX + 1n))
+      this.inner === (this.inner | (MAX + 1n)) &&
+      value.inner === (value.inner | (MAX + 1n))
     ) {
       return new Int32(
-        (~(this.#value & MAX) + 1n) % (~(value.#value & MAX) + 1n),
+        (~(this.inner & MAX) + 1n) % (~(value.inner & MAX) + 1n),
       );
-    } else if (this.#value === (this.#value | (MAX + 1n))) {
-      return new Int32(~((this.#value & MAX) % value.#value) + 1n);
-    } else if (value.#value === (value.#value | (MAX + 1n))) {
-      return new Int32(this.#value % (value.#value & MAX));
+    } else if (this.inner === (this.inner | (MAX + 1n))) {
+      return new Int32(~((this.inner & MAX) % value.inner) + 1n);
+    } else if (value.inner === (value.inner | (MAX + 1n))) {
+      return new Int32(this.inner % (value.inner & MAX));
     } else {
-      return new Int32(this.#value % value.#value);
+      return new Int32(this.inner % value.inner);
     }
   }
   exp(value: Int32): Int32 {
-    if (value.#value === 0n) {
+    if (value.inner === 0n) {
       return new Int32(1n);
-    } else if (value.#value === (value.#value | (MAX + 1n))) {
+    } else if (value.inner === (value.inner | (MAX + 1n))) {
       throw new Error(
         "Invalid Value Error: Expected value is greater than 0",
       );
-    } else if (this.#value === (this.#value | (MAX + 1n))) {
+    } else if (this.inner === (this.inner | (MAX + 1n))) {
       if (value.rem(new Int32(2n)).value() === 0n) {
-        return new Int32((this.#value & MAX) ** value.#value);
+        return new Int32((this.inner & MAX) ** value.inner);
       } else {
-        return new Int32(~((this.#value & MAX) ** value.#value) + 1n);
+        return new Int32(~((this.inner & MAX) ** value.inner) + 1n);
       }
     } else {
-      return new Int32(this.#value ** value.#value);
+      return new Int32(this.inner ** value.inner);
     }
   }
   and(value: Int32): Int32 {
-    return new Int32(this.#value & value.#value);
+    return new Int32(this.inner & value.inner);
   }
   or(value: Int32): Int32 {
-    return new Int32(this.#value | value.#value);
+    return new Int32(this.inner | value.inner);
   }
   xor(value: Int32): Int32 {
-    return new Int32(this.#value ^ value.#value);
+    return new Int32(this.inner ^ value.inner);
   }
   not(): Int32 {
-    return new Int32(~this.#value);
+    return new Int32(~this.inner);
   }
   logicalLeft(n: bigint): Int32 {
     if (n >= BIT_LENGTH) {
       return new Int32(0n);
     }
-    return new Int32(this.#value << n);
+    return new Int32(this.inner << n);
   }
   logicalRight(n: bigint): Int32 {
     if (n >= BIT_LENGTH) {
       return new Int32(0n);
     }
-    return new Int32(this.#value >> n);
+    return new Int32(this.inner >> n);
   }
   rotateLeft(n: bigint): Int32 {
     return new Int32(
-      (this.#value << (n % BIT_LENGTH)) |
-        (this.#value >> ((BIT_LENGTH - n) % BIT_LENGTH)),
+      (this.inner << (n % BIT_LENGTH)) |
+        (this.inner >> ((BIT_LENGTH - n) % BIT_LENGTH)),
     );
   }
   rotateRight(n: bigint): Int32 {
     return new Int32(
-      (this.#value >> (n % BIT_LENGTH)) |
-        (this.#value << ((BIT_LENGTH - n) % BIT_LENGTH)),
+      (this.inner >> (n % BIT_LENGTH)) |
+        (this.inner << ((BIT_LENGTH - n) % BIT_LENGTH)),
     );
   }
   static fromBeBytes(bytes: Uint8Array): Int32 {
@@ -201,18 +200,18 @@ export class Int32 implements Numeric<Int32> {
   }
   toBeBytes(): Uint8Array {
     return Uint8Array.from([
-      Number((this.#value >> 24n) & 0xFFn),
-      Number((this.#value >> 16n) & 0xFFn),
-      Number((this.#value >> 8n) & 0xFFn),
-      Number(this.#value & 0xFFn),
+      Number((this.inner >> 24n) & 0xFFn),
+      Number((this.inner >> 16n) & 0xFFn),
+      Number((this.inner >> 8n) & 0xFFn),
+      Number(this.inner & 0xFFn),
     ]);
   }
   toLeBytes(): Uint8Array {
     return Uint8Array.from([
-      Number(this.#value & 0xFFn),
-      Number((this.#value >> 8n) & 0xFFn),
-      Number((this.#value >> 16n) & 0xFFn),
-      Number((this.#value >> 24n) & 0xFFn),
+      Number(this.inner & 0xFFn),
+      Number((this.inner >> 8n) & 0xFFn),
+      Number((this.inner >> 16n) & 0xFFn),
+      Number((this.inner >> 24n) & 0xFFn),
     ]);
   }
 }

@@ -5,13 +5,12 @@ const MAX: bigint =
 const MIN: bigint = 0n;
 const BIT_LENGTH: bigint = 256n;
 
-export class Uint256 implements Numeric<Uint256> {
-  #value: bigint;
+export class Uint256 extends Numeric<Uint256, bigint> {
   constructor(value: bigint = 0n) {
-    this.#value = value & MAX;
+    super(value & MAX);
   }
   value(): bigint {
-    return this.#value;
+    return this.inner;
   }
   static max(): bigint {
     return MAX;
@@ -20,51 +19,51 @@ export class Uint256 implements Numeric<Uint256> {
     return MIN;
   }
   add(value: Uint256): Uint256 {
-    return new Uint256(this.#value + value.#value);
+    return new Uint256(this.inner + value.inner);
   }
   sub(value: Uint256): Uint256 {
-    return new Uint256(this.#value - value.#value);
+    return new Uint256(this.inner - value.inner);
   }
   div(value: Uint256): Uint256 {
-    return new Uint256(this.#value / value.#value);
+    return new Uint256(this.inner / value.inner);
   }
   mul(value: Uint256): Uint256 {
-    return new Uint256(this.#value * value.#value);
+    return new Uint256(this.inner * value.inner);
   }
   rem(value: Uint256): Uint256 {
-    return new Uint256(this.#value % value.#value);
+    return new Uint256(this.inner % value.inner);
   }
   exp(value: Uint256): Uint256 {
-    return new Uint256(this.#value ** value.#value);
+    return new Uint256(this.inner ** value.inner);
   }
   and(value: Uint256): Uint256 {
-    return new Uint256(this.#value & value.#value);
+    return new Uint256(this.inner & value.inner);
   }
   or(value: Uint256): Uint256 {
-    return new Uint256(this.#value | value.#value);
+    return new Uint256(this.inner | value.inner);
   }
   xor(value: Uint256): Uint256 {
-    return new Uint256(this.#value ^ value.#value);
+    return new Uint256(this.inner ^ value.inner);
   }
   not(): Uint256 {
-    return new Uint256(~this.#value);
+    return new Uint256(~this.inner);
   }
   logicalLeft(n: bigint): Uint256 {
-    return new Uint256(this.#value << n);
+    return new Uint256(this.inner << n);
   }
   logicalRight(n: bigint): Uint256 {
-    return new Uint256(this.#value >> n);
+    return new Uint256(this.inner >> n);
   }
   rotateLeft(n: bigint): Uint256 {
     return new Uint256(
-      (this.#value << (n % BIT_LENGTH)) |
-        (this.#value >> ((BIT_LENGTH - n) % BIT_LENGTH)),
+      (this.inner << (n % BIT_LENGTH)) |
+        (this.inner >> ((BIT_LENGTH - n) % BIT_LENGTH)),
     );
   }
   rotateRight(n: bigint): Uint256 {
     return new Uint256(
-      (this.#value >> (n % BIT_LENGTH)) |
-        (this.#value << ((BIT_LENGTH - n) % BIT_LENGTH)),
+      (this.inner >> (n % BIT_LENGTH)) |
+        (this.inner << ((BIT_LENGTH - n) % BIT_LENGTH)),
     );
   }
   static fromBeBytes(bytes: Uint8Array): Uint256 {
@@ -151,74 +150,74 @@ export class Uint256 implements Numeric<Uint256> {
   }
   toBeBytes(): Uint8Array {
     return Uint8Array.from([
-      Number((this.#value >> 248n) & 0xFFn),
-      Number((this.#value >> 240n) & 0xFFn),
-      Number((this.#value >> 232n) & 0xFFn),
-      Number((this.#value >> 224n) & 0xFFn),
-      Number((this.#value >> 216n) & 0xFFn),
-      Number((this.#value >> 208n) & 0xFFn),
-      Number((this.#value >> 200n) & 0xFFn),
-      Number((this.#value >> 192n) & 0xFFn),
-      Number((this.#value >> 184n) & 0xFFn),
-      Number((this.#value >> 176n) & 0xFFn),
-      Number((this.#value >> 168n) & 0xFFn),
-      Number((this.#value >> 160n) & 0xFFn),
-      Number((this.#value >> 152n) & 0xFFn),
-      Number((this.#value >> 144n) & 0xFFn),
-      Number((this.#value >> 136n) & 0xFFn),
-      Number((this.#value >> 128n) & 0xFFn),
-      Number((this.#value >> 120n) & 0xFFn),
-      Number((this.#value >> 112n) & 0xFFn),
-      Number((this.#value >> 104n) & 0xFFn),
-      Number((this.#value >> 96n) & 0xFFn),
-      Number((this.#value >> 88n) & 0xFFn),
-      Number((this.#value >> 80n) & 0xFFn),
-      Number((this.#value >> 72n) & 0xFFn),
-      Number((this.#value >> 64n) & 0xFFn),
-      Number((this.#value >> 56n) & 0xFFn),
-      Number((this.#value >> 48n) & 0xFFn),
-      Number((this.#value >> 40n) & 0xFFn),
-      Number((this.#value >> 32n) & 0xFFn),
-      Number((this.#value >> 24n) & 0xFFn),
-      Number((this.#value >> 16n) & 0xFFn),
-      Number((this.#value >> 8n) & 0xFFn),
-      Number(this.#value & 0xFFn),
+      Number((this.inner >> 248n) & 0xFFn),
+      Number((this.inner >> 240n) & 0xFFn),
+      Number((this.inner >> 232n) & 0xFFn),
+      Number((this.inner >> 224n) & 0xFFn),
+      Number((this.inner >> 216n) & 0xFFn),
+      Number((this.inner >> 208n) & 0xFFn),
+      Number((this.inner >> 200n) & 0xFFn),
+      Number((this.inner >> 192n) & 0xFFn),
+      Number((this.inner >> 184n) & 0xFFn),
+      Number((this.inner >> 176n) & 0xFFn),
+      Number((this.inner >> 168n) & 0xFFn),
+      Number((this.inner >> 160n) & 0xFFn),
+      Number((this.inner >> 152n) & 0xFFn),
+      Number((this.inner >> 144n) & 0xFFn),
+      Number((this.inner >> 136n) & 0xFFn),
+      Number((this.inner >> 128n) & 0xFFn),
+      Number((this.inner >> 120n) & 0xFFn),
+      Number((this.inner >> 112n) & 0xFFn),
+      Number((this.inner >> 104n) & 0xFFn),
+      Number((this.inner >> 96n) & 0xFFn),
+      Number((this.inner >> 88n) & 0xFFn),
+      Number((this.inner >> 80n) & 0xFFn),
+      Number((this.inner >> 72n) & 0xFFn),
+      Number((this.inner >> 64n) & 0xFFn),
+      Number((this.inner >> 56n) & 0xFFn),
+      Number((this.inner >> 48n) & 0xFFn),
+      Number((this.inner >> 40n) & 0xFFn),
+      Number((this.inner >> 32n) & 0xFFn),
+      Number((this.inner >> 24n) & 0xFFn),
+      Number((this.inner >> 16n) & 0xFFn),
+      Number((this.inner >> 8n) & 0xFFn),
+      Number(this.inner & 0xFFn),
     ]);
   }
   toLeBytes(): Uint8Array {
     return Uint8Array.from([
-      Number(this.#value & 0xFFn),
-      Number((this.#value >> 8n) & 0xFFn),
-      Number((this.#value >> 16n) & 0xFFn),
-      Number((this.#value >> 24n) & 0xFFn),
-      Number((this.#value >> 32n) & 0xFFn),
-      Number((this.#value >> 40n) & 0xFFn),
-      Number((this.#value >> 48n) & 0xFFn),
-      Number((this.#value >> 56n) & 0xFFn),
-      Number((this.#value >> 64n) & 0xFFn),
-      Number((this.#value >> 72n) & 0xFFn),
-      Number((this.#value >> 80n) & 0xFFn),
-      Number((this.#value >> 88n) & 0xFFn),
-      Number((this.#value >> 96n) & 0xFFn),
-      Number((this.#value >> 104n) & 0xFFn),
-      Number((this.#value >> 112n) & 0xFFn),
-      Number((this.#value >> 120n) & 0xFFn),
-      Number((this.#value >> 128n) & 0xFFn),
-      Number((this.#value >> 136n) & 0xFFn),
-      Number((this.#value >> 144n) & 0xFFn),
-      Number((this.#value >> 152n) & 0xFFn),
-      Number((this.#value >> 160n) & 0xFFn),
-      Number((this.#value >> 168n) & 0xFFn),
-      Number((this.#value >> 176n) & 0xFFn),
-      Number((this.#value >> 184n) & 0xFFn),
-      Number((this.#value >> 192n) & 0xFFn),
-      Number((this.#value >> 200n) & 0xFFn),
-      Number((this.#value >> 208n) & 0xFFn),
-      Number((this.#value >> 216n) & 0xFFn),
-      Number((this.#value >> 224n) & 0xFFn),
-      Number((this.#value >> 232n) & 0xFFn),
-      Number((this.#value >> 240n) & 0xFFn),
-      Number((this.#value >> 248n) & 0xFFn),
+      Number(this.inner & 0xFFn),
+      Number((this.inner >> 8n) & 0xFFn),
+      Number((this.inner >> 16n) & 0xFFn),
+      Number((this.inner >> 24n) & 0xFFn),
+      Number((this.inner >> 32n) & 0xFFn),
+      Number((this.inner >> 40n) & 0xFFn),
+      Number((this.inner >> 48n) & 0xFFn),
+      Number((this.inner >> 56n) & 0xFFn),
+      Number((this.inner >> 64n) & 0xFFn),
+      Number((this.inner >> 72n) & 0xFFn),
+      Number((this.inner >> 80n) & 0xFFn),
+      Number((this.inner >> 88n) & 0xFFn),
+      Number((this.inner >> 96n) & 0xFFn),
+      Number((this.inner >> 104n) & 0xFFn),
+      Number((this.inner >> 112n) & 0xFFn),
+      Number((this.inner >> 120n) & 0xFFn),
+      Number((this.inner >> 128n) & 0xFFn),
+      Number((this.inner >> 136n) & 0xFFn),
+      Number((this.inner >> 144n) & 0xFFn),
+      Number((this.inner >> 152n) & 0xFFn),
+      Number((this.inner >> 160n) & 0xFFn),
+      Number((this.inner >> 168n) & 0xFFn),
+      Number((this.inner >> 176n) & 0xFFn),
+      Number((this.inner >> 184n) & 0xFFn),
+      Number((this.inner >> 192n) & 0xFFn),
+      Number((this.inner >> 200n) & 0xFFn),
+      Number((this.inner >> 208n) & 0xFFn),
+      Number((this.inner >> 216n) & 0xFFn),
+      Number((this.inner >> 224n) & 0xFFn),
+      Number((this.inner >> 232n) & 0xFFn),
+      Number((this.inner >> 240n) & 0xFFn),
+      Number((this.inner >> 248n) & 0xFFn),
     ]);
   }
 }

@@ -5,25 +5,24 @@ const MAX: bigint =
 const MIN: bigint = -MAX;
 const BIT_LENGTH: bigint = 256n;
 
-export class Int256 implements Numeric<Int256> {
-  #value: bigint;
+export class Int256 extends Numeric<Int256, bigint> {
   constructor(value: bigint = 0n) {
     if (value < 0) {
       // 一度符号を外してからマスク、その後符号を(Int256の最上位ビットを1にする形で)戻す
-      this.#value = ((~value + 1n) & MAX) | (MAX + 1n);
+      super(((~value + 1n) & MAX) | (MAX + 1n));
     } else if (value === (value | (MAX + 1n))) {
       // Int256での最上位ビットが1の場合
-      this.#value = value & (MAX | (MAX + 1n));
+      super(value & (MAX | (MAX + 1n)));
     } else {
-      this.#value = value & MAX;
+      super(value & MAX);
     }
   }
   value(): bigint {
-    if ((this.#value | (MAX + 1n)) === this.#value) {
+    if ((this.inner | (MAX + 1n)) === this.inner) {
       // Int256での最上位ビットが1の場合
-      return ~(this.#value & MAX) + 1n;
+      return ~(this.inner & MAX) + 1n;
     } else {
-      return this.#value;
+      return this.inner;
     }
   }
   static max(): bigint {
@@ -34,144 +33,144 @@ export class Int256 implements Numeric<Int256> {
   }
   add(value: Int256): Int256 {
     if (
-      this.#value === (this.#value | (MAX + 1n)) &&
-      value.#value === (value.#value | (MAX + 1n))
+      this.inner === (this.inner | (MAX + 1n)) &&
+      value.inner === (value.inner | (MAX + 1n))
     ) {
       // -Num + -Num
-      return new Int256(~(this.#value & MAX) + ~(value.#value & MAX) + 2n);
-    } else if (this.#value === (this.#value | (MAX + 1n))) {
+      return new Int256(~(this.inner & MAX) + ~(value.inner & MAX) + 2n);
+    } else if (this.inner === (this.inner | (MAX + 1n))) {
       // -Num + Num
-      return new Int256(value.#value + ~(this.#value & MAX) + 1n);
-    } else if (value.#value === (value.#value | (MAX + 1n))) {
+      return new Int256(value.inner + ~(this.inner & MAX) + 1n);
+    } else if (value.inner === (value.inner | (MAX + 1n))) {
       // Num + -Num
-      return new Int256(this.#value + ~(value.#value & MAX) + 1n);
+      return new Int256(this.inner + ~(value.inner & MAX) + 1n);
     } else {
       // Num + Num
-      return new Int256(this.#value + value.#value);
+      return new Int256(this.inner + value.inner);
     }
   }
   sub(value: Int256): Int256 {
     if (
-      this.#value === (this.#value | (MAX + 1n)) &&
-      value.#value === (value.#value | (MAX + 1n))
+      this.inner === (this.inner | (MAX + 1n)) &&
+      value.inner === (value.inner | (MAX + 1n))
     ) {
       // -Num - -Num
-      if (this.#value < value.#value) {
+      if (this.inner < value.inner) {
         // -Num + Num
-        return new Int256(~(this.#value & MAX) + (value.#value & MAX) + 1n);
+        return new Int256(~(this.inner & MAX) + (value.inner & MAX) + 1n);
       } else {
-        return new Int256(~(this.#value & MAX) + ~(value.#value & MAX) + 2n);
+        return new Int256(~(this.inner & MAX) + ~(value.inner & MAX) + 2n);
       }
-    } else if (this.#value === (this.#value | (MAX + 1n))) {
+    } else if (this.inner === (this.inner | (MAX + 1n))) {
       // -Num - Num
-      return new Int256(~(this.#value & MAX) + ~(value.#value & MAX) + 2n);
-    } else if (value.#value === (value.#value | (MAX + 1n))) {
+      return new Int256(~(this.inner & MAX) + ~(value.inner & MAX) + 2n);
+    } else if (value.inner === (value.inner | (MAX + 1n))) {
       // Num - -Num
-      return new Int256(this.#value + (value.#value & MAX));
+      return new Int256(this.inner + (value.inner & MAX));
     } else {
       // Num - Num
-      return new Int256(this.#value + ~value.#value + 1n);
+      return new Int256(this.inner + ~value.inner + 1n);
     }
   }
   div(value: Int256): Int256 {
     if (
-      this.#value === (this.#value | (MAX + 1n)) &&
-      value.#value === (value.#value | (MAX + 1n))
+      this.inner === (this.inner | (MAX + 1n)) &&
+      value.inner === (value.inner | (MAX + 1n))
     ) {
       return new Int256(
-        (~(this.#value & MAX) + 1n) / (~(value.#value & MAX) + 1n),
+        (~(this.inner & MAX) + 1n) / (~(value.inner & MAX) + 1n),
       );
-    } else if (this.#value === (this.#value | (MAX + 1n))) {
-      return new Int256(~((this.#value & MAX) / value.#value) + 1n);
-    } else if (value.#value === (value.#value | (MAX + 1n))) {
-      return new Int256(~(this.#value / (value.#value & MAX)) + 1n);
+    } else if (this.inner === (this.inner | (MAX + 1n))) {
+      return new Int256(~((this.inner & MAX) / value.inner) + 1n);
+    } else if (value.inner === (value.inner | (MAX + 1n))) {
+      return new Int256(~(this.inner / (value.inner & MAX)) + 1n);
     } else {
-      return new Int256(this.#value / value.#value);
+      return new Int256(this.inner / value.inner);
     }
   }
   mul(value: Int256): Int256 {
     if (
-      this.#value === (this.#value | (MAX + 1n)) &&
-      value.#value === (value.#value | (MAX + 1n))
+      this.inner === (this.inner | (MAX + 1n)) &&
+      value.inner === (value.inner | (MAX + 1n))
     ) {
       return new Int256(
-        (~(this.#value & MAX) + 1n) * (~(value.#value & MAX) + 1n),
+        (~(this.inner & MAX) + 1n) * (~(value.inner & MAX) + 1n),
       );
-    } else if (this.#value === (this.#value | (MAX + 1n))) {
-      return new Int256(~((this.#value & MAX) * value.#value) + 1n);
-    } else if (value.#value === (value.#value | (MAX + 1n))) {
-      return new Int256(~(this.#value * (value.#value & MAX)) + 1n);
+    } else if (this.inner === (this.inner | (MAX + 1n))) {
+      return new Int256(~((this.inner & MAX) * value.inner) + 1n);
+    } else if (value.inner === (value.inner | (MAX + 1n))) {
+      return new Int256(~(this.inner * (value.inner & MAX)) + 1n);
     } else {
-      return new Int256(this.#value * value.#value);
+      return new Int256(this.inner * value.inner);
     }
   }
   rem(value: Int256): Int256 {
     if (
-      this.#value === (this.#value | (MAX + 1n)) &&
-      value.#value === (value.#value | (MAX + 1n))
+      this.inner === (this.inner | (MAX + 1n)) &&
+      value.inner === (value.inner | (MAX + 1n))
     ) {
       return new Int256(
-        (~(this.#value & MAX) + 1n) % (~(value.#value & MAX) + 1n),
+        (~(this.inner & MAX) + 1n) % (~(value.inner & MAX) + 1n),
       );
-    } else if (this.#value === (this.#value | (MAX + 1n))) {
-      return new Int256(~((this.#value & MAX) % value.#value) + 1n);
-    } else if (value.#value === (value.#value | (MAX + 1n))) {
-      return new Int256(this.#value % (value.#value & MAX));
+    } else if (this.inner === (this.inner | (MAX + 1n))) {
+      return new Int256(~((this.inner & MAX) % value.inner) + 1n);
+    } else if (value.inner === (value.inner | (MAX + 1n))) {
+      return new Int256(this.inner % (value.inner & MAX));
     } else {
-      return new Int256(this.#value % value.#value);
+      return new Int256(this.inner % value.inner);
     }
   }
   exp(value: Int256): Int256 {
-    if (value.#value === 0n) {
+    if (value.inner === 0n) {
       return new Int256(1n);
-    } else if (value.#value === (value.#value | (MAX + 1n))) {
+    } else if (value.inner === (value.inner | (MAX + 1n))) {
       throw new Error(
         "Invalid Value Error: Expected value is greater than 0",
       );
-    } else if (this.#value === (this.#value | (MAX + 1n))) {
+    } else if (this.inner === (this.inner | (MAX + 1n))) {
       if (value.rem(new Int256(2n)).value() === 0n) {
-        return new Int256((this.#value & MAX) ** value.#value);
+        return new Int256((this.inner & MAX) ** value.inner);
       } else {
-        return new Int256(~((this.#value & MAX) ** value.#value) + 1n);
+        return new Int256(~((this.inner & MAX) ** value.inner) + 1n);
       }
     } else {
-      return new Int256(this.#value ** value.#value);
+      return new Int256(this.inner ** value.inner);
     }
   }
   and(value: Int256): Int256 {
-    return new Int256(this.#value & value.#value);
+    return new Int256(this.inner & value.inner);
   }
   or(value: Int256): Int256 {
-    return new Int256(this.#value | value.#value);
+    return new Int256(this.inner | value.inner);
   }
   xor(value: Int256): Int256 {
-    return new Int256(this.#value ^ value.#value);
+    return new Int256(this.inner ^ value.inner);
   }
   not(): Int256 {
-    return new Int256(~this.#value);
+    return new Int256(~this.inner);
   }
   logicalLeft(n: bigint): Int256 {
     if (n >= BIT_LENGTH) {
       return new Int256(0n);
     }
-    return new Int256(this.#value << n);
+    return new Int256(this.inner << n);
   }
   logicalRight(n: bigint): Int256 {
     if (n >= BIT_LENGTH) {
       return new Int256(0n);
     }
-    return new Int256(this.#value >> n);
+    return new Int256(this.inner >> n);
   }
   rotateLeft(n: bigint): Int256 {
     return new Int256(
-      (this.#value << (n % BIT_LENGTH)) |
-        (this.#value >> ((BIT_LENGTH - n) % BIT_LENGTH)),
+      (this.inner << (n % BIT_LENGTH)) |
+        (this.inner >> ((BIT_LENGTH - n) % BIT_LENGTH)),
     );
   }
   rotateRight(n: bigint): Int256 {
     return new Int256(
-      (this.#value >> (n % BIT_LENGTH)) |
-        (this.#value << ((BIT_LENGTH - n) % BIT_LENGTH)),
+      (this.inner >> (n % BIT_LENGTH)) |
+        (this.inner << ((BIT_LENGTH - n) % BIT_LENGTH)),
     );
   }
   static fromBeBytes(bytes: Uint8Array): Int256 {
@@ -258,74 +257,74 @@ export class Int256 implements Numeric<Int256> {
   }
   toBeBytes(): Uint8Array {
     return Uint8Array.from([
-      Number((this.#value >> 248n) & 0xFFn),
-      Number((this.#value >> 240n) & 0xFFn),
-      Number((this.#value >> 232n) & 0xFFn),
-      Number((this.#value >> 224n) & 0xFFn),
-      Number((this.#value >> 216n) & 0xFFn),
-      Number((this.#value >> 208n) & 0xFFn),
-      Number((this.#value >> 200n) & 0xFFn),
-      Number((this.#value >> 192n) & 0xFFn),
-      Number((this.#value >> 184n) & 0xFFn),
-      Number((this.#value >> 176n) & 0xFFn),
-      Number((this.#value >> 168n) & 0xFFn),
-      Number((this.#value >> 160n) & 0xFFn),
-      Number((this.#value >> 152n) & 0xFFn),
-      Number((this.#value >> 144n) & 0xFFn),
-      Number((this.#value >> 136n) & 0xFFn),
-      Number((this.#value >> 128n) & 0xFFn),
-      Number((this.#value >> 120n) & 0xFFn),
-      Number((this.#value >> 112n) & 0xFFn),
-      Number((this.#value >> 104n) & 0xFFn),
-      Number((this.#value >> 96n) & 0xFFn),
-      Number((this.#value >> 88n) & 0xFFn),
-      Number((this.#value >> 80n) & 0xFFn),
-      Number((this.#value >> 72n) & 0xFFn),
-      Number((this.#value >> 64n) & 0xFFn),
-      Number((this.#value >> 56n) & 0xFFn),
-      Number((this.#value >> 48n) & 0xFFn),
-      Number((this.#value >> 40n) & 0xFFn),
-      Number((this.#value >> 32n) & 0xFFn),
-      Number((this.#value >> 24n) & 0xFFn),
-      Number((this.#value >> 16n) & 0xFFn),
-      Number((this.#value >> 8n) & 0xFFn),
-      Number(this.#value & 0xFFn),
+      Number((this.inner >> 248n) & 0xFFn),
+      Number((this.inner >> 240n) & 0xFFn),
+      Number((this.inner >> 232n) & 0xFFn),
+      Number((this.inner >> 224n) & 0xFFn),
+      Number((this.inner >> 216n) & 0xFFn),
+      Number((this.inner >> 208n) & 0xFFn),
+      Number((this.inner >> 200n) & 0xFFn),
+      Number((this.inner >> 192n) & 0xFFn),
+      Number((this.inner >> 184n) & 0xFFn),
+      Number((this.inner >> 176n) & 0xFFn),
+      Number((this.inner >> 168n) & 0xFFn),
+      Number((this.inner >> 160n) & 0xFFn),
+      Number((this.inner >> 152n) & 0xFFn),
+      Number((this.inner >> 144n) & 0xFFn),
+      Number((this.inner >> 136n) & 0xFFn),
+      Number((this.inner >> 128n) & 0xFFn),
+      Number((this.inner >> 120n) & 0xFFn),
+      Number((this.inner >> 112n) & 0xFFn),
+      Number((this.inner >> 104n) & 0xFFn),
+      Number((this.inner >> 96n) & 0xFFn),
+      Number((this.inner >> 88n) & 0xFFn),
+      Number((this.inner >> 80n) & 0xFFn),
+      Number((this.inner >> 72n) & 0xFFn),
+      Number((this.inner >> 64n) & 0xFFn),
+      Number((this.inner >> 56n) & 0xFFn),
+      Number((this.inner >> 48n) & 0xFFn),
+      Number((this.inner >> 40n) & 0xFFn),
+      Number((this.inner >> 32n) & 0xFFn),
+      Number((this.inner >> 24n) & 0xFFn),
+      Number((this.inner >> 16n) & 0xFFn),
+      Number((this.inner >> 8n) & 0xFFn),
+      Number(this.inner & 0xFFn),
     ]);
   }
   toLeBytes(): Uint8Array {
     return Uint8Array.from([
-      Number(this.#value & 0xFFn),
-      Number((this.#value >> 8n) & 0xFFn),
-      Number((this.#value >> 16n) & 0xFFn),
-      Number((this.#value >> 24n) & 0xFFn),
-      Number((this.#value >> 32n) & 0xFFn),
-      Number((this.#value >> 40n) & 0xFFn),
-      Number((this.#value >> 48n) & 0xFFn),
-      Number((this.#value >> 56n) & 0xFFn),
-      Number((this.#value >> 64n) & 0xFFn),
-      Number((this.#value >> 72n) & 0xFFn),
-      Number((this.#value >> 80n) & 0xFFn),
-      Number((this.#value >> 88n) & 0xFFn),
-      Number((this.#value >> 96n) & 0xFFn),
-      Number((this.#value >> 104n) & 0xFFn),
-      Number((this.#value >> 112n) & 0xFFn),
-      Number((this.#value >> 120n) & 0xFFn),
-      Number((this.#value >> 128n) & 0xFFn),
-      Number((this.#value >> 136n) & 0xFFn),
-      Number((this.#value >> 144n) & 0xFFn),
-      Number((this.#value >> 152n) & 0xFFn),
-      Number((this.#value >> 160n) & 0xFFn),
-      Number((this.#value >> 168n) & 0xFFn),
-      Number((this.#value >> 176n) & 0xFFn),
-      Number((this.#value >> 184n) & 0xFFn),
-      Number((this.#value >> 192n) & 0xFFn),
-      Number((this.#value >> 200n) & 0xFFn),
-      Number((this.#value >> 208n) & 0xFFn),
-      Number((this.#value >> 216n) & 0xFFn),
-      Number((this.#value >> 224n) & 0xFFn),
-      Number((this.#value >> 232n) & 0xFFn),
-      Number((this.#value >> 240n) & 0xFFn),
-      Number((this.#value >> 248n) & 0xFFn),
+      Number(this.inner & 0xFFn),
+      Number((this.inner >> 8n) & 0xFFn),
+      Number((this.inner >> 16n) & 0xFFn),
+      Number((this.inner >> 24n) & 0xFFn),
+      Number((this.inner >> 32n) & 0xFFn),
+      Number((this.inner >> 40n) & 0xFFn),
+      Number((this.inner >> 48n) & 0xFFn),
+      Number((this.inner >> 56n) & 0xFFn),
+      Number((this.inner >> 64n) & 0xFFn),
+      Number((this.inner >> 72n) & 0xFFn),
+      Number((this.inner >> 80n) & 0xFFn),
+      Number((this.inner >> 88n) & 0xFFn),
+      Number((this.inner >> 96n) & 0xFFn),
+      Number((this.inner >> 104n) & 0xFFn),
+      Number((this.inner >> 112n) & 0xFFn),
+      Number((this.inner >> 120n) & 0xFFn),
+      Number((this.inner >> 128n) & 0xFFn),
+      Number((this.inner >> 136n) & 0xFFn),
+      Number((this.inner >> 144n) & 0xFFn),
+      Number((this.inner >> 152n) & 0xFFn),
+      Number((this.inner >> 160n) & 0xFFn),
+      Number((this.inner >> 168n) & 0xFFn),
+      Number((this.inner >> 176n) & 0xFFn),
+      Number((this.inner >> 184n) & 0xFFn),
+      Number((this.inner >> 192n) & 0xFFn),
+      Number((this.inner >> 200n) & 0xFFn),
+      Number((this.inner >> 208n) & 0xFFn),
+      Number((this.inner >> 216n) & 0xFFn),
+      Number((this.inner >> 224n) & 0xFFn),
+      Number((this.inner >> 232n) & 0xFFn),
+      Number((this.inner >> 240n) & 0xFFn),
+      Number((this.inner >> 248n) & 0xFFn),
     ]);
   }
 }
