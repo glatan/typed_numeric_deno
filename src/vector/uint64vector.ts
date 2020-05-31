@@ -52,4 +52,7 @@ export class Uint64Vector extends Vector<Uint64> {
     }
     return vector;
   }
+  static of(...elementN: Array<Uint64> | Array<bigint>): Uint64Vector {
+    return Uint64Vector.from(elementN);
+  }
 }

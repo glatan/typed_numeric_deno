@@ -55,4 +55,7 @@ export class Int32Vector extends Vector<Int32> {
     }
     return vector;
   }
+  static of(...elementN: Array<Int32> | Array<bigint>): Int32Vector {
+    return Int32Vector.from(elementN);
+  }
 }

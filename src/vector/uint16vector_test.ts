@@ -90,4 +90,17 @@ Deno.test("Uint16Vector", () => {
     Uint16Vector.from([]).toTypedArray(),
     new Uint16Array([]),
   );
+  // of
+  assertEquals(
+    Uint16Vector.of(100).toTypedArray(),
+    Uint16Array.of(100),
+  );
+  assertEquals(
+    Uint16Vector.of(1, 2, 3).toTypedArray(),
+    Uint16Array.of(1, 2, 3),
+  );
+  assertEquals(
+    Uint16Vector.of().toTypedArray(),
+    Uint16Array.of(),
+  );
 });

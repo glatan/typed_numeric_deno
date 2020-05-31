@@ -91,4 +91,17 @@ Deno.test("Int64Vector", () => {
     Int64Vector.from([]).toTypedArray(),
     new BigInt64Array([]),
   );
+  // of
+  assertEquals(
+    Int64Vector.of(100n).toTypedArray(),
+    BigInt64Array.of(100n),
+  );
+  assertEquals(
+    Int64Vector.of(1n, 2n, 3n).toTypedArray(),
+    BigInt64Array.of(1n, 2n, 3n),
+  );
+  assertEquals(
+    Int64Vector.of().toTypedArray(),
+    BigInt64Array.of(),
+  );
 });

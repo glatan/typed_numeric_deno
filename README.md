@@ -204,6 +204,8 @@ Uint8Vector.prototype.toLeBytesUpperHex(): string;
 // from
 // e.g. Uint8Vector.from(array: Uint8Array | Array<Uint8> | Array<number>): Uint8Vector;
 // e.g. Uint64Vector.from(array: Uint64Array | Array<Uint64> | Array<bigint>): Uint64Vector;
-TypedVector.from(array: TypedArray | Array<TypedNumeric> | Array<number 
- bigint>): TypedVector;
+TypedVector.from(array: TypedArray | Array<TypedNumeric> | Array<number | bigint>): TypedVector;
+
+// of
+TypedVector.of(elementN: Array<TypedNumeric> | Array<number | bigint>): TypedVector;
 ```

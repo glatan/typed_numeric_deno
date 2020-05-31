@@ -50,4 +50,7 @@ export class Int16Vector extends Vector<Int16> {
     }
     return vector;
   }
+  static of(...elementN: Array<Int16> | Array<number>): Int16Vector {
+    return Int16Vector.from(elementN);
+  }
 }
