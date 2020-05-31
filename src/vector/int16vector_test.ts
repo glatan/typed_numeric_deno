@@ -25,24 +25,17 @@ Deno.test("Int16Vector", () => {
     // This Vector<T> is empty.
     new Int16Vector(0).value_by_index(0);
   });
-  // push
-  vec.push(new Int16(0));
-  assertEquals(vec.length, 3);
-  // pop
-  assertEquals(vec.pop().value(), 0);
-  assertEquals(vec.length, 2);
-  assertEquals(vec.pop().value(), 0);
-  assertEquals(vec.length, 1);
-  assertEquals(vec.pop().value(), 0);
-  assertEquals(vec.length, 0);
-  assertThrows(() => {
-    // This Vector<T> is empty.
-    vec.pop();
-  });
-  assertEquals(vec.length, 0);
   // concat
-  vec.concat(new Int16Vector(3));
-  assertEquals(vec.length, 3);
+  const concatVector = Int16Vector.fromTypedArray(
+    new Int16Array([12, 34, 56, 78]),
+  );
+  const concatArray = [12, 34, 56, 78];
+  assertEquals(
+    concatVector.concat(
+      Int16Vector.fromTypedArray(new Int16Array([90, 0xAB, 0xCD, 0xEF])),
+    ).toTypedArray(),
+    Int16Array.from(concatArray.concat([90, 0xAB, 0xCD, 0xEF])),
+  );
   // toTypedArray
   assertEquals(new Int16Vector(3).toTypedArray(), new Int16Array(3));
   assertEquals(

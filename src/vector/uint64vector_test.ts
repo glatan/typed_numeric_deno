@@ -25,24 +25,19 @@ Deno.test("Uint64Vector", () => {
     // This Vector<T> is empty.
     new Uint64Vector(0).value_by_index(0);
   });
-  // push
-  vec.push(new Uint64(0n));
-  assertEquals(vec.length, 3);
-  // pop
-  assertEquals(vec.pop().value(), 0n);
-  assertEquals(vec.length, 2);
-  assertEquals(vec.pop().value(), 0n);
-  assertEquals(vec.length, 1);
-  assertEquals(vec.pop().value(), 0n);
-  assertEquals(vec.length, 0);
-  assertThrows(() => {
-    // This Vector<T> is empty.
-    vec.pop();
-  });
-  assertEquals(vec.length, 0);
   // concat
-  vec.concat(new Uint64Vector(3));
-  assertEquals(vec.length, 3);
+  const concatVector = Uint64Vector.fromTypedArray(
+    new BigUint64Array([12n, 34n, 56n, 78n]),
+  );
+  const concatArray = [12n, 34n, 56n, 78n];
+  assertEquals(
+    concatVector.concat(
+      Uint64Vector.fromTypedArray(
+        new BigUint64Array([90n, 0xABn, 0xCDn, 0xEFn]),
+      ),
+    ).toTypedArray(),
+    BigUint64Array.from(concatArray.concat([90n, 0xABn, 0xCDn, 0xEFn])),
+  );
   // toTypedArray
   assertEquals(new Uint64Vector(3).toTypedArray(), new BigUint64Array(3));
   assertEquals(

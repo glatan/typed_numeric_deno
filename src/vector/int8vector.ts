@@ -10,6 +10,10 @@ export class Int8Vector extends Vector<Int8> {
       super(arg as Array<Int8>);
     }
   }
+  concat(other: Int8Vector): Int8Vector {
+    super.concat(other);
+    return new Int8Vector(this.inner);
+  }
   fill(value: Int8 | number): Int8Vector {
     if (typeof value === "number") {
       super.fill(new Int8(value));
