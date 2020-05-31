@@ -7,7 +7,7 @@ export class Uint16Vector extends Vector<Uint16> {
       super(new Array(arg).fill(new Uint16(0)));
     }
     if (arg instanceof Array) {
-      super(arg as Array<Uint16>);
+      super(arg);
     }
   }
   concat(other: Uint16Vector): Uint16Vector {
@@ -34,10 +34,21 @@ export class Uint16Vector extends Vector<Uint16> {
     }
     return array;
   }
-  static fromTypedArray(array: Uint16Array): Uint16Vector {
+  static from(
+    array: Uint16Array | Array<Uint16> | Array<number>,
+  ): Uint16Vector {
     const vector = new Uint16Vector(0);
-    for (let i = 0; i < array.length; i++) {
-      vector.push(new Uint16(array[i]));
+    if (array.length !== 0) {
+      if (array instanceof Uint16Array || typeof array[0] === "number") {
+        for (const element of array) {
+          vector.push(new Uint16(element as number));
+        }
+      }
+      if (array[0] instanceof Uint16) {
+        if (array) {
+          vector.inner = array as Array<Uint16>;
+        }
+      }
     }
     return vector;
   }

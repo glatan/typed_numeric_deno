@@ -7,7 +7,7 @@ export class Int8Vector extends Vector<Int8> {
       super(new Array(arg).fill(new Int8(0)));
     }
     if (arg instanceof Array) {
-      super(arg as Array<Int8>);
+      super(arg);
     }
   }
   concat(other: Int8Vector): Int8Vector {
@@ -34,10 +34,19 @@ export class Int8Vector extends Vector<Int8> {
     }
     return array;
   }
-  static fromTypedArray(array: Int8Array): Int8Vector {
+  static from(array: Int8Array | Array<Int8> | Array<number>): Int8Vector {
     const vector = new Int8Vector(0);
-    for (let i = 0; i < array.length; i++) {
-      vector.push(new Int8(array[i]));
+    if (array.length !== 0) {
+      if (array instanceof Int8Array || typeof array[0] === "number") {
+        for (const element of array) {
+          vector.push(new Int8(element as number));
+        }
+      }
+      if (array[0] instanceof Int8) {
+        if (array) {
+          vector.inner = array as Array<Int8>;
+        }
+      }
     }
     return vector;
   }

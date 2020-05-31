@@ -7,7 +7,7 @@ export class Int16Vector extends Vector<Int16> {
       super(new Array(arg).fill(new Int16(0)));
     }
     if (arg instanceof Array) {
-      super(arg as Array<Int16>);
+      super(arg);
     }
   }
   concat(other: Int16Vector): Int16Vector {
@@ -34,10 +34,19 @@ export class Int16Vector extends Vector<Int16> {
     }
     return array;
   }
-  static fromTypedArray(array: Int16Array): Int16Vector {
+  static from(array: Int16Array | Array<Int16> | Array<number>): Int16Vector {
     const vector = new Int16Vector(0);
-    for (let i = 0; i < array.length; i++) {
-      vector.push(new Int16(array[i]));
+    if (array.length !== 0) {
+      if (array instanceof Int16Array || typeof array[0] === "number") {
+        for (const element of array) {
+          vector.push(new Int16(element as number));
+        }
+      }
+      if (array[0] instanceof Int16) {
+        if (array) {
+          vector.inner = array as Array<Int16>;
+        }
+      }
     }
     return vector;
   }

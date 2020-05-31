@@ -3,7 +3,7 @@ import { assertEquals, assertThrows } from "../../depends.ts";
 import { Uint64Vector } from "./uint64vector.ts";
 import { Uint64 } from "../numeric/uint64.ts";
 
-Deno.test("Uint64Vector", () => {
+Deno.test("Uint64Vector.prototype", () => {
   // constructor
   assertEquals(new Uint64Vector().length, new Uint64Vector(0).length);
   // Uint64Vector from Array<Uint64>
@@ -26,13 +26,13 @@ Deno.test("Uint64Vector", () => {
     new Uint64Vector(0).value_by_index(0);
   });
   // concat
-  const concatVector = Uint64Vector.fromTypedArray(
+  const concatVector = Uint64Vector.from(
     new BigUint64Array([12n, 34n, 56n, 78n]),
   );
   const concatArray = [12n, 34n, 56n, 78n];
   assertEquals(
     concatVector.concat(
-      Uint64Vector.fromTypedArray(
+      Uint64Vector.from(
         new BigUint64Array([90n, 0xABn, 0xCDn, 0xEFn]),
       ),
     ).toTypedArray(),
@@ -61,21 +61,14 @@ Deno.test("Uint64Vector", () => {
     new Uint64Vector(3).fill(Uint64.min()).toTypedArray(),
     new BigUint64Array(3).fill(Uint64.min()),
   );
-  // fromTypedArray and equals
+  // equals
+  assertEquals(new Uint64Vector(5).equals(new Uint64Vector(5)), true);
   assertEquals(
-    Uint64Vector.fromTypedArray(new BigUint64Array(3)).equals(
-      new Uint64Vector(3),
-    ),
-    true,
-  );
-  assertEquals(
-    Uint64Vector.fromTypedArray(new BigUint64Array(3)).equals(
-      new Uint64Vector(3).fill(Uint64.max()),
-    ),
+    new Uint64Vector(5).fill(Uint64.max()).equals(new Uint64Vector(5)),
     false,
   );
   assertEquals(
-    Uint64Vector.fromTypedArray(new BigUint64Array(3)).fill(
+    Uint64Vector.from(new BigUint64Array(3)).fill(
       new Uint64(Uint64.max()),
     ).equals(new Uint64Vector(3).fill(Uint64.max())),
     true,
@@ -84,5 +77,25 @@ Deno.test("Uint64Vector", () => {
   assertEquals(
     new Uint64Vector(5).slice(0, 3).equals(new Uint64Vector(3)),
     true,
+  );
+});
+
+Deno.test("Uint64Vector", () => {
+  // from
+  assertEquals(
+    Uint64Vector.from(new BigUint64Array(3).fill(Uint64.max())).toTypedArray(),
+    new BigUint64Array(3).fill(Uint64.max()),
+  );
+  assertEquals(
+    Uint64Vector.from([12n, 34n, 56n, 78n]).toTypedArray(),
+    new BigUint64Array([12n, 34n, 56n, 78n]),
+  );
+  assertEquals(
+    Uint64Vector.from([new Uint64(12n), new Uint64(34n)]).toTypedArray(),
+    new BigUint64Array([12n, 34n]),
+  );
+  assertEquals(
+    Uint64Vector.from([]).toTypedArray(),
+    new BigUint64Array([]),
   );
 });

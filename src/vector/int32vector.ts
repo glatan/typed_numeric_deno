@@ -7,7 +7,7 @@ export class Int32Vector extends Vector<Int32> {
       super(new Array(arg).fill(new Int32(0n)));
     }
     if (arg instanceof Array) {
-      super(arg as Array<Int32>);
+      super(arg);
     }
   }
   concat(other: Int32Vector): Int32Vector {
@@ -34,10 +34,24 @@ export class Int32Vector extends Vector<Int32> {
     }
     return array;
   }
-  static fromTypedArray(array: Int32Array): Int32Vector {
+  static from(array: Int32Array | Array<Int32> | Array<bigint>): Int32Vector {
     const vector = new Int32Vector(0);
-    for (let i = 0; i < array.length; i++) {
-      vector.push(new Int32(BigInt(array[i])));
+    if (array.length !== 0) {
+      if (array instanceof Int32Array) {
+        for (const element of array) {
+          vector.push(new Int32(BigInt(element)));
+        }
+      }
+      if (typeof array[0] === "bigint") {
+        for (const element of array) {
+          vector.push(new Int32(element as bigint));
+        }
+      }
+      if (array[0] instanceof Int32) {
+        if (array) {
+          vector.inner = array as Array<Int32>;
+        }
+      }
     }
     return vector;
   }

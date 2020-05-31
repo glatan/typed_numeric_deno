@@ -7,7 +7,7 @@ export class Int64Vector extends Vector<Int64> {
       super(new Array(arg).fill(new Int64(0n)));
     }
     if (arg instanceof Array) {
-      super(arg as Array<Int64>);
+      super(arg);
     }
   }
   concat(other: Int64Vector): Int64Vector {
@@ -34,10 +34,21 @@ export class Int64Vector extends Vector<Int64> {
     }
     return array;
   }
-  static fromTypedArray(array: BigInt64Array): Int64Vector {
+  static from(
+    array: BigInt64Array | Array<Int64> | Array<bigint>,
+  ): Int64Vector {
     const vector = new Int64Vector(0);
-    for (let i = 0; i < array.length; i++) {
-      vector.push(new Int64(BigInt(array[i])));
+    if (array.length !== 0) {
+      if (array instanceof BigInt64Array || typeof array[0] === "bigint") {
+        for (const element of array) {
+          vector.push(new Int64(element as bigint));
+        }
+      }
+      if (array[0] instanceof Int64) {
+        if (array) {
+          vector.inner = array as Array<Int64>;
+        }
+      }
     }
     return vector;
   }
