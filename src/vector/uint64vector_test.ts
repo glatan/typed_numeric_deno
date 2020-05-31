@@ -1,7 +1,7 @@
-import { assertEquals, assertThrows } from "../depends.ts";
+import { assertEquals, assertThrows } from "../../depends.ts";
 
 import { Uint64Vector } from "./uint64vector.ts";
-import { Uint64 } from "./uint64.ts";
+import { Uint64 } from "../numeric/uint64.ts";
 
 Deno.test("Uint64Vector", () => {
   // constructor

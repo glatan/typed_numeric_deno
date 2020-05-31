@@ -1,4 +1,4 @@
-import { Int16 } from "./int16.ts";
+import { Int16 } from "../numeric/int16.ts";
 import { Vector } from "./mod.ts";
 
 export class Int16Vector extends Vector<Int16> {

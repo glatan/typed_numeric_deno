@@ -1,7 +1,7 @@
-import { assertEquals, assertThrows } from "../depends.ts";
+import { assertEquals, assertThrows } from "../../depends.ts";
 
 import { Uint8Vector } from "./uint8vector.ts";
-import { Uint8 } from "./uint8.ts";
+import { Uint8 } from "../numeric/uint8.ts";
 
 Deno.test("Uint8Vector", () => {
   // constructor

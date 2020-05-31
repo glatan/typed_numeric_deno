@@ -1,7 +1,7 @@
-import { assertEquals, assertThrows } from "../depends.ts";
+import { assertEquals, assertThrows } from "../../depends.ts";
 
 import { Int16Vector } from "./int16vector.ts";
-import { Int16 } from "./int16.ts";
+import { Int16 } from "../numeric/int16.ts";
 
 Deno.test("Int16Vector", () => {
   // constructor

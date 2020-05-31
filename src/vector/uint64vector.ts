@@ -1,4 +1,4 @@
-import { Uint64 } from "./uint64.ts";
+import { Uint64 } from "../numeric/uint64.ts";
 import { Vector } from "./mod.ts";
 
 export class Uint64Vector extends Vector<Uint64> {

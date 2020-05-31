@@ -1,4 +1,4 @@
-import { Int32 } from "./int32.ts";
+import { Int32 } from "../numeric/int32.ts";
 import { Vector } from "./mod.ts";
 
 export class Int32Vector extends Vector<Int32> {

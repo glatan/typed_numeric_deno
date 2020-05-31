@@ -1,4 +1,4 @@
-import { assertEquals, assertThrows } from "../depends.ts";
+import { assertEquals, assertThrows } from "../../depends.ts";
 
 import { Uint16 } from "./uint16.ts";
 
