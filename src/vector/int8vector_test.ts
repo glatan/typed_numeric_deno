@@ -91,4 +91,17 @@ Deno.test("Int8Vector", () => {
     Int8Vector.from([]).toTypedArray(),
     new Int8Array([]),
   );
+  // of
+  assertEquals(
+    Int8Vector.of(100).toTypedArray(),
+    Int8Array.of(100),
+  );
+  assertEquals(
+    Int8Vector.of(1, 2, 3).toTypedArray(),
+    Int8Array.of(1, 2, 3),
+  );
+  assertEquals(
+    Int8Vector.of().toTypedArray(),
+    Int8Array.of(),
+  );
 });

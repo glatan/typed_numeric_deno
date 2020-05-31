@@ -50,4 +50,7 @@ export class Int8Vector extends Vector<Int8> {
     }
     return vector;
   }
+  static of(...elementN: Array<Int8> | Array<number>): Int8Vector {
+    return Int8Vector.from(elementN);
+  }
 }

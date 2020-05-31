@@ -52,4 +52,7 @@ export class Uint16Vector extends Vector<Uint16> {
     }
     return vector;
   }
+  static of(...elementN: Array<Uint16> | Array<number>): Uint16Vector {
+    return Uint16Vector.from(elementN);
+  }
 }

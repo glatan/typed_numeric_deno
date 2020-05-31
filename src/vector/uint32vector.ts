@@ -57,4 +57,7 @@ export class Uint32Vector extends Vector<Uint32> {
     }
     return vector;
   }
+  static of(...elementN: Array<Uint32> | Array<bigint>): Uint32Vector {
+    return Uint32Vector.from(elementN);
+  }
 }

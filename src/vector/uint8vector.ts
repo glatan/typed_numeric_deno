@@ -80,4 +80,7 @@ export class Uint8Vector extends Vector<Uint8> {
     }
     return vector;
   }
+  static of(...elementN: Array<Uint8> | Array<number>): Uint8Vector {
+    return Uint8Vector.from(elementN);
+  }
 }

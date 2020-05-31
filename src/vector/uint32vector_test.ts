@@ -91,4 +91,17 @@ Deno.test("Uint32Vector", () => {
     Uint32Vector.from([]).toTypedArray(),
     new Uint32Array([]),
   );
+  // of
+  assertEquals(
+    Uint32Vector.of(100n).toTypedArray(),
+    Uint32Array.of(100),
+  );
+  assertEquals(
+    Uint32Vector.of(1n, 2n, 3n).toTypedArray(),
+    Uint32Array.of(1, 2, 3),
+  );
+  assertEquals(
+    Uint32Vector.of().toTypedArray(),
+    Uint32Array.of(),
+  );
 });
