@@ -10,6 +10,10 @@ export class Int32Vector extends Vector<Int32> {
       super(arg as Array<Int32>);
     }
   }
+  concat(other: Int32Vector): Int32Vector {
+    super.concat(other);
+    return new Int32Vector(this.inner);
+  }
   fill(value: Int32 | bigint): Int32Vector {
     if (typeof value === "bigint") {
       super.fill(new Int32(value));

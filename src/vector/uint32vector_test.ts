@@ -25,24 +25,17 @@ Deno.test("Uint32Vector", () => {
     // This Vector<T> is empty.
     new Uint32Vector(0).value_by_index(0);
   });
-  // push
-  vec.push(new Uint32(0n));
-  assertEquals(vec.length, 3);
-  // pop
-  assertEquals(vec.pop().value(), 0n);
-  assertEquals(vec.length, 2);
-  assertEquals(vec.pop().value(), 0n);
-  assertEquals(vec.length, 1);
-  assertEquals(vec.pop().value(), 0n);
-  assertEquals(vec.length, 0);
-  assertThrows(() => {
-    // This Vector<T> is empty.
-    vec.pop();
-  });
-  assertEquals(vec.length, 0);
   // concat
-  vec.concat(new Uint32Vector(3));
-  assertEquals(vec.length, 3);
+  const concatVector = Uint32Vector.fromTypedArray(
+    new Uint32Array([12, 34, 56, 78]),
+  );
+  const concatArray = [12, 34, 56, 78];
+  assertEquals(
+    concatVector.concat(
+      Uint32Vector.fromTypedArray(new Uint32Array([90, 0xAB, 0xCD, 0xEF])),
+    ).toTypedArray(),
+    Uint32Array.from(concatArray.concat([90, 0xAB, 0xCD, 0xEF])),
+  );
   // toTypedArray
   assertEquals(new Uint32Vector(3).toTypedArray(), new Uint32Array(3));
   assertEquals(

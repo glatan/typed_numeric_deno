@@ -25,24 +25,17 @@ Deno.test("Uint8Vector", () => {
     // This Vector<T> is empty.
     new Uint8Vector(0).value_by_index(0);
   });
-  // push
-  vec.push(new Uint8(0));
-  assertEquals(vec.length, 3);
-  // pop
-  assertEquals(vec.pop().value(), 0);
-  assertEquals(vec.length, 2);
-  assertEquals(vec.pop().value(), 0);
-  assertEquals(vec.length, 1);
-  assertEquals(vec.pop().value(), 0);
-  assertEquals(vec.length, 0);
-  assertThrows(() => {
-    // This Vector<T> is empty.
-    vec.pop();
-  });
-  assertEquals(vec.length, 0);
   // concat
-  vec.concat(new Uint8Vector(3));
-  assertEquals(vec.length, 3);
+  const concatVector = Uint8Vector.fromTypedArray(
+    new Uint8Array([12, 34, 56, 78]),
+  );
+  const concatArray = [12, 34, 56, 78];
+  assertEquals(
+    concatVector.concat(
+      Uint8Vector.fromTypedArray(new Uint8Array([90, 0xAB, 0xCD, 0xEF])),
+    ).toTypedArray(),
+    Uint8Array.from(concatArray.concat([90, 0xAB, 0xCD, 0xEF])),
+  );
   // toTypedArray
   assertEquals(new Uint8Vector(3).toTypedArray(), new Uint8Array(3));
   assertEquals(

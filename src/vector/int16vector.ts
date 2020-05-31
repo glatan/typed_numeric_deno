@@ -10,6 +10,10 @@ export class Int16Vector extends Vector<Int16> {
       super(arg as Array<Int16>);
     }
   }
+  concat(other: Int16Vector): Int16Vector {
+    super.concat(other);
+    return new Int16Vector(this.inner);
+  }
   fill(value: Int16 | number): Int16Vector {
     if (typeof value === "number") {
       super.fill(new Int16(value));

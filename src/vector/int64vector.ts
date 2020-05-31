@@ -10,6 +10,10 @@ export class Int64Vector extends Vector<Int64> {
       super(arg as Array<Int64>);
     }
   }
+  concat(other: Int64Vector): Int64Vector {
+    super.concat(other);
+    return new Int64Vector(this.inner);
+  }
   fill(value: Int64 | bigint): Int64Vector {
     if (typeof value === "bigint") {
       super.fill(new Int64(value));
