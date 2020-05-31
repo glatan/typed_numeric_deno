@@ -33,12 +33,7 @@ export abstract class Vector<T extends Numeric<T>> {
       return this.inner.pop() as T;
     }
   }
-  concat(other: Vector<T>) {
-    for (const value of other) {
-      this.inner.push(value);
-    }
-    this.length += other.length;
-  }
+  abstract concat(other: Vector<T>): Vector<T>;
   fill(value: T) {
     for (let i = 0; i < this.inner.length; i++) {
       this.inner[i] = value;

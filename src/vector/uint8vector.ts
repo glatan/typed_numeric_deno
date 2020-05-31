@@ -13,8 +13,7 @@ export class Uint8Vector extends Vector<Uint8> {
     }
   }
   concat(other: Uint8Vector): Uint8Vector {
-    super.concat(other);
-    return new Uint8Vector(this.inner);
+    return new Uint8Vector(this.inner.concat(other.inner));
   }
   fill(value: Uint8 | number): Uint8Vector {
     if (typeof value === "number") {

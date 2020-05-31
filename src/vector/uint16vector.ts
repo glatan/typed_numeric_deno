@@ -11,8 +11,7 @@ export class Uint16Vector extends Vector<Uint16> {
     }
   }
   concat(other: Uint16Vector): Uint16Vector {
-    super.concat(other);
-    return new Uint16Vector(this.inner);
+    return new Uint16Vector(this.inner.concat(other.inner));
   }
   fill(value: Uint16 | number): Uint16Vector {
     if (typeof value === "number") {
