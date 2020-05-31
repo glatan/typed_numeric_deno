@@ -113,16 +113,7 @@ export abstract class Vector<T extends Numeric<T>> {
     return -1;
   }
   toString(): string {
-    let result = "";
-    for (let i = 0; i < this.inner.length; i++) {
-      if (i === 0) {
-        result += this.inner[0].value();
-        continue;
-      }
-      result += ",";
-      result += this.inner[i].value();
-    }
-    return result;
+    return this.join();
   }
   equals(other: Vector<T>): boolean {
     for (let i = 0; i < this.inner.length; i++) {
