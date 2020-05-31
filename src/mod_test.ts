@@ -177,4 +177,17 @@ Deno.test("Vector", () => {
     ),
     [12, 34, 12, 34].lastIndexOf(12, -100),
   );
+  // toString
+  assertEquals(
+    Uint8Vector.fromTypedArray(new Uint8Array([12, 34, 56, 78])).toString(),
+    [12, 34, 56, 78].toString(),
+  );
+  assertEquals(
+    Uint8Vector.fromTypedArray(new Uint8Array([12, 34, 56, 78, 90, 0xAB, 0xCD])).toString(),
+    [12, 34, 56, 78, 90, 0xAB, 0xCD].toString(),
+  );
+  assertEquals(
+    Uint8Vector.fromTypedArray(new Uint8Array([])).toString(),
+    [].toString(),
+  );
 });
