@@ -64,10 +64,19 @@ export class Uint8Vector extends Vector<Uint8> {
     }
     return array;
   }
-  static fromTypedArray(array: Uint8Array): Uint8Vector {
+  static from(array: Uint8Array | Array<Uint8> | Array<number>): Uint8Vector {
     const vector = new Uint8Vector(0);
-    for (let i = 0; i < array.length; i++) {
-      vector.push(new Uint8(array[i]));
+    if (array.length !== 0) {
+      if (array instanceof Uint8Array || typeof array[0] === "number") {
+        for (const element of array) {
+          vector.push(new Uint8(element as number));
+        }
+      }
+      if (array[0] instanceof Uint8) {
+        if (array) {
+          vector.inner = array as Array<Uint8>;
+        }
+      }
     }
     return vector;
   }

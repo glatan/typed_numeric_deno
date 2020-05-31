@@ -5,7 +5,7 @@ import { Uint8 } from "../numeric/uint8.ts";
 
 Deno.test("Vector<Number>", () => {
   // pop
-  const popVector = Uint8Vector.fromTypedArray(
+  const popVector = Uint8Vector.from(
     new Uint8Array([12, 34, 56, 78]),
   );
   const popArray = [12, 34, 56, 78];
@@ -23,12 +23,12 @@ Deno.test("Vector<Number>", () => {
   );
   assertThrows(() => {
     // TypedVector throw error if it's empty
-    Uint8Vector.fromTypedArray(new Uint8Array([])).pop().value();
+    Uint8Vector.from(new Uint8Array([])).pop().value();
     // Array return undefined if it's empty
     [].pop();
   });
   // push
-  const pushVector = Uint8Vector.fromTypedArray(
+  const pushVector = Uint8Vector.from(
     new Uint8Array([12, 34, 56, 78]),
   );
   const pushArray = [12, 34, 56, 78];
@@ -48,47 +48,47 @@ Deno.test("Vector<Number>", () => {
   );
   // include
   assertEquals(
-    Uint8Vector.fromTypedArray(new Uint8Array([12, 34, 56, 78])).include(
+    Uint8Vector.from(new Uint8Array([12, 34, 56, 78])).include(
       new Uint8(12),
     ),
     [12, 34, 56, 78].includes(12),
   );
   assertEquals(
-    Uint8Vector.fromTypedArray(new Uint8Array([12, 34, 56, 78])).include(
+    Uint8Vector.from(new Uint8Array([12, 34, 56, 78])).include(
       new Uint8(90),
     ),
     [12, 34, 56, 78].includes(90),
   );
   assertEquals(
-    Uint8Vector.fromTypedArray(new Uint8Array([12, 34, 56, 78])).include(
+    Uint8Vector.from(new Uint8Array([12, 34, 56, 78])).include(
       new Uint8(12),
       3,
     ),
     [12, 34, 56, 78].includes(12, 3),
   );
   assertEquals(
-    Uint8Vector.fromTypedArray(new Uint8Array([12, 34, 56, 78])).include(
+    Uint8Vector.from(new Uint8Array([12, 34, 56, 78])).include(
       new Uint8(12),
       4,
     ),
     [12, 34, 56, 78].includes(12, 4),
   );
   assertEquals(
-    Uint8Vector.fromTypedArray(new Uint8Array([12, 34, 56, 78])).include(
+    Uint8Vector.from(new Uint8Array([12, 34, 56, 78])).include(
       new Uint8(12),
       100,
     ),
     [12, 34, 56, 78].includes(12, 100),
   );
   assertEquals(
-    Uint8Vector.fromTypedArray(new Uint8Array([12, 34, 56, 78])).include(
+    Uint8Vector.from(new Uint8Array([12, 34, 56, 78])).include(
       new Uint8(12),
       -1,
     ),
     [12, 34, 56, 78].includes(12, -1),
   );
   assertEquals(
-    Uint8Vector.fromTypedArray(new Uint8Array([12, 34, 56, 78])).include(
+    Uint8Vector.from(new Uint8Array([12, 34, 56, 78])).include(
       new Uint8(12),
       -100,
     ),
@@ -96,47 +96,47 @@ Deno.test("Vector<Number>", () => {
   );
   // indexOf
   assertEquals(
-    Uint8Vector.fromTypedArray(new Uint8Array([12, 34, 56, 78])).indexOf(
+    Uint8Vector.from(new Uint8Array([12, 34, 56, 78])).indexOf(
       new Uint8(12),
     ),
     [12, 34, 56, 78].indexOf(12),
   );
   assertEquals(
-    Uint8Vector.fromTypedArray(new Uint8Array([12, 34, 56, 78])).indexOf(
+    Uint8Vector.from(new Uint8Array([12, 34, 56, 78])).indexOf(
       new Uint8(90),
     ),
     [12, 34, 56, 78].indexOf(90),
   );
   assertEquals(
-    Uint8Vector.fromTypedArray(new Uint8Array([12, 34, 56, 78])).indexOf(
+    Uint8Vector.from(new Uint8Array([12, 34, 56, 78])).indexOf(
       new Uint8(12),
       3,
     ),
     [12, 34, 56, 78].indexOf(12, 3),
   );
   assertEquals(
-    Uint8Vector.fromTypedArray(new Uint8Array([12, 34, 56, 78])).indexOf(
+    Uint8Vector.from(new Uint8Array([12, 34, 56, 78])).indexOf(
       new Uint8(12),
       4,
     ),
     [12, 34, 56, 78].indexOf(12, 4),
   );
   assertEquals(
-    Uint8Vector.fromTypedArray(new Uint8Array([12, 34, 56, 78])).indexOf(
+    Uint8Vector.from(new Uint8Array([12, 34, 56, 78])).indexOf(
       new Uint8(12),
       100,
     ),
     [12, 34, 56, 78].indexOf(12, 100),
   );
   assertEquals(
-    Uint8Vector.fromTypedArray(new Uint8Array([12, 34, 56, 78])).indexOf(
+    Uint8Vector.from(new Uint8Array([12, 34, 56, 78])).indexOf(
       new Uint8(12),
       -1,
     ),
     [12, 34, 56, 78].indexOf(12, -1),
   );
   assertEquals(
-    Uint8Vector.fromTypedArray(new Uint8Array([12, 34, 56, 78])).indexOf(
+    Uint8Vector.from(new Uint8Array([12, 34, 56, 78])).indexOf(
       new Uint8(12),
       -100,
     ),
@@ -144,76 +144,76 @@ Deno.test("Vector<Number>", () => {
   );
   // join
   assertEquals(
-    Uint8Vector.fromTypedArray(new Uint8Array([12, 34, 56, 78])).join(),
+    Uint8Vector.from(new Uint8Array([12, 34, 56, 78])).join(),
     [12, 34, 56, 78].join(),
   );
   assertEquals(
-    Uint8Vector.fromTypedArray(new Uint8Array([12, 34, 56, 78])).join(""),
+    Uint8Vector.from(new Uint8Array([12, 34, 56, 78])).join(""),
     [12, 34, 56, 78].join(""),
   );
   assertEquals(
-    Uint8Vector.fromTypedArray(new Uint8Array([12, 34, 56, 78])).join(", "),
+    Uint8Vector.from(new Uint8Array([12, 34, 56, 78])).join(", "),
     [12, 34, 56, 78].join(", "),
   );
-  assertEquals(Uint8Vector.fromTypedArray(new Uint8Array()).join(), [].join());
+  assertEquals(Uint8Vector.from(new Uint8Array()).join(), [].join());
   assertEquals(
-    Uint8Vector.fromTypedArray(new Uint8Array()).join(""),
+    Uint8Vector.from(new Uint8Array()).join(""),
     [].join(""),
   );
   assertEquals(
-    Uint8Vector.fromTypedArray(new Uint8Array()).join(", "),
+    Uint8Vector.from(new Uint8Array()).join(", "),
     [].join(", "),
   );
   // lastIndexOf
   assertEquals(
-    Uint8Vector.fromTypedArray(new Uint8Array([12, 34, 12, 34])).lastIndexOf(
+    Uint8Vector.from(new Uint8Array([12, 34, 12, 34])).lastIndexOf(
       new Uint8(12),
     ),
     [12, 34, 12, 34].lastIndexOf(12),
   );
   assertEquals(
-    Uint8Vector.fromTypedArray(new Uint8Array([12, 34, 12, 34])).lastIndexOf(
+    Uint8Vector.from(new Uint8Array([12, 34, 12, 34])).lastIndexOf(
       new Uint8(56),
     ),
     [12, 34, 12, 34].lastIndexOf(56),
   );
   assertEquals(
-    Uint8Vector.fromTypedArray(new Uint8Array([12, 34, 12, 34])).lastIndexOf(
+    Uint8Vector.from(new Uint8Array([12, 34, 12, 34])).lastIndexOf(
       new Uint8(12),
       3,
     ),
     [12, 34, 12, 34].lastIndexOf(12, 3),
   );
   assertEquals(
-    Uint8Vector.fromTypedArray(new Uint8Array([12, 34, 12, 34])).lastIndexOf(
+    Uint8Vector.from(new Uint8Array([12, 34, 12, 34])).lastIndexOf(
       new Uint8(12),
       2,
     ),
     [12, 34, 12, 34].lastIndexOf(12, 2),
   );
   assertEquals(
-    Uint8Vector.fromTypedArray(new Uint8Array([12, 34, 12, 34])).lastIndexOf(
+    Uint8Vector.from(new Uint8Array([12, 34, 12, 34])).lastIndexOf(
       new Uint8(12),
       100,
     ),
     [12, 34, 12, 34].lastIndexOf(12, 100),
   );
   assertEquals(
-    Uint8Vector.fromTypedArray(new Uint8Array([12, 34, 12, 34])).lastIndexOf(
+    Uint8Vector.from(new Uint8Array([12, 34, 12, 34])).lastIndexOf(
       new Uint8(12),
       -1,
     ),
     [12, 34, 12, 34].lastIndexOf(12, -1),
   );
   assertEquals(
-    Uint8Vector.fromTypedArray(new Uint8Array([12, 34, 12, 34])).lastIndexOf(
+    Uint8Vector.from(new Uint8Array([12, 34, 12, 34])).lastIndexOf(
       new Uint8(12),
       -2,
     ),
     [12, 34, 12, 34].lastIndexOf(12, -2),
   );
   assertEquals(
-    Uint8Vector.fromTypedArray(new Uint8Array([12, 34, 12, 34])).lastIndexOf(
+    Uint8Vector.from(new Uint8Array([12, 34, 12, 34])).lastIndexOf(
       new Uint8(12),
       -100,
     ),
@@ -221,16 +221,16 @@ Deno.test("Vector<Number>", () => {
   );
   // toString
   assertEquals(
-    Uint8Vector.fromTypedArray(new Uint8Array([12, 34, 56, 78])).toString(),
+    Uint8Vector.from(new Uint8Array([12, 34, 56, 78])).toString(),
     [12, 34, 56, 78].toString(),
   );
   assertEquals(
-    Uint8Vector.fromTypedArray(new Uint8Array([12, 34, 56, 78, 90, 0xAB, 0xCD]))
+    Uint8Vector.from(new Uint8Array([12, 34, 56, 78, 90, 0xAB, 0xCD]))
       .toString(),
     [12, 34, 56, 78, 90, 0xAB, 0xCD].toString(),
   );
   assertEquals(
-    Uint8Vector.fromTypedArray(new Uint8Array([])).toString(),
+    Uint8Vector.from(new Uint8Array([])).toString(),
     [].toString(),
   );
 });

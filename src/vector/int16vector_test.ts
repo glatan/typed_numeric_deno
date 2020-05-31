@@ -3,7 +3,7 @@ import { assertEquals, assertThrows } from "../../depends.ts";
 import { Int16Vector } from "./int16vector.ts";
 import { Int16 } from "../numeric/int16.ts";
 
-Deno.test("Int16Vector", () => {
+Deno.test("Int16Vector.prototype", () => {
   // constructor
   assertEquals(new Int16Vector().length, new Int16Vector(0).length);
   // Int16Vector from Array<Int16>
@@ -26,13 +26,13 @@ Deno.test("Int16Vector", () => {
     new Int16Vector(0).value_by_index(0);
   });
   // concat
-  const concatVector = Int16Vector.fromTypedArray(
+  const concatVector = Int16Vector.from(
     new Int16Array([12, 34, 56, 78]),
   );
   const concatArray = [12, 34, 56, 78];
   assertEquals(
     concatVector.concat(
-      Int16Vector.fromTypedArray(new Int16Array([90, 0xAB, 0xCD, 0xEF])),
+      Int16Vector.from(new Int16Array([90, 0xAB, 0xCD, 0xEF])),
     ).toTypedArray(),
     Int16Array.from(concatArray.concat([90, 0xAB, 0xCD, 0xEF])),
   );
@@ -63,22 +63,32 @@ Deno.test("Int16Vector", () => {
     new Int16Vector(3).fill(Int16.min()).toTypedArray(),
     new Int16Array(3).fill(Int16.min()),
   );
-  // fromTypedArray and equals
+  // equals
+  assertEquals(new Int16Vector(5).equals(new Int16Vector(5)), true);
   assertEquals(
-    Int16Vector.fromTypedArray(new Int16Array(3)).equals(new Int16Vector(3)),
-    true,
-  );
-  assertEquals(
-    Int16Vector.fromTypedArray(new Int16Array(3)).equals(
-      new Int16Vector(3).fill(Int16.max()),
-    ),
+    new Int16Vector(5).fill(Int16.max()).equals(new Int16Vector(5)),
     false,
-  );
-  assertEquals(
-    Int16Vector.fromTypedArray(new Int16Array(3)).fill(new Int16(Int16.max()))
-      .equals(new Int16Vector(3).fill(Int16.max())),
-    true,
   );
   // slice
   assertEquals(new Int16Vector(5).slice(0, 3).equals(new Int16Vector(3)), true);
+});
+
+Deno.test("Int16Vector", () => {
+  // from
+  assertEquals(
+    Int16Vector.from(new Int16Array(3).fill(Int16.max())).toTypedArray(),
+    new Int16Array(3).fill(Int16.max()),
+  );
+  assertEquals(
+    Int16Vector.from([12, 34, 56, 78]).toTypedArray(),
+    new Int16Array([12, 34, 56, 78]),
+  );
+  assertEquals(
+    Int16Vector.from([new Int16(12), new Int16(34)]).toTypedArray(),
+    new Int16Array([12, 34]),
+  );
+  assertEquals(
+    Int16Vector.from([]).toTypedArray(),
+    new Int16Array([]),
+  );
 });

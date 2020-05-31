@@ -3,7 +3,7 @@ import { assertEquals, assertThrows } from "../../depends.ts";
 import { Uint16Vector } from "./uint16vector.ts";
 import { Uint16 } from "../numeric/uint16.ts";
 
-Deno.test("Uint16Vector", () => {
+Deno.test("Uint16Vector.prototype", () => {
   // constructor
   assertEquals(new Uint16Vector().length, new Uint16Vector(0).length);
   // Uint16Vector from Array<Uint16>
@@ -26,13 +26,13 @@ Deno.test("Uint16Vector", () => {
     new Uint16Vector(0).value_by_index(0);
   });
   // concat
-  const concatVector = Uint16Vector.fromTypedArray(
+  const concatVector = Uint16Vector.from(
     new Uint16Array([12, 34, 56, 78]),
   );
   const concatArray = [12, 34, 56, 78];
   assertEquals(
     concatVector.concat(
-      Uint16Vector.fromTypedArray(new Uint16Array([90, 0xAB, 0xCD, 0xEF])),
+      Uint16Vector.from(new Uint16Array([90, 0xAB, 0xCD, 0xEF])),
     ).toTypedArray(),
     Uint16Array.from(concatArray.concat([90, 0xAB, 0xCD, 0xEF])),
   );
@@ -59,26 +59,35 @@ Deno.test("Uint16Vector", () => {
     new Uint16Vector(3).fill(Uint16.min()).toTypedArray(),
     new Uint16Array(3).fill(Uint16.min()),
   );
-  // fromTypedArray and equals
+  // equals
+  assertEquals(new Uint16Vector(5).equals(new Uint16Vector(5)), true);
   assertEquals(
-    Uint16Vector.fromTypedArray(new Uint16Array(3)).equals(new Uint16Vector(3)),
-    true,
-  );
-  assertEquals(
-    Uint16Vector.fromTypedArray(new Uint16Array(3)).equals(
-      new Uint16Vector(3).fill(Uint16.max()),
-    ),
+    new Uint16Vector(5).fill(Uint16.max()).equals(new Uint16Vector(5)),
     false,
-  );
-  assertEquals(
-    Uint16Vector.fromTypedArray(new Uint16Array(3)).fill(
-      new Uint16(Uint16.max()),
-    ).equals(new Uint16Vector(3).fill(Uint16.max())),
-    true,
   );
   // slice
   assertEquals(
     new Uint16Vector(5).slice(0, 3).equals(new Uint16Vector(3)),
     true,
+  );
+});
+
+Deno.test("Uint16Vector", () => {
+  // from
+  assertEquals(
+    Uint16Vector.from(new Uint16Array(3).fill(Uint16.max())).toTypedArray(),
+    new Uint16Array(3).fill(Uint16.max()),
+  );
+  assertEquals(
+    Uint16Vector.from([12, 34, 56, 78]).toTypedArray(),
+    new Uint16Array([12, 34, 56, 78]),
+  );
+  assertEquals(
+    Uint16Vector.from([new Uint16(12), new Uint16(34)]).toTypedArray(),
+    new Uint16Array([12, 34]),
+  );
+  assertEquals(
+    Uint16Vector.from([]).toTypedArray(),
+    new Uint16Array([]),
   );
 });

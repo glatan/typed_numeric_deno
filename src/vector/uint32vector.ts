@@ -34,10 +34,26 @@ export class Uint32Vector extends Vector<Uint32> {
     }
     return array;
   }
-  static fromTypedArray(array: Uint32Array): Uint32Vector {
+  static from(
+    array: Uint32Array | Array<Uint32> | Array<bigint>,
+  ): Uint32Vector {
     const vector = new Uint32Vector(0);
-    for (let i = 0; i < array.length; i++) {
-      vector.push(new Uint32(BigInt(array[i])));
+    if (array.length !== 0) {
+      if (array instanceof Uint32Array) {
+        for (const element of array) {
+          vector.push(new Uint32(BigInt(element)));
+        }
+      }
+      if (typeof array[0] === "bigint") {
+        for (const element of array) {
+          vector.push(new Uint32(element as bigint));
+        }
+      }
+      if (array[0] instanceof Uint32) {
+        if (array) {
+          vector.inner = array as Array<Uint32>;
+        }
+      }
     }
     return vector;
   }

@@ -201,7 +201,9 @@ Uint8Vector.prototype.toLeBytesUpperHex(): string;
 #### Static Methods
 
 ```ts
-// fromTypedArray
-// e.g. Uint8Vector.fromTypedArray(array: Uint8Array): Uint8Vector;
-TypedVector.fromTypedArray(array: TypedArray): TypedVector;
+// from
+// e.g. Uint8Vector.from(array: Uint8Array | Array<Uint8> | Array<number>): Uint8Vector;
+// e.g. Uint64Vector.from(array: Uint64Array | Array<Uint64> | Array<bigint>): Uint64Vector;
+TypedVector.from(array: TypedArray | Array<TypedNumeric> | Array<number 
+ bigint>): TypedVector;
 ```

@@ -34,10 +34,21 @@ export class Uint64Vector extends Vector<Uint64> {
     }
     return array;
   }
-  static fromTypedArray(array: BigUint64Array): Uint64Vector {
+  static from(
+    array: BigUint64Array | Array<Uint64> | Array<bigint>,
+  ): Uint64Vector {
     const vector = new Uint64Vector(0);
-    for (let i = 0; i < array.length; i++) {
-      vector.push(new Uint64(BigInt(array[i])));
+    if (array.length !== 0) {
+      if (array instanceof BigUint64Array || typeof array[0] === "bigint") {
+        for (const element of array) {
+          vector.push(new Uint64(element as bigint));
+        }
+      }
+      if (array[0] instanceof Uint64) {
+        if (array) {
+          vector.inner = array as Array<Uint64>;
+        }
+      }
     }
     return vector;
   }
