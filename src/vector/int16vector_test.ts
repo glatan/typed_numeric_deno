@@ -25,6 +25,23 @@ Deno.test("Int16Vector.prototype", () => {
     // This Vector<T> is empty.
     new Int16Vector(0).value_by_index(0);
   });
+  // copyWithin
+  assertEquals(
+    Int16Vector.from(new Int16Array([12, 34, 56, 78])).copyWithin(
+      0,
+      0,
+      1,
+    ).toTypedArray(),
+    [12, 34, 56, 78].copyWithin(0, 0, 1),
+  );
+  assertEquals(
+    Int16Vector.from(new Int16Array([12, 34, 56, 78])).copyWithin(
+      0,
+      -2,
+      5,
+    ).toTypedArray(),
+    [12, 34, 56, 78].copyWithin(0, -2, 5),
+  );
   // concat
   const concatVector = Int16Vector.from(
     new Int16Array([12, 34, 56, 78]),

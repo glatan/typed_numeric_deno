@@ -10,6 +10,13 @@ export class Int64Vector extends Vector<Int64, bigint> {
       super(arg);
     }
   }
+  copyWithin(
+    target: number,
+    start: number = 0,
+    end: number = this.length,
+  ): Int64Vector {
+    return new Int64Vector(this.inner.copyWithin(target, start, end));
+  }
   concat(other: Int64Vector): Int64Vector {
     return new Int64Vector(this.inner.concat(other.inner));
   }

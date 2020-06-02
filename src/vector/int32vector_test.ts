@@ -25,6 +25,23 @@ Deno.test("Int32Vector.prototype", () => {
     // This Vector<T> is empty.
     new Int32Vector(0).value_by_index(0);
   });
+  // copyWithin
+  assertEquals(
+    Int32Vector.from(new Int32Array([12, 34, 56, 78])).copyWithin(
+      0,
+      0,
+      1,
+    ).toTypedArray(),
+    [12, 34, 56, 78].copyWithin(0, 0, 1),
+  );
+  assertEquals(
+    Int32Vector.from(new Int32Array([12, 34, 56, 78])).copyWithin(
+      0,
+      -2,
+      5,
+    ).toTypedArray(),
+    [12, 34, 56, 78].copyWithin(0, -2, 5),
+  );
   // concat
   const concatVector = Int32Vector.from(
     new Int32Array([12, 34, 56, 78]),

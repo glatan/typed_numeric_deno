@@ -30,10 +30,11 @@ export abstract class Vector<T extends Numeric<T, N>, N> {
     return this.inner[index];
   }
   // Array.prototype like
-  fill(value: T) {
-    for (let i = 0; i < this.inner.length; i++) {
-      this.inner[i] = value;
-    }
+  copyWithin(target: number, start: number = 0, end: number = this.length) {
+    this.inner.copyWithin(target, start, end);
+  }
+  fill(target: T, start: number = 0, end: number = this.length) {
+    this.inner.fill(target, start, end);
   }
   include(valueToFind: T, fromIndex: number = 0): boolean {
     if (fromIndex >= this.inner.length) {
@@ -123,6 +124,7 @@ export abstract class Vector<T extends Numeric<T, N>, N> {
   toString(): string {
     return this.join();
   }
+  // Return new Vector<T, N>
   abstract concat(other: Vector<T, N>): Vector<T, N>;
   abstract reverse(): Vector<T, N>;
   abstract slice(start: number, end: number): Vector<T, N>;

@@ -10,6 +10,13 @@ export class Int8Vector extends Vector<Int8, number> {
       super(arg);
     }
   }
+  copyWithin(
+    target: number,
+    start: number = 0,
+    end: number = this.length,
+  ): Int8Vector {
+    return new Int8Vector(this.inner.copyWithin(target, start, end));
+  }
   concat(other: Int8Vector): Int8Vector {
     return new Int8Vector(this.inner.concat(other.inner));
   }
