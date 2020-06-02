@@ -12,6 +12,14 @@ export abstract class Vector<T extends Numeric<T, N>, N> {
       yield this.inner[i];
     }
   }
+  equals(other: Vector<T, N>): boolean {
+    for (let i = 0; i < this.inner.length; i++) {
+      if (this.inner[i].value() !== other.inner[i].value()) {
+        return false;
+      }
+    }
+    return true;
+  }
   value_by_index(index: number): T {
     if (this.length === 0) {
       throw new Error("This Vector<T> is empty.");
@@ -21,23 +29,12 @@ export abstract class Vector<T extends Numeric<T, N>, N> {
     }
     return this.inner[index];
   }
-  push(value: T) {
-    this.inner.push(value);
-    this.length += 1;
+  // Array.prototype like
+  copyWithin(target: number, start: number = 0, end: number = this.length) {
+    this.inner.copyWithin(target, start, end);
   }
-  pop(): T {
-    if (this.length === 0) {
-      throw new Error("This Vector<T> is empty.");
-    } else {
-      this.length -= 1;
-      return this.inner.pop() as T;
-    }
-  }
-  abstract concat(other: Vector<T, N>): Vector<T, N>;
-  fill(value: T) {
-    for (let i = 0; i < this.inner.length; i++) {
-      this.inner[i] = value;
-    }
+  fill(target: T, start: number = 0, end: number = this.length) {
+    this.inner.fill(target, start, end);
   }
   include(valueToFind: T, fromIndex: number = 0): boolean {
     if (fromIndex >= this.inner.length) {
@@ -112,17 +109,23 @@ export abstract class Vector<T extends Numeric<T, N>, N> {
     }
     return -1;
   }
+  pop(): T {
+    if (this.length === 0) {
+      throw new Error("This Vector<T> is empty.");
+    } else {
+      this.length -= 1;
+      return this.inner.pop() as T;
+    }
+  }
+  push(value: T) {
+    this.inner.push(value);
+    this.length += 1;
+  }
   toString(): string {
     return this.join();
   }
-  equals(other: Vector<T, N>): boolean {
-    for (let i = 0; i < this.inner.length; i++) {
-      if (this.inner[i].value() !== other.inner[i].value()) {
-        return false;
-      }
-    }
-    return true;
-  }
+  // Return new Vector<T, N>
+  abstract concat(other: Vector<T, N>): Vector<T, N>;
   abstract reverse(): Vector<T, N>;
   abstract slice(start: number, end: number): Vector<T, N>;
 }

@@ -4,48 +4,6 @@ import { Uint8Vector } from "./uint8vector.ts";
 import { Uint8 } from "../numeric/uint8.ts";
 
 Deno.test("Vector<Number>", () => {
-  // pop
-  const popVector = Uint8Vector.from(
-    new Uint8Array([12, 34, 56, 78]),
-  );
-  const popArray = [12, 34, 56, 78];
-  assertEquals(
-    popVector.length,
-    popArray.length,
-  );
-  assertEquals(
-    popVector.pop().value(),
-    popArray.pop(),
-  );
-  assertEquals(
-    popVector.length,
-    popArray.length,
-  );
-  assertThrows(() => {
-    // TypedVector throw error if it's empty
-    Uint8Vector.from(new Uint8Array([])).pop().value();
-    // Array return undefined if it's empty
-    [].pop();
-  });
-  // push
-  const pushVector = Uint8Vector.from(
-    new Uint8Array([12, 34, 56, 78]),
-  );
-  const pushArray = [12, 34, 56, 78];
-  assertEquals(
-    pushVector.length,
-    pushArray.length,
-  );
-  pushVector.push(new Uint8(90));
-  pushArray.push(90);
-  assertEquals(
-    pushVector.toTypedArray(),
-    Uint8Array.from(pushArray),
-  );
-  assertEquals(
-    pushVector.length,
-    pushArray.length,
-  );
   // include
   assertEquals(
     Uint8Vector.from(new Uint8Array([12, 34, 56, 78])).include(
@@ -218,6 +176,48 @@ Deno.test("Vector<Number>", () => {
       -100,
     ),
     [12, 34, 12, 34].lastIndexOf(12, -100),
+  );
+  // pop
+  const popVector = Uint8Vector.from(
+    new Uint8Array([12, 34, 56, 78]),
+  );
+  const popArray = [12, 34, 56, 78];
+  assertEquals(
+    popVector.length,
+    popArray.length,
+  );
+  assertEquals(
+    popVector.pop().value(),
+    popArray.pop(),
+  );
+  assertEquals(
+    popVector.length,
+    popArray.length,
+  );
+  assertThrows(() => {
+    // TypedVector throw error if it's empty
+    Uint8Vector.from(new Uint8Array([])).pop().value();
+    // Array return undefined if it's empty
+    [].pop();
+  });
+  // push
+  const pushVector = Uint8Vector.from(
+    new Uint8Array([12, 34, 56, 78]),
+  );
+  const pushArray = [12, 34, 56, 78];
+  assertEquals(
+    pushVector.length,
+    pushArray.length,
+  );
+  pushVector.push(new Uint8(90));
+  pushArray.push(90);
+  assertEquals(
+    pushVector.toTypedArray(),
+    Uint8Array.from(pushArray),
+  );
+  assertEquals(
+    pushVector.length,
+    pushArray.length,
   );
   // toString
   assertEquals(

@@ -10,6 +10,13 @@ export class Int32Vector extends Vector<Int32, bigint> {
       super(arg);
     }
   }
+  copyWithin(
+    target: number,
+    start: number = 0,
+    end: number = this.length,
+  ): Int32Vector {
+    return new Int32Vector(this.inner.copyWithin(target, start, end));
+  }
   concat(other: Int32Vector): Int32Vector {
     return new Int32Vector(this.inner.concat(other.inner));
   }

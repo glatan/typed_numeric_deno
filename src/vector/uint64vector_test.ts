@@ -25,6 +25,23 @@ Deno.test("Uint64Vector.prototype", () => {
     // This Vector<T> is empty.
     new Uint64Vector(0).value_by_index(0);
   });
+  // copyWithin
+  assertEquals(
+    Uint64Vector.from(new BigUint64Array([12n, 34n, 56n, 78n])).copyWithin(
+      0,
+      0,
+      1,
+    ).toTypedArray(),
+    [12n, 34n, 56n, 78n].copyWithin(0, 0, 1),
+  );
+  assertEquals(
+    Uint64Vector.from(new BigUint64Array([12n, 34n, 56n, 78n])).copyWithin(
+      0,
+      -2,
+      5,
+    ).toTypedArray(),
+    [12n, 34n, 56n, 78n].copyWithin(0, -2, 5),
+  );
   // concat
   const concatVector = Uint64Vector.from(
     new BigUint64Array([12n, 34n, 56n, 78n]),
