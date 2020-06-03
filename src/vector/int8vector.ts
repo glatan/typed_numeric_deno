@@ -15,18 +15,23 @@ export class Int8Vector extends Vector<Int8, number> {
     start: number = 0,
     end: number = this.length,
   ): Int8Vector {
-    return new Int8Vector(this.inner.copyWithin(target, start, end));
+    super.copyWithin(target, start, end);
+    return this;
   }
   concat(other: Int8Vector): Int8Vector {
     return new Int8Vector(this.inner.concat(other.inner));
   }
-  fill(value: Int8 | number): Int8Vector {
-    if (typeof value === "number") {
-      super.fill(new Int8(value));
+  fill(
+    target: Int8 | number,
+    start: number = 0,
+    end: number = this.length,
+  ): Int8Vector {
+    if (typeof target === "number") {
+      super.fill(new Int8(target), start, end);
     } else {
-      super.fill(value);
+      super.fill(target, start, end);
     }
-    return new Int8Vector(this.inner);
+    return this;
   }
   reverse(): Int8Vector {
     return new Int8Vector(this.inner.reverse());
@@ -35,7 +40,7 @@ export class Int8Vector extends Vector<Int8, number> {
     return new Int8Vector(this.inner.slice(start, end));
   }
   toTypedArray(): Int8Array {
-    let array = new Int8Array(this.inner.length);
+    const array = new Int8Array(this.inner.length);
     for (let i = 0; i < this.inner.length; i++) {
       array[i] = this.inner[i].value();
     }

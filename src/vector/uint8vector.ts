@@ -17,18 +17,23 @@ export class Uint8Vector extends Vector<Uint8, number> {
     start: number = 0,
     end: number = this.length,
   ): Uint8Vector {
-    return new Uint8Vector(this.inner.copyWithin(target, start, end));
+    super.copyWithin(target, start, end);
+    return this;
   }
   concat(other: Uint8Vector): Uint8Vector {
     return new Uint8Vector(this.inner.concat(other.inner));
   }
-  fill(value: Uint8 | number): Uint8Vector {
-    if (typeof value === "number") {
-      super.fill(new Uint8(value));
+  fill(
+    target: Uint8 | number,
+    start: number = 0,
+    end: number = this.length,
+  ): Uint8Vector {
+    if (typeof target === "number") {
+      super.fill(new Uint8(target), start, end);
     } else {
-      super.fill(value);
+      super.fill(target, start, end);
     }
-    return new Uint8Vector(this.inner);
+    return this;
   }
   reverse(): Uint8Vector {
     return new Uint8Vector(this.inner.reverse());
@@ -65,7 +70,7 @@ export class Uint8Vector extends Vector<Uint8, number> {
     return hex;
   }
   toTypedArray(): Uint8Array {
-    let array = new Uint8Array(this.inner.length);
+    const array = new Uint8Array(this.inner.length);
     for (let i = 0; i < this.inner.length; i++) {
       array[i] = this.inner[i].value();
     }
