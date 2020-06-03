@@ -3,7 +3,7 @@ import { assertEquals, assertThrows } from "../../depends.ts";
 import { Int128 } from "./int128.ts";
 import { Uint8Vector } from "../vector/uint8vector.ts";
 
-Deno.test("Int128", () => {
+Deno.test("Int128.prototype", () => {
   // constructor
   assertEquals(new Int128().value(), 0n);
   // value()
@@ -307,114 +307,6 @@ Deno.test("Int128", () => {
       .value(),
     0x12345678_90123456_78901234_56789012n,
   );
-  // fromBeBytes()
-  assertEquals(
-    Int128.fromBeBytes(
-      Uint8Array.from([
-        0x12,
-        0x34,
-        0x56,
-        0x78,
-        0x90,
-        0x12,
-        0x34,
-        0x56,
-        0x78,
-        0x90,
-        0x12,
-        0x34,
-        0x56,
-        0x78,
-        0x90,
-        0x12,
-      ]),
-    ).value(),
-    new Int128(0x12345678_90123456_78901234_56789012n).value(),
-  );
-  assertEquals(
-    Int128.fromBeBytes(
-      new Uint8Array(
-        [
-          0x7F,
-          0xFF,
-          0xFF,
-          0xFF,
-          0xFF,
-          0xFF,
-          0xFF,
-          0xFF,
-          0xFF,
-          0xFF,
-          0xFF,
-          0xFF,
-          0xFF,
-          0xFF,
-          0xFF,
-          0xFF,
-        ],
-      ),
-    ).value(),
-    Int128.max(),
-  );
-  assertEquals(Int128.fromBeBytes(new Uint8Array(16)).value(), 0n);
-  assertThrows((): void => {
-    // Invalid Length
-    Int128.fromBeBytes(new Uint8Array(17));
-  });
-  // fromLeBytes()
-  assertEquals(
-    Int128.fromLeBytes(
-      Uint8Array.from([
-        0x12,
-        0x34,
-        0x56,
-        0x78,
-        0x90,
-        0x12,
-        0x34,
-        0x56,
-        0x78,
-        0x90,
-        0x12,
-        0x34,
-        0x56,
-        0x78,
-        0x90,
-        0x12,
-      ]),
-    ).value(),
-    new Int128(0x12907856_34129078_56341290_78563412n).value(),
-  );
-  assertEquals(
-    Int128.fromLeBytes(
-      new Uint8Array(
-        [
-          0xFF,
-          0xFF,
-          0xFF,
-          0xFF,
-          0xFF,
-          0xFF,
-          0xFF,
-          0xFF,
-          0xFF,
-          0xFF,
-          0xFF,
-          0xFF,
-          0xFF,
-          0xFF,
-          0xFF,
-          0x7F,
-        ],
-      ),
-    ).value(),
-    Int128.max(),
-  );
-  assertEquals(Int128.fromLeBytes(new Uint8Array(16)).value(), 0n);
-  assertThrows((): void => {
-    // Invalid Length
-    Int128.fromLeBytes(new Uint8Array(17));
-  });
   // toBeBytes()
   assertEquals(
     new Int128(0x12345678_90123456_78901234_56789012n).toBeBytes(),
@@ -507,4 +399,211 @@ Deno.test("Int128", () => {
     ),
   );
   assertEquals(new Int128(0n).toLeBytes(), new Uint8Vector(16));
+});
+
+Deno.test("Int128", () => {
+  // fromBeBytes()
+  assertEquals(
+    Int128.fromBeBytes(
+      Uint8Array.from([
+        0x12,
+        0x34,
+        0x56,
+        0x78,
+        0x90,
+        0x12,
+        0x34,
+        0x56,
+        0x78,
+        0x90,
+        0x12,
+        0x34,
+        0x56,
+        0x78,
+        0x90,
+        0x12,
+      ]),
+    ).value(),
+    new Int128(0x12345678_90123456_78901234_56789012n).value(),
+  );
+  assertEquals(
+    Int128.fromBeBytes(
+      new Uint8Array(
+        [
+          0x7F,
+          0xFF,
+          0xFF,
+          0xFF,
+          0xFF,
+          0xFF,
+          0xFF,
+          0xFF,
+          0xFF,
+          0xFF,
+          0xFF,
+          0xFF,
+          0xFF,
+          0xFF,
+          0xFF,
+          0xFF,
+        ],
+      ),
+    ).value(),
+    Int128.max(),
+  );
+  assertEquals(Int128.fromBeBytes(new Uint8Array(16)).value(), 0n);
+  assertThrows((): void => {
+    // Invalid Length
+    Int128.fromBeBytes(new Uint8Array(17));
+  });
+  assertEquals(
+    Int128.fromBeBytes(
+      Uint8Vector.from(
+        [
+          0x12,
+          0x34,
+          0x56,
+          0x78,
+          0x90,
+          0x12,
+          0x34,
+          0x56,
+          0x78,
+          0x90,
+          0x12,
+          0x34,
+          0x56,
+          0x78,
+          0x90,
+          0x12,
+        ],
+      ),
+    ).value(),
+    new Int128(0x12345678_90123456_78901234_56789012n).value(),
+  );
+  assertEquals(
+    Int128.fromBeBytes(
+      [
+        0x12,
+        0x34,
+        0x56,
+        0x78,
+        0x90,
+        0x12,
+        0x34,
+        0x56,
+        0x78,
+        0x90,
+        0x12,
+        0x34,
+        0x56,
+        0x78,
+        0x90,
+        0x12,
+      ],
+    ).value(),
+    new Int128(0x12345678_90123456_78901234_56789012n).value(),
+  );
+  // fromLeBytes()
+  assertEquals(
+    Int128.fromLeBytes(
+      Uint8Array.from([
+        0x12,
+        0x34,
+        0x56,
+        0x78,
+        0x90,
+        0x12,
+        0x34,
+        0x56,
+        0x78,
+        0x90,
+        0x12,
+        0x34,
+        0x56,
+        0x78,
+        0x90,
+        0x12,
+      ]),
+    ).value(),
+    new Int128(0x12907856_34129078_56341290_78563412n).value(),
+  );
+  assertEquals(
+    Int128.fromLeBytes(
+      new Uint8Array(
+        [
+          0xFF,
+          0xFF,
+          0xFF,
+          0xFF,
+          0xFF,
+          0xFF,
+          0xFF,
+          0xFF,
+          0xFF,
+          0xFF,
+          0xFF,
+          0xFF,
+          0xFF,
+          0xFF,
+          0xFF,
+          0x7F,
+        ],
+      ),
+    ).value(),
+    Int128.max(),
+  );
+  assertEquals(Int128.fromLeBytes(new Uint8Array(16)).value(), 0n);
+  assertThrows((): void => {
+    // Invalid Length
+    Int128.fromLeBytes(new Uint8Array(17));
+  });
+  assertEquals(
+    Int128.fromLeBytes(
+      Uint8Vector.from(
+        [
+          0x12,
+          0x34,
+          0x56,
+          0x78,
+          0x90,
+          0x12,
+          0x34,
+          0x56,
+          0x78,
+          0x90,
+          0x12,
+          0x34,
+          0x56,
+          0x78,
+          0x90,
+          0x12,
+        ],
+      ),
+    ).value(),
+    new Int128(0x12907856_34129078_56341290_78563412n).value(),
+  );
+  assertEquals(
+    Int128.fromLeBytes(
+      [
+        0x12,
+        0x34,
+        0x56,
+        0x78,
+        0x90,
+        0x12,
+        0x34,
+        0x56,
+        0x78,
+        0x90,
+        0x12,
+        0x34,
+        0x56,
+        0x78,
+        0x90,
+        0x12,
+      ],
+    ).value(),
+    new Int128(0x12907856_34129078_56341290_78563412n).value(),
+  );
 });

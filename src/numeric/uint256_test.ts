@@ -3,7 +3,7 @@ import { assertEquals, assertThrows } from "../../depends.ts";
 import { Uint256 } from "./uint256.ts";
 import { Uint8Vector } from "../vector/uint8vector.ts";
 
-Deno.test("Uint256", () => {
+Deno.test("Uint256.prototype", () => {
   // constructor
   assertEquals(new Uint256().value(), 0n);
   // value()
@@ -212,118 +212,6 @@ Deno.test("Uint256", () => {
     ).rotateRight(512n).value(),
     0x1234567890123456_7890123456789012_3456789012345678_9012345678901234n,
   );
-  // fromBeBytes()
-  assertEquals(
-    Uint256.fromBeBytes(
-      Uint8Array.from(
-        [
-          0x12,
-          0x34,
-          0x56,
-          0x78,
-          0x90,
-          0x12,
-          0x34,
-          0x56,
-          0x78,
-          0x90,
-          0x12,
-          0x34,
-          0x56,
-          0x78,
-          0x90,
-          0x12,
-          0x34,
-          0x56,
-          0x78,
-          0x90,
-          0x12,
-          0x34,
-          0x56,
-          0x78,
-          0x90,
-          0x12,
-          0x34,
-          0x56,
-          0x78,
-          0x90,
-          0x12,
-          0x34,
-        ],
-      ),
-    ).value(),
-    new Uint256(
-      0x1234567890123456_7890123456789012_3456789012345678_9012345678901234n,
-    ).value(),
-  );
-  assertEquals(
-    Uint256.fromBeBytes(new Uint8Array(32).fill(0xFF)).value(),
-    Uint256.max(),
-  );
-  assertEquals(
-    Uint256.fromBeBytes(new Uint8Array(32)).value(),
-    Uint256.min(),
-  );
-  assertThrows((): void => {
-    // Invalid Length
-    Uint256.fromBeBytes(new Uint8Array(33));
-  });
-  // fromLeBytes()
-  assertEquals(
-    Uint256.fromLeBytes(
-      Uint8Array.from(
-        [
-          0x12,
-          0x34,
-          0x56,
-          0x78,
-          0x90,
-          0x12,
-          0x34,
-          0x56,
-          0x78,
-          0x90,
-          0x12,
-          0x34,
-          0x56,
-          0x78,
-          0x90,
-          0x12,
-          0x34,
-          0x56,
-          0x78,
-          0x90,
-          0x12,
-          0x34,
-          0x56,
-          0x78,
-          0x90,
-          0x12,
-          0x34,
-          0x56,
-          0x78,
-          0x90,
-          0x12,
-          0x34,
-        ],
-      ),
-    ).value(),
-    new Uint256(
-      0x3412907856341290_7856341290785634_1290785634129078_5634129078563412n,
-    ).value(),
-  );
-  assertEquals(
-    Uint256.fromLeBytes(new Uint8Array(32).fill(0xFF)).value(),
-    Uint256.max(),
-  );
-  assertEquals(
-    Uint256.fromLeBytes(new Uint8Array(32)).value(),
-    Uint256.min(),
-  );
-  assertThrows((): void => {
-    // Invalid Length
-    Uint256.fromLeBytes(new Uint8Array(33));
-  });
   // toBeBytes()
   assertEquals(
     new Uint256(
@@ -423,5 +311,270 @@ Deno.test("Uint256", () => {
   assertEquals(
     new Uint256(Uint256.min()).toLeBytes(),
     new Uint8Vector(32).fill(0),
+  );
+});
+
+Deno.test("Uint256", () => {
+  // fromBeBytes()
+  assertEquals(
+    Uint256.fromBeBytes(
+      Uint8Array.from([
+        0x12,
+        0x34,
+        0x56,
+        0x78,
+        0x90,
+        0x12,
+        0x34,
+        0x56,
+        0x78,
+        0x90,
+        0x12,
+        0x34,
+        0x56,
+        0x78,
+        0x90,
+        0x12,
+        0x34,
+        0x56,
+        0x78,
+        0x90,
+        0x12,
+        0x34,
+        0x56,
+        0x78,
+        0x90,
+        0x12,
+        0x34,
+        0x56,
+        0x78,
+        0x90,
+        0x12,
+        0x34,
+      ]),
+    ).value(),
+    new Uint256(
+      0x1234567890123456_7890123456789012_3456789012345678_9012345678901234n,
+    ).value(),
+  );
+  assertEquals(
+    Uint256.fromBeBytes(new Uint8Array(32).fill(0xFF)).value(),
+    Uint256.max(),
+  );
+  assertEquals(Uint256.fromBeBytes(new Uint8Array(32)).value(), Uint256.min());
+  assertThrows((): void => {
+    // Invalid Length
+    Uint256.fromBeBytes(new Uint8Array(33));
+  });
+  assertEquals(
+    Uint256.fromBeBytes(
+      Uint8Vector.from([
+        0x12,
+        0x34,
+        0x56,
+        0x78,
+        0x90,
+        0x12,
+        0x34,
+        0x56,
+        0x78,
+        0x90,
+        0x12,
+        0x34,
+        0x56,
+        0x78,
+        0x90,
+        0x12,
+        0x34,
+        0x56,
+        0x78,
+        0x90,
+        0x12,
+        0x34,
+        0x56,
+        0x78,
+        0x90,
+        0x12,
+        0x34,
+        0x56,
+        0x78,
+        0x90,
+        0x12,
+        0x34,
+      ]),
+    ).value(),
+    new Uint256(
+      0x1234567890123456_7890123456789012_3456789012345678_9012345678901234n,
+    ).value(),
+  );
+  assertEquals(
+    Uint256.fromBeBytes([
+      0x12,
+      0x34,
+      0x56,
+      0x78,
+      0x90,
+      0x12,
+      0x34,
+      0x56,
+      0x78,
+      0x90,
+      0x12,
+      0x34,
+      0x56,
+      0x78,
+      0x90,
+      0x12,
+      0x34,
+      0x56,
+      0x78,
+      0x90,
+      0x12,
+      0x34,
+      0x56,
+      0x78,
+      0x90,
+      0x12,
+      0x34,
+      0x56,
+      0x78,
+      0x90,
+      0x12,
+      0x34,
+    ]).value(),
+    new Uint256(
+      0x1234567890123456_7890123456789012_3456789012345678_9012345678901234n,
+    ).value(),
+  );
+  // fromLeBytes()
+  assertEquals(
+    Uint256.fromLeBytes(
+      Uint8Array.from([
+        0x12,
+        0x34,
+        0x56,
+        0x78,
+        0x90,
+        0x12,
+        0x34,
+        0x56,
+        0x78,
+        0x90,
+        0x12,
+        0x34,
+        0x56,
+        0x78,
+        0x90,
+        0x12,
+        0x34,
+        0x56,
+        0x78,
+        0x90,
+        0x12,
+        0x34,
+        0x56,
+        0x78,
+        0x90,
+        0x12,
+        0x34,
+        0x56,
+        0x78,
+        0x90,
+        0x12,
+        0x34,
+      ]),
+    ).value(),
+    new Uint256(
+      0x3412907856341290_7856341290785634_1290785634129078_5634129078563412n,
+    ).value(),
+  );
+  assertEquals(
+    Uint256.fromLeBytes(new Uint8Array(32).fill(0xFF)).value(),
+    Uint256.max(),
+  );
+  assertEquals(Uint256.fromLeBytes(new Uint8Array(32)).value(), Uint256.min());
+  assertThrows((): void => {
+    // Invalid Length
+    Uint256.fromLeBytes(new Uint8Array(33));
+  });
+  assertEquals(
+    Uint256.fromLeBytes(
+      Uint8Vector.from([
+        0x12,
+        0x34,
+        0x56,
+        0x78,
+        0x90,
+        0x12,
+        0x34,
+        0x56,
+        0x78,
+        0x90,
+        0x12,
+        0x34,
+        0x56,
+        0x78,
+        0x90,
+        0x12,
+        0x34,
+        0x56,
+        0x78,
+        0x90,
+        0x12,
+        0x34,
+        0x56,
+        0x78,
+        0x90,
+        0x12,
+        0x34,
+        0x56,
+        0x78,
+        0x90,
+        0x12,
+        0x34,
+      ]),
+    ).value(),
+    new Uint256(
+      0x3412907856341290_7856341290785634_1290785634129078_5634129078563412n,
+    ).value(),
+  );
+  assertEquals(
+    Uint256.fromLeBytes([
+      0x12,
+      0x34,
+      0x56,
+      0x78,
+      0x90,
+      0x12,
+      0x34,
+      0x56,
+      0x78,
+      0x90,
+      0x12,
+      0x34,
+      0x56,
+      0x78,
+      0x90,
+      0x12,
+      0x34,
+      0x56,
+      0x78,
+      0x90,
+      0x12,
+      0x34,
+      0x56,
+      0x78,
+      0x90,
+      0x12,
+      0x34,
+      0x56,
+      0x78,
+      0x90,
+      0x12,
+      0x34,
+    ]).value(),
+    new Uint256(
+      0x3412907856341290_7856341290785634_1290785634129078_5634129078563412n,
+    ).value(),
   );
 });

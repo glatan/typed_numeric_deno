@@ -3,7 +3,7 @@ import { assertEquals, assertThrows } from "../../depends.ts";
 import { Uint32 } from "./uint32.ts";
 import { Uint8Vector } from "../vector/uint8vector.ts";
 
-Deno.test("Uint32", () => {
+Deno.test("Uint32.prototype", () => {
   // constructor
   assertEquals(new Uint32().value(), 0n);
   // value()
@@ -133,34 +133,6 @@ Deno.test("Uint32", () => {
   assertEquals(new Uint32(0x1234_5678n).rotateRight(16n).value(), 0x5678_1234n);
   assertEquals(new Uint32(0x1234_5678n).rotateRight(32n).value(), 0x1234_5678n);
   assertEquals(new Uint32(0x1234_5678n).rotateRight(64n).value(), 0x1234_5678n);
-  // fromBeBytes()
-  assertEquals(
-    Uint32.fromBeBytes(Uint8Array.from([0x12, 0x34, 0x56, 0x78])).value(),
-    new Uint32(0x1234_5678n).value(),
-  );
-  assertEquals(
-    Uint32.fromBeBytes(new Uint8Array(4).fill(0xFF)).value(),
-    Uint32.max(),
-  );
-  assertEquals(Uint32.fromBeBytes(new Uint8Array(4)).value(), Uint32.min());
-  assertThrows((): void => {
-    // Invalid Length
-    Uint32.fromBeBytes(new Uint8Array(5));
-  });
-  // fromLeBytes()
-  assertEquals(
-    Uint32.fromLeBytes(Uint8Array.from([0x12, 0x34, 0x56, 0x78])).value(),
-    new Uint32(0x7856_3412n).value(),
-  );
-  assertEquals(
-    Uint32.fromLeBytes(new Uint8Array(4).fill(0xFF)).value(),
-    Uint32.max(),
-  );
-  assertEquals(Uint32.fromLeBytes(new Uint8Array(4)).value(), Uint32.min());
-  assertThrows((): void => {
-    // Invalid Length
-    Uint32.fromLeBytes(new Uint8Array(5));
-  });
   // toBeBytes()
   assertEquals(
     new Uint32(0x1234_5678n).toBeBytes(),
@@ -181,4 +153,51 @@ Deno.test("Uint32", () => {
     new Uint8Vector(4).fill(0xFF),
   );
   assertEquals(new Uint32(Uint32.min()).toLeBytes(), new Uint8Vector(4));
+});
+
+Deno.test("Uint32", () => {
+  // fromBeBytes()
+  assertEquals(
+    Uint32.fromBeBytes(Uint8Array.from([0x12, 0x34, 0x56, 0x78])).value(),
+    new Uint32(0x1234_5678n).value(),
+  );
+  assertEquals(
+    Uint32.fromBeBytes(new Uint8Array(4).fill(0xFF)).value(),
+    Uint32.max(),
+  );
+  assertEquals(Uint32.fromBeBytes(new Uint8Array(4)).value(), Uint32.min());
+  assertThrows((): void => {
+    // Invalid Length
+    Uint32.fromBeBytes(new Uint8Array(5));
+  });
+  assertEquals(
+    Uint32.fromBeBytes(Uint8Vector.from([0x12, 0x34, 0x56, 0x78])).value(),
+    new Uint32(0x1234_5678n).value(),
+  );
+  assertEquals(
+    Uint32.fromBeBytes([0x12, 0x34, 0x56, 0x78]).value(),
+    new Uint32(0x1234_5678n).value(),
+  );
+  // fromLeBytes()
+  assertEquals(
+    Uint32.fromLeBytes(Uint8Array.from([0x12, 0x34, 0x56, 0x78])).value(),
+    new Uint32(0x7856_3412n).value(),
+  );
+  assertEquals(
+    Uint32.fromLeBytes(new Uint8Array(4).fill(0xFF)).value(),
+    Uint32.max(),
+  );
+  assertEquals(Uint32.fromLeBytes(new Uint8Array(4)).value(), Uint32.min());
+  assertThrows((): void => {
+    // Invalid Length
+    Uint32.fromLeBytes(new Uint8Array(5));
+  });
+  assertEquals(
+    Uint32.fromLeBytes(Uint8Vector.from([0x12, 0x34, 0x56, 0x78])).value(),
+    new Uint32(0x7856_3412n).value(),
+  );
+  assertEquals(
+    Uint32.fromLeBytes([0x12, 0x34, 0x56, 0x78]).value(),
+    new Uint32(0x7856_3412n).value(),
+  );
 });

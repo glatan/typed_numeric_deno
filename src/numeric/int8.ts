@@ -1,4 +1,5 @@
 import { Numeric } from "./mod.ts";
+import { Uint8 } from "./uint8.ts";
 import { Uint8Vector } from "../vector/uint8vector.ts";
 
 const MAX: number = 0x7F;
@@ -173,17 +174,37 @@ export class Int8 extends Numeric<Int8, number> {
         (this.inner << ((BIT_LENGTH - n) % BIT_LENGTH)),
     );
   }
-  static fromBeBytes(bytes: Uint8Array): Int8 {
+  static fromBeBytes(
+    bytes: Uint8Array | Uint8Vector | Array<Uint8> | Array<number>,
+  ): Int8 {
     if (bytes.length === (BIT_LENGTH / 8)) {
-      return new Int8(bytes[0]);
+      let tmp = new Uint8Array();
+      if (bytes instanceof Uint8Array) {
+        tmp = bytes;
+      } else if (bytes instanceof Uint8Vector) {
+        tmp = bytes.toTypedArray();
+      } else {
+        tmp = Uint8Vector.from(bytes).toTypedArray();
+      }
+      return new Int8(tmp[0]);
     }
     throw new Error(
       "Invalid Length Error: Expected Uint8Array.prototype.length is 1",
     );
   }
-  static fromLeBytes(bytes: Uint8Array): Int8 {
+  static fromLeBytes(
+    bytes: Uint8Array | Uint8Vector | Array<Uint8> | Array<number>,
+  ): Int8 {
     if (bytes.length === (BIT_LENGTH / 8)) {
-      return new Int8(bytes[0]);
+      let tmp = new Uint8Array();
+      if (bytes instanceof Uint8Array) {
+        tmp = bytes;
+      } else if (bytes instanceof Uint8Vector) {
+        tmp = bytes.toTypedArray();
+      } else {
+        tmp = Uint8Vector.from(bytes).toTypedArray();
+      }
+      return new Int8(tmp[0]);
     }
     throw new Error(
       "Invalid Length Error: Expected Uint8Array.prototype.length is 1",
