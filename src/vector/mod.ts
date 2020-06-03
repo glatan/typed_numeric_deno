@@ -20,6 +20,9 @@ export abstract class Vector<T extends Numeric<T, N>, N> {
     }
     return true;
   }
+  set(index: number, value: T) {
+    this.inner[index] = value;
+  }
   value_by_index(index: number): T {
     if (this.length === 0) {
       throw new Error("This Vector<T> is empty.");
