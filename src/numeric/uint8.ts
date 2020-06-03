@@ -87,7 +87,7 @@ export class Uint8 extends Numeric<Uint8, number> {
       return new Uint8(tmp[0]);
     }
     throw new Error(
-      "Invalid Length Error: Expected bytes length is 1",
+      "Invalid Length Error: Expected byte length is 1",
     );
   }
   static fromLeBytes(
@@ -105,7 +105,7 @@ export class Uint8 extends Numeric<Uint8, number> {
       return new Uint8(tmp[0]);
     }
     throw new Error(
-      "Invalid Length Error: Expected bytes length is 1",
+      "Invalid Length Error: Expected byte length is 1",
     );
   }
   toBeBytes(): Uint8Vector {

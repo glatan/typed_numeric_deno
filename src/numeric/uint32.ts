@@ -87,7 +87,7 @@ export class Uint32 extends Numeric<Uint32, bigint> {
       );
     }
     throw new Error(
-      "Invalid Length Error: Expected bytes length is 4",
+      "Invalid Length Error: Expected byte length is 4",
     );
   }
   static fromLeBytes(
@@ -110,7 +110,7 @@ export class Uint32 extends Numeric<Uint32, bigint> {
       );
     }
     throw new Error(
-      "Invalid Length Error: Expected bytes length is 4",
+      "Invalid Length Error: Expected byte length is 4",
     );
   }
   toBeBytes(): Uint8Vector {

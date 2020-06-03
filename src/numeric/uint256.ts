@@ -116,7 +116,7 @@ export class Uint256 extends Numeric<Uint256, bigint> {
       );
     }
     throw new Error(
-      "Invalid Length Error: Expected Uint8Array.prototype.length is 32",
+      "Invalid Length Error: Expected byte length is 32",
     );
   }
   static fromLeBytes(
@@ -167,7 +167,7 @@ export class Uint256 extends Numeric<Uint256, bigint> {
       );
     }
     throw new Error(
-      "Invalid Length Error: Expected Uint8Array.prototype.length is 32",
+      "Invalid Length Error: Expected byte length is 32",
     );
   }
   toBeBytes(): Uint8Vector {
