@@ -44,7 +44,7 @@ export abstract class Numeric<T, N> {
   // static fromLeBytes(bytes: Uint8Array): T;
   // Crate Uint8Array
   // T to big endian Uint8Array
-  abstract toBeBytes(): Uint8Array;
+  abstract toBeBytesArray(): Uint8Array;
   // T to little endian Uint8Array
-  abstract toLeBytes(): Uint8Array;
+  abstract toLeBytesArray(): Uint8Array;
 }

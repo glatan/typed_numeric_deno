@@ -160,24 +160,24 @@ Deno.test("Int32", () => {
     // Invalid Length
     Int32.fromLeBytes(new Uint8Array(5));
   });
-  // toBeBytes()
+  // toBeBytesArray()
   assertEquals(
-    new Int32(0x1234_5678n).toBeBytes(),
+    new Int32(0x1234_5678n).toBeBytesArray(),
     new Uint8Array([0x12, 0x34, 0x56, 0x78]),
   );
   assertEquals(
-    new Int32(Int32.max()).toBeBytes(),
+    new Int32(Int32.max()).toBeBytesArray(),
     new Uint8Array([0x7F, 0xFF, 0xFF, 0xFF]),
   );
-  assertEquals(new Int32(0n).toBeBytes(), new Uint8Array(4));
-  // toLeBytes()
+  assertEquals(new Int32(0n).toBeBytesArray(), new Uint8Array(4));
+  // toLeBytesArray()
   assertEquals(
-    new Int32(0x1234_5678n).toLeBytes(),
+    new Int32(0x1234_5678n).toLeBytesArray(),
     new Uint8Array([0x78, 0x56, 0x34, 0x12]),
   );
   assertEquals(
-    new Int32(Int32.max()).toLeBytes(),
+    new Int32(Int32.max()).toLeBytesArray(),
     new Uint8Array([0xFF, 0xFF, 0xFF, 0x7F]),
   );
-  assertEquals(new Int32(0n).toLeBytes(), new Uint8Array(4));
+  assertEquals(new Int32(0n).toLeBytesArray(), new Uint8Array(4));
 });

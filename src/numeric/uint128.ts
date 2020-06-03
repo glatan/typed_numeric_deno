@@ -115,7 +115,7 @@ export class Uint128 extends Numeric<Uint128, bigint> {
       "Invalid Length Error: Expected Uint8Array.prototype.length is 16",
     );
   }
-  toBeBytes(): Uint8Array {
+  toBeBytesArray(): Uint8Array {
     return Uint8Array.from([
       Number((this.inner >> 120n) & 0xFFn),
       Number((this.inner >> 112n) & 0xFFn),
@@ -135,7 +135,7 @@ export class Uint128 extends Numeric<Uint128, bigint> {
       Number(this.inner & 0xFFn),
     ]);
   }
-  toLeBytes(): Uint8Array {
+  toLeBytesArray(): Uint8Array {
     return Uint8Array.from([
       Number(this.inner & 0xFFn),
       Number((this.inner >> 8n) & 0xFFn),

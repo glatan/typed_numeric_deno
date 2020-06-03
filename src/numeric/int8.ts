@@ -188,10 +188,10 @@ export class Int8 extends Numeric<Int8, number> {
       "Invalid Length Error: Expected Uint8Array.prototype.length is 1",
     );
   }
-  toBeBytes(): Uint8Array {
+  toBeBytesArray(): Uint8Array {
     return Uint8Array.from([this.inner]);
   }
-  toLeBytes(): Uint8Array {
+  toLeBytesArray(): Uint8Array {
     return Uint8Array.from([this.inner]);
   }
 }

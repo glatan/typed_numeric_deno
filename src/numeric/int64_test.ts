@@ -231,24 +231,24 @@ Deno.test("Int64", () => {
     // Invalid Length
     Int64.fromLeBytes(new Uint8Array(9));
   });
-  // toBeBytes()
+  // toBeBytesArray()
   assertEquals(
-    new Int64(0x12345678_90123456n).toBeBytes(),
+    new Int64(0x12345678_90123456n).toBeBytesArray(),
     new Uint8Array([0x12, 0x34, 0x56, 0x78, 0x90, 0x12, 0x34, 0x56]),
   );
   assertEquals(
-    new Int64(Int64.max()).toBeBytes(),
+    new Int64(Int64.max()).toBeBytesArray(),
     new Uint8Array([0x7F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]),
   );
-  assertEquals(new Int64(0n).toBeBytes(), new Uint8Array(8));
-  // toLeBytes()
+  assertEquals(new Int64(0n).toBeBytesArray(), new Uint8Array(8));
+  // toLeBytesArray()
   assertEquals(
-    new Int64(0x12345678_90123456n).toLeBytes(),
+    new Int64(0x12345678_90123456n).toLeBytesArray(),
     new Uint8Array([0x56, 0x34, 0x12, 0x90, 0x78, 0x56, 0x34, 0x12]),
   );
   assertEquals(
-    new Int64(Int64.max()).toLeBytes(),
+    new Int64(Int64.max()).toLeBytesArray(),
     new Uint8Array([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x7F]),
   );
-  assertEquals(new Int64(0n).toLeBytes(), new Uint8Array(8));
+  assertEquals(new Int64(0n).toLeBytesArray(), new Uint8Array(8));
 });

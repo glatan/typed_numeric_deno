@@ -240,7 +240,7 @@ export class Uint8Vector extends Vector<Uint8, number> {
     const bytes = new Uint8Vector();
     for (const word of words) {
       bytes.append(
-        Uint8Vector.from(word.toBeBytes()),
+        Uint8Vector.from(word.toBeBytesArray()),
       );
     }
     return bytes;
@@ -251,7 +251,7 @@ export class Uint8Vector extends Vector<Uint8, number> {
     const bytes = new Uint8Vector();
     for (const word of words) {
       bytes.append(
-        Uint8Vector.from(word.toLeBytes()),
+        Uint8Vector.from(word.toLeBytesArray()),
       );
     }
     return bytes;

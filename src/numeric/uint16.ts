@@ -93,13 +93,13 @@ export class Uint16 extends Numeric<Uint16, number> {
       "Invalid Length Error: Expected Uint8Array.prototype.length is 2",
     );
   }
-  toBeBytes(): Uint8Array {
+  toBeBytesArray(): Uint8Array {
     return Uint8Array.from([
       (this.inner >> 8) & 0xFF,
       this.inner & 0xFF,
     ]);
   }
-  toLeBytes(): Uint8Array {
+  toLeBytesArray(): Uint8Array {
     return Uint8Array.from([
       this.inner & 0xFF,
       (this.inner >> 8) & 0xFF,
