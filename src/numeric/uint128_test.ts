@@ -1,6 +1,7 @@
 import { assertEquals, assertThrows } from "../../depends.ts";
 
 import { Uint128 } from "./uint128.ts";
+import { Uint8Vector } from "../vector/uint8vector.ts";
 
 Deno.test("Uint128", () => {
   // constructor
@@ -256,10 +257,10 @@ Deno.test("Uint128", () => {
     // Invalid Length
     Uint128.fromLeBytes(new Uint8Array(17));
   });
-  // toBeBytesArray()
+  // toBeBytes()
   assertEquals(
-    new Uint128(0x12345678_90123456_78901234_56789012n).toBeBytesArray(),
-    new Uint8Array(
+    new Uint128(0x12345678_90123456_78901234_56789012n).toBeBytes(),
+    Uint8Vector.from(
       [
         0x12,
         0x34,
@@ -281,14 +282,14 @@ Deno.test("Uint128", () => {
     ),
   );
   assertEquals(
-    new Uint128(Uint128.max()).toBeBytesArray(),
-    new Uint8Array(16).fill(0xFF),
+    new Uint128(Uint128.max()).toBeBytes(),
+    new Uint8Vector(16).fill(0xFF),
   );
-  assertEquals(new Uint128(Uint128.min()).toBeBytesArray(), new Uint8Array(16));
-  // toLeBytesArray()
+  assertEquals(new Uint128(Uint128.min()).toBeBytes(), new Uint8Vector(16));
+  // toLeBytes()
   assertEquals(
-    new Uint128(0x12345678_90123456_78901234_56789012n).toLeBytesArray(),
-    new Uint8Array(
+    new Uint128(0x12345678_90123456_78901234_56789012n).toLeBytes(),
+    Uint8Vector.from(
       [
         0x12,
         0x90,
@@ -310,8 +311,8 @@ Deno.test("Uint128", () => {
     ),
   );
   assertEquals(
-    new Uint128(Uint128.max()).toLeBytesArray(),
-    new Uint8Array(16).fill(0xFF),
+    new Uint128(Uint128.max()).toLeBytes(),
+    new Uint8Vector(16).fill(0xFF),
   );
-  assertEquals(new Uint128(Uint128.min()).toLeBytesArray(), new Uint8Array(16));
+  assertEquals(new Uint128(Uint128.min()).toLeBytes(), new Uint8Vector(16));
 });

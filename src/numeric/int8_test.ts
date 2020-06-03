@@ -1,6 +1,7 @@
 import { assertEquals, assertThrows } from "../../depends.ts";
 
 import { Int8 } from "./int8.ts";
+import { Uint8Vector } from "../vector/uint8vector.ts";
 
 Deno.test("Int8", () => {
   // constructor
@@ -158,18 +159,18 @@ Deno.test("Int8", () => {
     // Invalid Length
     Int8.fromLeBytes(new Uint8Array(2));
   });
-  // toBeBytesArray()
-  assertEquals(new Int8(0x12).toBeBytesArray(), new Uint8Array([0x12]));
+  // toBeBytes()
+  assertEquals(new Int8(0x12).toBeBytes(), Uint8Vector.from([0x12]));
   assertEquals(
-    new Int8(Int8.max()).toBeBytesArray(),
-    new Uint8Array(1).fill(Int8.max()),
+    new Int8(Int8.max()).toBeBytes(),
+    new Uint8Vector(1).fill(Int8.max()),
   );
-  assertEquals(new Int8(0).toBeBytesArray(), new Uint8Array(1));
-  // toLeBytesArray()
-  assertEquals(new Int8(0x12).toLeBytesArray(), new Uint8Array([0x12]));
+  assertEquals(new Int8(0).toBeBytes(), new Uint8Vector(1));
+  // toLeBytes()
+  assertEquals(new Int8(0x12).toLeBytes(), Uint8Vector.from([0x12]));
   assertEquals(
-    new Int8(Int8.max()).toLeBytesArray(),
-    new Uint8Array(1).fill(Int8.max()),
+    new Int8(Int8.max()).toLeBytes(),
+    new Uint8Vector(1).fill(Int8.max()),
   );
-  assertEquals(new Int8(0).toLeBytesArray(), new Uint8Array(1));
+  assertEquals(new Int8(0).toLeBytes(), new Uint8Vector(1));
 });

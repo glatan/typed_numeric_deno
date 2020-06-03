@@ -21,8 +21,8 @@ console.log(a.mul(b).value()); // 20000n
 
 const c = new Uint32(0x1234_5678n);
 
-console.log(c.toBeBytesArray()); // [18, 52, 86, 120]([0x12, 0x34, 0x56, 0x78])
-console.log(c.toLeBytesArray()); // [120, 86, 52, 18]([0x78, 0x56, 0x34, 0x12])
+console.log(c.toBeBytes().toTypedArray()); // [18, 52, 86, 120]([0x12, 0x34, 0x56, 0x78])
+console.log(c.toLeBytes().toTypedArray()); // [120, 86, 52, 18]([0x78, 0x56, 0x34, 0x12])
 
 const d = Uint32.fromBeBytes(
   new Uint8Array([0x12, 0x34, 0x56, 0x78]),
@@ -90,11 +90,11 @@ TypedNumeric.prototype.rotateLeft(n: TypedNumeric): TypedNumeric;
 // Rotate right shift
 TypedNumeric.prototype.rotateRight(n: TypedNumeric): TypedNumeric;
 
-// Create Uint8Array from TypedNumeric
+// Create Uint8Vector from TypedNumeric
 // to big endian bytes
-TypedNumeric.prototype.toBeBytesArray(): Uint8Array;
+TypedNumeric.prototype.toBeBytes(): Uint8Vector;
 // to litle endian bytes
-TypedNumeric.prototype.toLeBytesArray(): Uint8Array;
+TypedNumeric.prototype.toLeBytes(): Uint8Vector;
 ```
 
 #### Static Methods
@@ -166,14 +166,14 @@ TypedVector.prototype.toTypedArray(): TypedArray;
 
 // Only for Uint8Vector
 // Create hex string.
-// toBeBytesArrayLowerHex
-Uint8Vector.prototype.toBeBytesArrayLowerHex(): string;
-// toLeBytesArrayLowerHex
-Uint8Vector.prototype.toLeBytesArrayLowerHex(): string;
-// toBeBytesArrayUpperHex
-Uint8Vector.prototype.toBeBytesArrayUpperHex(): string;
-// toLeBytesArrayUpperHex
-Uint8Vector.prototype.toLeBytesArrayUpperHex(): string;
+// toBeBytesLowerHex
+Uint8Vector.prototype.toBeBytesLowerHex(): string;
+// toLeBytesLowerHex
+Uint8Vector.prototype.toLeBytesLowerHex(): string;
+// toBeBytesUpperHex
+Uint8Vector.prototype.toBeBytesUpperHex(): string;
+// toLeBytesUpperHex
+Uint8Vector.prototype.toLeBytesUpperHex(): string;
 ```
 
 #### Static Methods

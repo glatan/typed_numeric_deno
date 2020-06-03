@@ -1,6 +1,7 @@
 import { assertEquals, assertThrows } from "../../depends.ts";
 
 import { Uint32 } from "./uint32.ts";
+import { Uint8Vector } from "../vector/uint8vector.ts";
 
 Deno.test("Uint32", () => {
   // constructor
@@ -160,24 +161,24 @@ Deno.test("Uint32", () => {
     // Invalid Length
     Uint32.fromLeBytes(new Uint8Array(5));
   });
-  // toBeBytesArray()
+  // toBeBytes()
   assertEquals(
-    new Uint32(0x1234_5678n).toBeBytesArray(),
-    new Uint8Array([0x12, 0x34, 0x56, 0x78]),
+    new Uint32(0x1234_5678n).toBeBytes(),
+    Uint8Vector.from([0x12, 0x34, 0x56, 0x78]),
   );
   assertEquals(
-    new Uint32(Uint32.max()).toBeBytesArray(),
-    new Uint8Array(4).fill(0xFF),
+    new Uint32(Uint32.max()).toBeBytes(),
+    new Uint8Vector(4).fill(0xFF),
   );
-  assertEquals(new Uint32(Uint32.min()).toBeBytesArray(), new Uint8Array(4));
-  // toLeBytesArray()
+  assertEquals(new Uint32(Uint32.min()).toBeBytes(), new Uint8Vector(4));
+  // toLeBytes()
   assertEquals(
-    new Uint32(0x1234_5678n).toLeBytesArray(),
-    new Uint8Array([0x78, 0x56, 0x34, 0x12]),
+    new Uint32(0x1234_5678n).toLeBytes(),
+    Uint8Vector.from([0x78, 0x56, 0x34, 0x12]),
   );
   assertEquals(
-    new Uint32(Uint32.max()).toLeBytesArray(),
-    new Uint8Array(4).fill(0xFF),
+    new Uint32(Uint32.max()).toLeBytes(),
+    new Uint8Vector(4).fill(0xFF),
   );
-  assertEquals(new Uint32(Uint32.min()).toLeBytesArray(), new Uint8Array(4));
+  assertEquals(new Uint32(Uint32.min()).toLeBytes(), new Uint8Vector(4));
 });

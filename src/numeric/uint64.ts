@@ -1,4 +1,5 @@
 import { Numeric } from "./mod.ts";
+import { Uint8Vector } from "../vector/uint8vector.ts";
 
 const MAX: bigint = 0xFFFFFFFF_FFFFFFFFn;
 const MIN: bigint = 0n;
@@ -99,8 +100,8 @@ export class Uint64 extends Numeric<Uint64, bigint> {
       "Invalid Length Error: Expected Uint8Array.prototype.length is 8",
     );
   }
-  toBeBytesArray(): Uint8Array {
-    return Uint8Array.from([
+  toBeBytes(): Uint8Vector {
+    return Uint8Vector.from([
       Number((this.inner >> 56n) & 0xFFn),
       Number((this.inner >> 48n) & 0xFFn),
       Number((this.inner >> 40n) & 0xFFn),
@@ -111,8 +112,8 @@ export class Uint64 extends Numeric<Uint64, bigint> {
       Number(this.inner & 0xFFn),
     ]);
   }
-  toLeBytesArray(): Uint8Array {
-    return Uint8Array.from([
+  toLeBytes(): Uint8Vector {
+    return Uint8Vector.from([
       Number(this.inner & 0xFFn),
       Number((this.inner >> 8n) & 0xFFn),
       Number((this.inner >> 16n) & 0xFFn),

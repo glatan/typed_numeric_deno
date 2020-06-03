@@ -1,3 +1,5 @@
+import { Uint8Vector } from "../vector/uint8vector.ts";
+
 export abstract class Numeric<T, N> {
   protected inner: N;
   protected constructor(value: N) {
@@ -43,8 +45,8 @@ export abstract class Numeric<T, N> {
   // Uint8Array to T
   // static fromLeBytes(bytes: Uint8Array): T;
   // Crate Uint8Array
-  // T to big endian Uint8Array
-  abstract toBeBytesArray(): Uint8Array;
-  // T to little endian Uint8Array
-  abstract toLeBytesArray(): Uint8Array;
+  // T to big endian Uint8Vector
+  abstract toBeBytes(): Uint8Vector;
+  // T to little endian Uint8Vector
+  abstract toLeBytes(): Uint8Vector;
 }
