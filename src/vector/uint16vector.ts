@@ -40,6 +40,12 @@ export class Uint16Vector extends Vector<Uint16, number> {
   slice(start: number, end: number): Uint16Vector {
     return new Uint16Vector(this.inner.slice(start, end));
   }
+  toBeBytes(): Uint8Vector {
+    return Uint8Vector.fromBeWords(this);
+  }
+  toLeBytes(): Uint8Vector {
+    return Uint8Vector.fromLeWords(this);
+  }
   toTypedArray(): Uint16Array {
     const array = new Uint16Array(this.inner.length);
     for (let i = 0; i < this.inner.length; i++) {

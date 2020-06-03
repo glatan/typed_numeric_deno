@@ -1,8 +1,9 @@
 import { assertEquals, assertThrows } from "../../depends.ts";
 
+import { Uint8 } from "../numeric/uint8.ts";
+import { Uint16 } from "../numeric/uint16.ts";
 import { Uint8Vector } from "./uint8vector.ts";
 import { Uint16Vector } from "./uint16vector.ts";
-import { Uint16 } from "../numeric/uint16.ts";
 
 Deno.test("Uint16Vector.prototype", () => {
   // constructor
@@ -53,6 +54,32 @@ Deno.test("Uint16Vector.prototype", () => {
       Uint16Vector.from(new Uint16Array([90, 0xAB, 0xCD, 0xEF])),
     ).toTypedArray(),
     Uint16Array.from(concatArray.concat([90, 0xAB, 0xCD, 0xEF])),
+  );
+  // toBeBytes
+  assertEquals(
+    Uint16Vector.of(0x1234, 0x5678).toBeBytes(),
+    Uint8Vector.of(0x12, 0x34, 0x56, 0x78),
+  );
+  assertEquals(
+    new Uint16Vector().toBeBytes(),
+    new Uint8Vector(),
+  );
+  assertEquals(
+    new Uint16Vector().fill(Uint16.max()).toBeBytes(),
+    new Uint8Vector().fill(Uint8.max()),
+  );
+  // toLeBytes
+  assertEquals(
+    Uint16Vector.of(0x1234, 0x5678).toLeBytes(),
+    Uint8Vector.of(0x34, 0x12, 0x78, 0x56),
+  );
+  assertEquals(
+    new Uint16Vector().toLeBytes(),
+    new Uint8Vector(),
+  );
+  assertEquals(
+    new Uint16Vector().fill(Uint16.max()).toLeBytes(),
+    new Uint8Vector().fill(Uint8.max()),
   );
   // toTypedArray
   assertEquals(new Uint16Vector(3).toTypedArray(), new Uint16Array(3));

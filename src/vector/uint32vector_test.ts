@@ -1,8 +1,9 @@
 import { assertEquals, assertThrows } from "../../depends.ts";
 
+import { Uint8 } from "../numeric/uint8.ts";
+import { Uint32 } from "../numeric/uint32.ts";
 import { Uint8Vector } from "./uint8vector.ts";
 import { Uint32Vector } from "./uint32vector.ts";
-import { Uint32 } from "../numeric/uint32.ts";
 
 Deno.test("Uint32Vector.prototype", () => {
   // constructor
@@ -53,6 +54,32 @@ Deno.test("Uint32Vector.prototype", () => {
       Uint32Vector.from(new Uint32Array([90, 0xAB, 0xCD, 0xEF])),
     ).toTypedArray(),
     Uint32Array.from(concatArray.concat([90, 0xAB, 0xCD, 0xEF])),
+  );
+  // toBeBytes
+  assertEquals(
+    Uint32Vector.of(0x1234_5678n, 0x9012_3456n).toBeBytes(),
+    Uint8Vector.of(0x12, 0x34, 0x56, 0x78, 0x90, 0x12, 0x34, 0x56),
+  );
+  assertEquals(
+    new Uint32Vector().toBeBytes(),
+    new Uint8Vector(),
+  );
+  assertEquals(
+    new Uint32Vector().fill(Uint32.max()).toBeBytes(),
+    new Uint8Vector().fill(Uint8.max()),
+  );
+  // toLeBytes
+  assertEquals(
+    Uint32Vector.of(0x1234_5678n, 0x9012_3456n).toLeBytes(),
+    Uint8Vector.of(0x78, 0x56, 0x34, 0x12, 0x56, 0x34, 0x12, 0x90),
+  );
+  assertEquals(
+    new Uint32Vector().toLeBytes(),
+    new Uint8Vector(),
+  );
+  assertEquals(
+    new Uint32Vector().fill(Uint32.max()).toLeBytes(),
+    new Uint8Vector().fill(Uint8.max()),
   );
   // toTypedArray
   assertEquals(new Uint32Vector(3).toTypedArray(), new Uint32Array(3));

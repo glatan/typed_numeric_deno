@@ -40,6 +40,12 @@ export class Uint64Vector extends Vector<Uint64, bigint> {
   slice(start: number, end: number): Uint64Vector {
     return new Uint64Vector(this.inner.slice(start, end));
   }
+  toBeBytes(): Uint8Vector {
+    return Uint8Vector.fromBeWords(this);
+  }
+  toLeBytes(): Uint8Vector {
+    return Uint8Vector.fromLeWords(this);
+  }
   toTypedArray(): BigUint64Array {
     const array = new BigUint64Array(this.inner.length);
     for (let i = 0; i < this.inner.length; i++) {
