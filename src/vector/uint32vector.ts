@@ -15,18 +15,23 @@ export class Uint32Vector extends Vector<Uint32, bigint> {
     start: number = 0,
     end: number = this.length,
   ): Uint32Vector {
-    return new Uint32Vector(this.inner.copyWithin(target, start, end));
+    super.copyWithin(target, start, end);
+    return this;
   }
   concat(other: Uint32Vector): Uint32Vector {
     return new Uint32Vector(this.inner.concat(other.inner));
   }
-  fill(value: Uint32 | bigint): Uint32Vector {
-    if (typeof value === "bigint") {
-      super.fill(new Uint32(value));
+  fill(
+    target: Uint32 | bigint,
+    start: number = 0,
+    end: number = this.length,
+  ): Uint32Vector {
+    if (typeof target === "bigint") {
+      super.fill(new Uint32(target), start, end);
     } else {
-      super.fill(value);
+      super.fill(target, start, end);
     }
-    return new Uint32Vector(this.inner);
+    return this;
   }
   reverse(): Uint32Vector {
     return new Uint32Vector(this.inner.reverse());
@@ -35,7 +40,7 @@ export class Uint32Vector extends Vector<Uint32, bigint> {
     return new Uint32Vector(this.inner.slice(start, end));
   }
   toTypedArray(): Uint32Array {
-    let array = new Uint32Array(this.inner.length);
+    const array = new Uint32Array(this.inner.length);
     for (let i = 0; i < this.inner.length; i++) {
       array[i] = Number(this.inner[i].value());
     }

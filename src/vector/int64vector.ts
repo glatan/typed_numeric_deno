@@ -15,18 +15,23 @@ export class Int64Vector extends Vector<Int64, bigint> {
     start: number = 0,
     end: number = this.length,
   ): Int64Vector {
-    return new Int64Vector(this.inner.copyWithin(target, start, end));
+    super.copyWithin(target, start, end);
+    return this;
   }
   concat(other: Int64Vector): Int64Vector {
     return new Int64Vector(this.inner.concat(other.inner));
   }
-  fill(value: Int64 | bigint): Int64Vector {
-    if (typeof value === "bigint") {
-      super.fill(new Int64(value));
+  fill(
+    target: Int64 | bigint,
+    start: number = 0,
+    end: number = this.length,
+  ): Int64Vector {
+    if (typeof target === "bigint") {
+      super.fill(new Int64(target), start, end);
     } else {
-      super.fill(value);
+      super.fill(target, start, end);
     }
-    return new Int64Vector(this.inner);
+    return this;
   }
   reverse(): Int64Vector {
     return new Int64Vector(this.inner.reverse());
@@ -35,7 +40,7 @@ export class Int64Vector extends Vector<Int64, bigint> {
     return new Int64Vector(this.inner.slice(start, end));
   }
   toTypedArray(): BigInt64Array {
-    let array = new BigInt64Array(this.inner.length);
+    const array = new BigInt64Array(this.inner.length);
     for (let i = 0; i < this.inner.length; i++) {
       array[i] = this.inner[i].value();
     }

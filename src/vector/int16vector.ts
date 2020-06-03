@@ -15,18 +15,23 @@ export class Int16Vector extends Vector<Int16, number> {
     start: number = 0,
     end: number = this.length,
   ): Int16Vector {
-    return new Int16Vector(this.inner.copyWithin(target, start, end));
+    super.copyWithin(target, start, end);
+    return this;
   }
   concat(other: Int16Vector): Int16Vector {
     return new Int16Vector(this.inner.concat(other.inner));
   }
-  fill(value: Int16 | number): Int16Vector {
-    if (typeof value === "number") {
-      super.fill(new Int16(value));
+  fill(
+    target: Int16 | number,
+    start: number = 0,
+    end: number = this.length,
+  ): Int16Vector {
+    if (typeof target === "number") {
+      super.fill(new Int16(target), start, end);
     } else {
-      super.fill(value);
+      super.fill(target, start, end);
     }
-    return new Int16Vector(this.inner);
+    return this;
   }
   reverse(): Int16Vector {
     return new Int16Vector(this.inner.reverse());
@@ -35,7 +40,7 @@ export class Int16Vector extends Vector<Int16, number> {
     return new Int16Vector(this.inner.slice(start, end));
   }
   toTypedArray(): Int16Array {
-    let array = new Int16Array(this.inner.length);
+    const array = new Int16Array(this.inner.length);
     for (let i = 0; i < this.inner.length; i++) {
       array[i] = this.inner[i].value();
     }
