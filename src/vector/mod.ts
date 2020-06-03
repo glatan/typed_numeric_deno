@@ -12,6 +12,10 @@ export abstract class Vector<T extends Numeric<T, N>, N> {
       yield this.inner[i];
     }
   }
+  append(other: Vector<T, N>) {
+    this.length += other.length;
+    this.inner = this.inner.concat(other.inner);
+  }
   equals(other: Vector<T, N>): boolean {
     for (let i = 0; i < this.inner.length; i++) {
       if (this.inner[i].value() !== other.inner[i].value()) {

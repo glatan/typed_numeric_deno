@@ -4,6 +4,20 @@ import { Uint8Vector } from "./uint8vector.ts";
 import { Uint8 } from "../numeric/uint8.ts";
 
 Deno.test("Vector<Number>", () => {
+  // append
+  const appendVector1 = Uint8Vector.of(0x12);
+  appendVector1.append(Uint8Vector.of(0x34));
+  assertEquals(
+    appendVector1,
+    Uint8Vector.of(0x12, 0x34),
+  );
+  const appendVector2 = new Uint8Vector();
+  appendVector2.append(new Uint8Vector());
+  assertEquals(
+    appendVector2,
+    new Uint8Vector(),
+  );
+  // Array.prototype
   // include
   assertEquals(
     Uint8Vector.from(new Uint8Array([12, 34, 56, 78])).include(
