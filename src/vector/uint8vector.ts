@@ -204,6 +204,28 @@ export class Uint8Vector extends Vector<Uint8, number> {
     }
     return vector;
   }
+  static fromBeWords(
+    words: Uint16Vector | Uint32Vector | Uint64Vector,
+  ): Uint8Vector {
+    const bytes = new Uint8Vector();
+    for (const word of words) {
+      bytes.append(
+        Uint8Vector.from(word.toBeBytes()),
+      );
+    }
+    return bytes;
+  }
+  static fromLeWords(
+    words: Uint16Vector | Uint32Vector | Uint64Vector,
+  ): Uint8Vector {
+    const bytes = new Uint8Vector();
+    for (const word of words) {
+      bytes.append(
+        Uint8Vector.from(word.toLeBytes()),
+      );
+    }
+    return bytes;
+  }
   static of(...elementN: Array<Uint8> | Array<number>): Uint8Vector {
     return Uint8Vector.from(elementN);
   }

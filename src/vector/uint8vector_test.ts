@@ -1,6 +1,9 @@
 import { assertEquals, assertThrows } from "../../depends.ts";
 
 import { Uint8 } from "../numeric/uint8.ts";
+import { Uint16 } from "../numeric/uint16.ts";
+import { Uint32 } from "../numeric/uint32.ts";
+import { Uint64 } from "../numeric/uint64.ts";
 import { Uint8Vector } from "./uint8vector.ts";
 import { Uint16Vector } from "./uint16vector.ts";
 import { Uint32Vector } from "./uint32vector.ts";
@@ -93,8 +96,8 @@ Deno.test("Uint8Vector.prototype", () => {
     new Uint16Vector(1).toTypedArray(),
   );
   assertEquals(
-    Uint8Vector.from([0x12, 0x34, 0x56, 0x78]).toBe16bitWords().toTypedArray(),
-    Uint16Vector.from([0x1234, 0x5678]).toTypedArray(),
+    Uint8Vector.from([0x12, 0x34]).toBe16bitWords().toTypedArray(),
+    Uint16Vector.from([0x1234]).toTypedArray(),
   );
   // toBe32bitWords
   assertEquals(
@@ -153,8 +156,8 @@ Deno.test("Uint8Vector.prototype", () => {
     new Uint16Vector(1).toTypedArray(),
   );
   assertEquals(
-    Uint8Vector.from([0x12, 0x34, 0x56, 0x78]).toLe16bitWords().toTypedArray(),
-    Uint16Vector.from([0x3412, 0x7856]).toTypedArray(),
+    Uint8Vector.from([0x12, 0x34]).toLe16bitWords().toTypedArray(),
+    Uint16Vector.from([0x3412]).toTypedArray(),
   );
   // toLe32bitWords
   assertEquals(
@@ -226,6 +229,86 @@ Deno.test("Uint8Vector", () => {
   assertEquals(
     Uint8Vector.from([]).toTypedArray(),
     new Uint8Array([]),
+  );
+  // fromBeWords
+  // 16bit words
+  assertEquals(
+    Uint8Vector.fromBeWords(Uint16Vector.from([0x1234])),
+    Uint8Vector.from([0x12, 0x34]),
+  );
+  assertEquals(
+    Uint8Vector.fromBeWords(new Uint16Vector()),
+    new Uint8Vector(),
+  );
+  assertEquals(
+    Uint8Vector.fromBeWords(Uint16Vector.of(Uint16.max())),
+    new Uint8Vector(2).fill(Uint8.max()),
+  );
+  // 32bit words
+  assertEquals(
+    Uint8Vector.fromBeWords(Uint32Vector.from([0x1234_5678n])),
+    Uint8Vector.from([0x12, 0x34, 0x56, 0x78]),
+  );
+  assertEquals(
+    Uint8Vector.fromBeWords(new Uint32Vector()),
+    new Uint8Vector(),
+  );
+  assertEquals(
+    Uint8Vector.fromBeWords(Uint32Vector.of(Uint32.max())),
+    new Uint8Vector(4).fill(Uint8.max()),
+  );
+  // 64bit words
+  assertEquals(
+    Uint8Vector.fromBeWords(Uint64Vector.from([0x12345678_90123456n])),
+    Uint8Vector.from([0x12, 0x34, 0x56, 0x78, 0x90, 0x12, 0x34, 0x56]),
+  );
+  assertEquals(
+    Uint8Vector.fromBeWords(new Uint64Vector()),
+    new Uint8Vector(),
+  );
+  assertEquals(
+    Uint8Vector.fromBeWords(Uint64Vector.of(Uint64.max())),
+    new Uint8Vector(8).fill(Uint8.max()),
+  );
+  // fromLeWords
+  // 16bit words
+  assertEquals(
+    Uint8Vector.fromLeWords(Uint16Vector.from([0x1234])),
+    Uint8Vector.from([0x34, 0x12]),
+  );
+  assertEquals(
+    Uint8Vector.fromLeWords(new Uint16Vector()),
+    new Uint8Vector(),
+  );
+  assertEquals(
+    Uint8Vector.fromLeWords(Uint16Vector.of(Uint16.max())),
+    new Uint8Vector(2).fill(Uint8.max()),
+  );
+  // 32bit words
+  assertEquals(
+    Uint8Vector.fromLeWords(Uint32Vector.from([0x7856_3412n])),
+    Uint8Vector.from([0x12, 0x34, 0x56, 0x78]),
+  );
+  assertEquals(
+    Uint8Vector.fromLeWords(new Uint32Vector()),
+    new Uint8Vector(),
+  );
+  assertEquals(
+    Uint8Vector.fromLeWords(Uint32Vector.of(Uint32.max())),
+    new Uint8Vector(4).fill(Uint8.max()),
+  );
+  // 64bit words
+  assertEquals(
+    Uint8Vector.fromLeWords(Uint64Vector.from([0x56341290_78563412n])),
+    Uint8Vector.from([0x12, 0x34, 0x56, 0x78, 0x90, 0x12, 0x34, 0x56]),
+  );
+  assertEquals(
+    Uint8Vector.fromLeWords(new Uint64Vector()),
+    new Uint8Vector(),
+  );
+  assertEquals(
+    Uint8Vector.fromLeWords(Uint64Vector.of(Uint64.max())),
+    new Uint8Vector(8).fill(Uint8.max()),
   );
   // of
   assertEquals(
