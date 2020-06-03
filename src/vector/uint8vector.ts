@@ -57,12 +57,10 @@ export class Uint8Vector extends Vector<Uint8, number> {
     for (let i = 0; i < this.inner.length / 2; i++) {
       array.set(
         i,
-        Uint16.fromBeBytes(
-          Uint8Array.from([
-            this.inner[i * 2].value(),
-            this.inner[(i * 2) + 1].value(),
-          ]),
-        ),
+        Uint16.fromBeBytes([
+          this.inner[i * 2].value(),
+          this.inner[(i * 2) + 1].value(),
+        ]),
       );
     }
     return array;
@@ -77,14 +75,12 @@ export class Uint8Vector extends Vector<Uint8, number> {
     for (let i = 0; i < this.inner.length / 4; i++) {
       array.set(
         i,
-        Uint32.fromBeBytes(
-          Uint8Array.from([
-            this.inner[i * 4].value(),
-            this.inner[(i * 4) + 1].value(),
-            this.inner[(i * 4) + 2].value(),
-            this.inner[(i * 4) + 3].value(),
-          ]),
-        ),
+        Uint32.fromBeBytes([
+          this.inner[i * 4].value(),
+          this.inner[(i * 4) + 1].value(),
+          this.inner[(i * 4) + 2].value(),
+          this.inner[(i * 4) + 3].value(),
+        ]),
       );
     }
     return array;
@@ -99,18 +95,16 @@ export class Uint8Vector extends Vector<Uint8, number> {
     for (let i = 0; i < this.inner.length / 8; i++) {
       array.set(
         i,
-        Uint64.fromBeBytes(
-          Uint8Array.from([
-            this.inner[i * 8].value(),
-            this.inner[(i * 8) + 1].value(),
-            this.inner[(i * 8) + 2].value(),
-            this.inner[(i * 8) + 3].value(),
-            this.inner[(i * 8) + 4].value(),
-            this.inner[(i * 8) + 5].value(),
-            this.inner[(i * 8) + 6].value(),
-            this.inner[(i * 8) + 7].value(),
-          ]),
-        ),
+        Uint64.fromBeBytes([
+          this.inner[i * 8].value(),
+          this.inner[(i * 8) + 1].value(),
+          this.inner[(i * 8) + 2].value(),
+          this.inner[(i * 8) + 3].value(),
+          this.inner[(i * 8) + 4].value(),
+          this.inner[(i * 8) + 5].value(),
+          this.inner[(i * 8) + 6].value(),
+          this.inner[(i * 8) + 7].value(),
+        ]),
       );
     }
     return array;
@@ -153,12 +147,10 @@ export class Uint8Vector extends Vector<Uint8, number> {
     for (let i = 0; i < this.inner.length / 2; i++) {
       array.set(
         i,
-        Uint16.fromLeBytes(
-          Uint8Array.from([
-            this.inner[i * 2].value(),
-            this.inner[(i * 2) + 1].value(),
-          ]),
-        ),
+        Uint16.fromLeBytes([
+          this.inner[i * 2].value(),
+          this.inner[(i * 2) + 1].value(),
+        ]),
       );
     }
     return array;
@@ -173,14 +165,12 @@ export class Uint8Vector extends Vector<Uint8, number> {
     for (let i = 0; i < this.inner.length / 4; i++) {
       array.set(
         i,
-        Uint32.fromLeBytes(
-          Uint8Array.from([
-            this.inner[i * 4].value(),
-            this.inner[(i * 4) + 1].value(),
-            this.inner[(i * 4) + 2].value(),
-            this.inner[(i * 4) + 3].value(),
-          ]),
-        ),
+        Uint32.fromLeBytes([
+          this.inner[i * 4].value(),
+          this.inner[(i * 4) + 1].value(),
+          this.inner[(i * 4) + 2].value(),
+          this.inner[(i * 4) + 3].value(),
+        ]),
       );
     }
     return array;
@@ -195,18 +185,16 @@ export class Uint8Vector extends Vector<Uint8, number> {
     for (let i = 0; i < this.inner.length / 8; i++) {
       array.set(
         i,
-        Uint64.fromLeBytes(
-          Uint8Array.from([
-            this.inner[i * 8].value(),
-            this.inner[(i * 8) + 1].value(),
-            this.inner[(i * 8) + 2].value(),
-            this.inner[(i * 8) + 3].value(),
-            this.inner[(i * 8) + 4].value(),
-            this.inner[(i * 8) + 5].value(),
-            this.inner[(i * 8) + 6].value(),
-            this.inner[(i * 8) + 7].value(),
-          ]),
-        ),
+        Uint64.fromLeBytes([
+          this.inner[i * 8].value(),
+          this.inner[(i * 8) + 1].value(),
+          this.inner[(i * 8) + 2].value(),
+          this.inner[(i * 8) + 3].value(),
+          this.inner[(i * 8) + 4].value(),
+          this.inner[(i * 8) + 5].value(),
+          this.inner[(i * 8) + 6].value(),
+          this.inner[(i * 8) + 7].value(),
+        ]),
       );
     }
     return array;
