@@ -48,6 +48,11 @@ export class Uint8Vector extends Vector<Uint8, number> {
     return new Uint8Vector(this.inner.slice(start, end));
   }
   toBe16bitWords(): Uint16Vector {
+    if (this.length % 2 !== 0) {
+      throw new Error(
+        "Invalid Length Error: Expected Uint8Vector.prototype.length is multiples of 2",
+      );
+    }
     const array = new Uint16Vector(this.inner.length / 2);
     for (let i = 0; i < this.inner.length / 2; i++) {
       array.set(
@@ -63,6 +68,11 @@ export class Uint8Vector extends Vector<Uint8, number> {
     return array;
   }
   toBe32bitWords(): Uint32Vector {
+    if (this.length % 4 !== 0) {
+      throw new Error(
+        "Invalid Length Error: Expected Uint8Vector.prototype.length is multiples of 4",
+      );
+    }
     const array = new Uint32Vector(this.inner.length / 4);
     for (let i = 0; i < this.inner.length / 4; i++) {
       array.set(
@@ -80,6 +90,11 @@ export class Uint8Vector extends Vector<Uint8, number> {
     return array;
   }
   toBe64bitWords(): Uint64Vector {
+    if (this.length % 8 !== 0) {
+      throw new Error(
+        "Invalid Length Error: Expected Uint8Vector.prototype.length is multiples of 8",
+      );
+    }
     const array = new Uint64Vector(this.inner.length / 8);
     for (let i = 0; i < this.inner.length / 8; i++) {
       array.set(
@@ -129,6 +144,11 @@ export class Uint8Vector extends Vector<Uint8, number> {
     return hex;
   }
   toLe16bitWords(): Uint16Vector {
+    if (this.length % 2 !== 0) {
+      throw new Error(
+        "Invalid Length Error: Expected Uint8Vector.prototype.length is multiples of 2",
+      );
+    }
     const array = new Uint16Vector(this.inner.length / 2);
     for (let i = 0; i < this.inner.length / 2; i++) {
       array.set(
@@ -144,6 +164,11 @@ export class Uint8Vector extends Vector<Uint8, number> {
     return array;
   }
   toLe32bitWords(): Uint32Vector {
+    if (this.length % 4 !== 0) {
+      throw new Error(
+        "Invalid Length Error: Expected Uint8Vector.prototype.length is multiples of 4",
+      );
+    }
     const array = new Uint32Vector(this.inner.length / 4);
     for (let i = 0; i < this.inner.length / 4; i++) {
       array.set(
@@ -161,6 +186,11 @@ export class Uint8Vector extends Vector<Uint8, number> {
     return array;
   }
   toLe64bitWords(): Uint64Vector {
+    if (this.length % 8 !== 0) {
+      throw new Error(
+        "Invalid Length Error: Expected Uint8Vector.prototype.length is multiples of 8",
+      );
+    }
     const array = new Uint64Vector(this.inner.length / 8);
     for (let i = 0; i < this.inner.length / 8; i++) {
       array.set(

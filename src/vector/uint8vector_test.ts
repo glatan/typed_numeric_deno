@@ -99,6 +99,9 @@ Deno.test("Uint8Vector.prototype", () => {
     Uint8Vector.of(0x12, 0x34).toBe16bitWords().toTypedArray(),
     Uint16Vector.of(0x1234).toTypedArray(),
   );
+  assertThrows(() => {
+    new Uint8Vector(3).toBe16bitWords();
+  });
   // toBe32bitWords
   assertEquals(
     new Uint8Vector(4).toBe32bitWords().toTypedArray(),
@@ -109,6 +112,9 @@ Deno.test("Uint8Vector.prototype", () => {
       .toBe32bitWords().toTypedArray(),
     Uint32Vector.of(0x1234_5678n, 0x9012_3456n).toTypedArray(),
   );
+  assertThrows(() => {
+    new Uint8Vector(5).toBe32bitWords();
+  });
   // toBe64bitWords
   assertEquals(
     new Uint8Vector(8).toBe64bitWords().toTypedArray(),
@@ -136,6 +142,9 @@ Deno.test("Uint8Vector.prototype", () => {
       .toBe64bitWords().toTypedArray(),
     Uint64Vector.of(0x12345678_90123456n, 0x78901234_56789012n).toTypedArray(),
   );
+  assertThrows(() => {
+    new Uint8Vector(9).toBe64bitWords();
+  });
   // toBeBytesLowerHex
   assertEquals(
     Uint8Vector.from(new Uint8Array([0x12, 0x34, 0xAB, 0xCD]))
@@ -177,6 +186,9 @@ Deno.test("Uint8Vector.prototype", () => {
     Uint8Vector.of(0x12, 0x34).toLe16bitWords().toTypedArray(),
     Uint16Vector.of(0x3412).toTypedArray(),
   );
+  assertThrows(() => {
+    new Uint8Vector(3).toLe16bitWords();
+  });
   // toLe32bitWords
   assertEquals(
     new Uint8Vector(4).toLe32bitWords().toTypedArray(),
@@ -187,6 +199,9 @@ Deno.test("Uint8Vector.prototype", () => {
       .toLe32bitWords().toTypedArray(),
     Uint32Vector.of(0x7856_3412n, 0x5634_1290n).toTypedArray(),
   );
+  assertThrows(() => {
+    new Uint8Vector(5).toLe32bitWords();
+  });
   // toLe64bitWords
   assertEquals(
     new Uint8Vector(8).toLe64bitWords().toTypedArray(),
@@ -214,6 +229,9 @@ Deno.test("Uint8Vector.prototype", () => {
       .toLe64bitWords().toTypedArray(),
     Uint64Vector.of(0x56341290_78563412n, 0x12907856_34129078n).toTypedArray(),
   );
+  assertThrows(() => {
+    new Uint8Vector(9).toLe64bitWords();
+  });
   // toLeBytesLowerHex
   assertEquals(
     Uint8Vector.from(new Uint8Array([0x12, 0x34, 0xAB, 0xCD]))
