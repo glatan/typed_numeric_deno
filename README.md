@@ -61,54 +61,38 @@ new TypedNumeric(value: number | bigint = 0 | 0n);
 ```ts
 // Get value
 TypedNumeric.prototype.value(): number | bigint;
-
 // Addition
 TypedNumeric.prototype.add(value: TypedNumeric): TypedNumeric;
-
 // Subtraction
 TypedNumeric.prototype.sub(value: TypedNumeric): TypedNumeric;
-
 // Division
 TypedNumeric.prototype.div(value: TypedNumeric): TypedNumeric;
-
 // Multiplication
 TypedNumeric.prototype.mul(value: TypedNumeric): TypedNumeric;
-
 // Remainder
 TypedNumeric.prototype.rem(value: TypedNumeric): TypedNumeric;
-
 // Exponentiation
 TypedNumeric.prototype.exp(value: TypedNumeric >= 0): TypedNumeric;
-
 // AND
 TypedNumeric.prototype.and(value: TypedNumeric): TypedNumeric;
-
 // OR
 TypedNumeric.prototype.or(value: TypedNumeric): TypedNumeric;
-
 // XOR
 TypedNumeric.prototype.xor(value: TypedNumeric): TypedNumeric;
-
 // NOT
 TypedNumeric.prototype.not(value: TypedNumeric): TypedNumeric;
-
 // Logical left shift
 TypedNumeric.prototype.logicalLeft(n: TypedNumeric): TypedNumeric;
-
 // Logical right shift
 TypedNumeric.prototype.logicalRight(n: TypedNumeric): TypedNumeric;
-
 // Rotate left shift
 TypedNumeric.prototype.rotateLeft(n: TypedNumeric): TypedNumeric;
-
 // Rotate right shift
 TypedNumeric.prototype.rotateRight(n: TypedNumeric): TypedNumeric;
 
 // Create Uint8Array from TypedNumeric
-
 // to big endian bytes
 TypedNumeric.prototype.toBeBytes(): Uint8Array;
-
 // to litle endian bytes
 TypedNumeric.prototype.toLeBytes(): Uint8Array;
 ```
@@ -118,17 +102,14 @@ TypedNumeric.prototype.toLeBytes(): Uint8Array;
 ```ts
 // Get max value
 TypedNumeric.max(): number | bigint;
-
 // Get min value
 TypedNumeric.min(): number | bigint;
 
 // Create TypedNumeric from Uint8Array
 // Uint8Array.length must be equal TypedNumeric byte length.
 // e.g. OK: new Uint8Array(4) => Uint32, ERROR: new Uint8Array(3) => Uint32
-
 // from big endian bytes
 TypedNumeric.fromBeBytes(Uint8Array): TypedNumeric;
-
 // from little endian bytes
 TypedNumeric.fromLeBytes(Uint8Array): TypedNumeric;
 ```
@@ -157,31 +138,28 @@ new TypedVector(arg: number | Array<TypedNumeric> = 0);
 #### Methods
 
 ```ts
-// Array[index]
-TypedVector.prototype.value_by_index(index: number): TypedNumeric;
-
-// push
-TypedVector.prototype.push(value: TypedNumeric);
-
-// pop
-TypedVector.prototype.pop(): TypedNumeric;
-
+// Array.prototype like
 // concat
 TypedVector.prototype.concat(other: TypedVector): TypedVector;
-
-// compare
-TypedVector.prototype.equals(other: TypedVector): boolean;
-
+// copyWithin
+TypedVector.prototype.copyWithin(target: number, start: number, end: number): TypedVector;
 // fill
 // e.g. Uint8Vector.prototype.fill(value: Uint8): Uint8Vector
-TypedVector.prototype.fill(value: TypedNumeric): TypedVector;
-
+TypedVector.prototype.fill(target: TypedNumeric | number 
+ bigint, start: number = 0, end: number = 0): TypedVector;
+// pop
+TypedVector.prototype.pop(): TypedNumeric;
+// push
+TypedVector.prototype.push(value: TypedNumeric);
 // reverse
 TypedVector.prototype.reverse(): TypedVector;
-
 // slice
 TypedVector.prototype.slice(start: number, end: number): TypedVector;
 
+// Array[index]
+TypedVector.prototype.value_by_index(index: number): TypedNumeric;
+// compare
+TypedVector.prototype.equals(other: TypedVector): boolean;
 // toTypedArray
 // e.g. Uint8Vector.prototype.toTypedArray(): Uint8Array
 TypedVector.prototype.toTypedArray(): TypedArray;
