@@ -1,5 +1,6 @@
 import { assertEquals, assertThrows } from "../../depends.ts";
 
+import { Uint8Vector } from "./uint8vector.ts";
 import { Uint64Vector } from "./uint64vector.ts";
 import { Uint64 } from "../numeric/uint64.ts";
 
@@ -114,6 +115,28 @@ Deno.test("Uint64Vector", () => {
   assertEquals(
     Uint64Vector.from([]).toTypedArray(),
     new BigUint64Array([]),
+  );
+  // fromBeBytes()
+  assertEquals(
+    Uint64Vector.fromBeBytes(new Uint8Vector(8)).toTypedArray(),
+    new Uint64Vector(1).toTypedArray(),
+  );
+  assertEquals(
+    Uint64Vector.fromBeBytes(
+      Uint8Vector.from([0x12, 0x34, 0x56, 0x78, 0x90, 0x12, 0x34, 0x56]),
+    ).toTypedArray(),
+    Uint64Vector.from([0x12345678_90123456n]).toTypedArray(),
+  );
+  // fromLeBytes()
+  assertEquals(
+    Uint64Vector.fromLeBytes(new Uint8Vector(8)).toTypedArray(),
+    new Uint64Vector(1).toTypedArray(),
+  );
+  assertEquals(
+    Uint64Vector.fromLeBytes(
+      Uint8Vector.from([0x12, 0x34, 0x56, 0x78, 0x90, 0x12, 0x34, 0x56]),
+    ).toTypedArray(),
+    Uint64Vector.from([0x56341290_78563412n]).toTypedArray(),
   );
   // of
   assertEquals(

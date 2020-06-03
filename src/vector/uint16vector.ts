@@ -1,5 +1,6 @@
 import { Uint16 } from "../numeric/uint16.ts";
 import { Vector } from "./mod.ts";
+import { Uint8Vector } from "./uint8vector.ts";
 
 export class Uint16Vector extends Vector<Uint16, number> {
   constructor(arg: number | Array<Uint16> = 0) {
@@ -63,6 +64,12 @@ export class Uint16Vector extends Vector<Uint16, number> {
       }
     }
     return vector;
+  }
+  static fromBeBytes(array: Uint8Vector): Uint16Vector {
+    return array.toBe16bitWords();
+  }
+  static fromLeBytes(array: Uint8Vector): Uint16Vector {
+    return array.toLe16bitWords();
   }
   static of(...elementN: Array<Uint16> | Array<number>): Uint16Vector {
     return Uint16Vector.from(elementN);

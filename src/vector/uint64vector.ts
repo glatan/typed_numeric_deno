@@ -1,5 +1,6 @@
 import { Uint64 } from "../numeric/uint64.ts";
 import { Vector } from "./mod.ts";
+import { Uint8Vector } from "./uint8vector.ts";
 
 export class Uint64Vector extends Vector<Uint64, bigint> {
   constructor(arg: number | Array<Uint64> = 0) {
@@ -63,6 +64,12 @@ export class Uint64Vector extends Vector<Uint64, bigint> {
       }
     }
     return vector;
+  }
+  static fromBeBytes(array: Uint8Vector): Uint64Vector {
+    return array.toBe64bitWords();
+  }
+  static fromLeBytes(array: Uint8Vector): Uint64Vector {
+    return array.toLe64bitWords();
   }
   static of(...elementN: Array<Uint64> | Array<bigint>): Uint64Vector {
     return Uint64Vector.from(elementN);
