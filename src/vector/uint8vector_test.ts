@@ -96,8 +96,8 @@ Deno.test("Uint8Vector.prototype", () => {
     new Uint16Vector(1).toTypedArray(),
   );
   assertEquals(
-    Uint8Vector.from([0x12, 0x34]).toBe16bitWords().toTypedArray(),
-    Uint16Vector.from([0x1234]).toTypedArray(),
+    Uint8Vector.of(0x12, 0x34).toBe16bitWords().toTypedArray(),
+    Uint16Vector.of(0x1234).toTypedArray(),
   );
   // toBe32bitWords
   assertEquals(
@@ -105,8 +105,9 @@ Deno.test("Uint8Vector.prototype", () => {
     new Uint32Vector(1).toTypedArray(),
   );
   assertEquals(
-    Uint8Vector.from([0x12, 0x34, 0x56, 0x78]).toBe32bitWords().toTypedArray(),
-    Uint32Vector.from([0x1234_5678n]).toTypedArray(),
+    Uint8Vector.of(0x12, 0x34, 0x56, 0x78, 0x90, 0x12, 0x34, 0x56)
+      .toBe32bitWords().toTypedArray(),
+    Uint32Vector.of(0x1234_5678n, 0x9012_3456n).toTypedArray(),
   );
   // toBe64bitWords
   assertEquals(
@@ -114,9 +115,26 @@ Deno.test("Uint8Vector.prototype", () => {
     new Uint64Vector(1).toTypedArray(),
   );
   assertEquals(
-    Uint8Vector.from([0x12, 0x34, 0x56, 0x78, 0x90, 0x12, 0x34, 0x56])
+    Uint8Vector.of(
+      0x12,
+      0x34,
+      0x56,
+      0x78,
+      0x90,
+      0x12,
+      0x34,
+      0x56,
+      0x78,
+      0x90,
+      0x12,
+      0x34,
+      0x56,
+      0x78,
+      0x90,
+      0x12,
+    )
       .toBe64bitWords().toTypedArray(),
-    Uint64Vector.from([0x12345678_90123456n]).toTypedArray(),
+    Uint64Vector.of(0x12345678_90123456n, 0x78901234_56789012n).toTypedArray(),
   );
   // toBeBytesLowerHex
   assertEquals(
@@ -156,8 +174,8 @@ Deno.test("Uint8Vector.prototype", () => {
     new Uint16Vector(1).toTypedArray(),
   );
   assertEquals(
-    Uint8Vector.from([0x12, 0x34]).toLe16bitWords().toTypedArray(),
-    Uint16Vector.from([0x3412]).toTypedArray(),
+    Uint8Vector.of(0x12, 0x34).toLe16bitWords().toTypedArray(),
+    Uint16Vector.of(0x3412).toTypedArray(),
   );
   // toLe32bitWords
   assertEquals(
@@ -165,8 +183,9 @@ Deno.test("Uint8Vector.prototype", () => {
     new Uint32Vector(1).toTypedArray(),
   );
   assertEquals(
-    Uint8Vector.from([0x12, 0x34, 0x56, 0x78]).toLe32bitWords().toTypedArray(),
-    Uint32Vector.from([0x7856_3412n]).toTypedArray(),
+    Uint8Vector.of(0x12, 0x34, 0x56, 0x78, 0x90, 0x12, 0x34, 0x56)
+      .toLe32bitWords().toTypedArray(),
+    Uint32Vector.of(0x7856_3412n, 0x5634_1290n).toTypedArray(),
   );
   // toLe64bitWords
   assertEquals(
@@ -174,9 +193,26 @@ Deno.test("Uint8Vector.prototype", () => {
     new Uint64Vector(1).toTypedArray(),
   );
   assertEquals(
-    Uint8Vector.from([0x12, 0x34, 0x56, 0x78, 0x90, 0x12, 0x34, 0x56])
+    Uint8Vector.of(
+      0x12,
+      0x34,
+      0x56,
+      0x78,
+      0x90,
+      0x12,
+      0x34,
+      0x56,
+      0x78,
+      0x90,
+      0x12,
+      0x34,
+      0x56,
+      0x78,
+      0x90,
+      0x12,
+    )
       .toLe64bitWords().toTypedArray(),
-    Uint64Vector.from([0x56341290_78563412n]).toTypedArray(),
+    Uint64Vector.of(0x56341290_78563412n, 0x12907856_34129078n).toTypedArray(),
   );
   // toLeBytesLowerHex
   assertEquals(
@@ -233,8 +269,8 @@ Deno.test("Uint8Vector", () => {
   // fromBeWords
   // 16bit words
   assertEquals(
-    Uint8Vector.fromBeWords(Uint16Vector.from([0x1234])),
-    Uint8Vector.from([0x12, 0x34]),
+    Uint8Vector.fromBeWords(Uint16Vector.of(0x1234, 0x5678)),
+    Uint8Vector.of(0x12, 0x34, 0x56, 0x78),
   );
   assertEquals(
     Uint8Vector.fromBeWords(new Uint16Vector()),
@@ -246,8 +282,8 @@ Deno.test("Uint8Vector", () => {
   );
   // 32bit words
   assertEquals(
-    Uint8Vector.fromBeWords(Uint32Vector.from([0x1234_5678n])),
-    Uint8Vector.from([0x12, 0x34, 0x56, 0x78]),
+    Uint8Vector.fromBeWords(Uint32Vector.of(0x1234_5678n, 0x9012_3456n)),
+    Uint8Vector.of(0x12, 0x34, 0x56, 0x78, 0x90, 0x12, 0x34, 0x56),
   );
   assertEquals(
     Uint8Vector.fromBeWords(new Uint32Vector()),
@@ -259,8 +295,27 @@ Deno.test("Uint8Vector", () => {
   );
   // 64bit words
   assertEquals(
-    Uint8Vector.fromBeWords(Uint64Vector.from([0x12345678_90123456n])),
-    Uint8Vector.from([0x12, 0x34, 0x56, 0x78, 0x90, 0x12, 0x34, 0x56]),
+    Uint8Vector.fromBeWords(
+      Uint64Vector.of(0x12345678_90123456n, 0x78901234_56789012n),
+    ),
+    Uint8Vector.of(
+      0x12,
+      0x34,
+      0x56,
+      0x78,
+      0x90,
+      0x12,
+      0x34,
+      0x56,
+      0x78,
+      0x90,
+      0x12,
+      0x34,
+      0x56,
+      0x78,
+      0x90,
+      0x12,
+    ),
   );
   assertEquals(
     Uint8Vector.fromBeWords(new Uint64Vector()),
@@ -273,8 +328,8 @@ Deno.test("Uint8Vector", () => {
   // fromLeWords
   // 16bit words
   assertEquals(
-    Uint8Vector.fromLeWords(Uint16Vector.from([0x1234])),
-    Uint8Vector.from([0x34, 0x12]),
+    Uint8Vector.fromLeWords(Uint16Vector.of(0x1234, 0x5678)),
+    Uint8Vector.of(0x34, 0x12, 0x78, 0x56),
   );
   assertEquals(
     Uint8Vector.fromLeWords(new Uint16Vector()),
@@ -286,8 +341,8 @@ Deno.test("Uint8Vector", () => {
   );
   // 32bit words
   assertEquals(
-    Uint8Vector.fromLeWords(Uint32Vector.from([0x7856_3412n])),
-    Uint8Vector.from([0x12, 0x34, 0x56, 0x78]),
+    Uint8Vector.fromLeWords(Uint32Vector.of(0x1234_5678n, 0x9012_3456n)),
+    Uint8Vector.of(0x78, 0x56, 0x34, 0x12, 0x56, 0x34, 0x12, 0x90),
   );
   assertEquals(
     Uint8Vector.fromLeWords(new Uint32Vector()),
@@ -299,8 +354,27 @@ Deno.test("Uint8Vector", () => {
   );
   // 64bit words
   assertEquals(
-    Uint8Vector.fromLeWords(Uint64Vector.from([0x56341290_78563412n])),
-    Uint8Vector.from([0x12, 0x34, 0x56, 0x78, 0x90, 0x12, 0x34, 0x56]),
+    Uint8Vector.fromLeWords(
+      Uint64Vector.from([0x12345678_90123456n, 0x78901234_56789012n]),
+    ),
+    Uint8Vector.of(
+      0x56,
+      0x34,
+      0x12,
+      0x90,
+      0x78,
+      0x56,
+      0x34,
+      0x12,
+      0x12,
+      0x90,
+      0x78,
+      0x56,
+      0x34,
+      0x12,
+      0x90,
+      0x78,
+    ),
   );
   assertEquals(
     Uint8Vector.fromLeWords(new Uint64Vector()),

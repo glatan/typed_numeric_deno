@@ -142,9 +142,10 @@ Deno.test("Uint32Vector", () => {
     new Uint32Vector(1).toTypedArray(),
   );
   assertEquals(
-    Uint32Vector.fromBeBytes(Uint8Vector.from([0x12, 0x34, 0x56, 0x78]))
-      .toTypedArray(),
-    Uint32Vector.from([0x1234_5678n]).toTypedArray(),
+    Uint32Vector.fromBeBytes(
+      Uint8Vector.of(0x12, 0x34, 0x56, 0x78, 0x90, 0x12, 0x34, 0x56),
+    ).toTypedArray(),
+    Uint32Vector.of(0x1234_5678n, 0x9012_3456n).toTypedArray(),
   );
   // fromLeBytes()
   assertEquals(
@@ -152,9 +153,10 @@ Deno.test("Uint32Vector", () => {
     new Uint32Vector(1).toTypedArray(),
   );
   assertEquals(
-    Uint32Vector.fromLeBytes(Uint8Vector.from([0x12, 0x34, 0x56, 0x78]))
-      .toTypedArray(),
-    Uint32Vector.from([0x7856_3412n]).toTypedArray(),
+    Uint32Vector.fromLeBytes(
+      Uint8Vector.of(0x12, 0x34, 0x56, 0x78, 0x90, 0x12, 0x34, 0x56),
+    ).toTypedArray(),
+    Uint32Vector.of(0x7856_3412n, 0x5634_1290n).toTypedArray(),
   );
   // of
   assertEquals(

@@ -141,7 +141,7 @@ Deno.test("Uint16Vector", () => {
     new Uint16Vector(1).toTypedArray(),
   );
   assertEquals(
-    Uint16Vector.fromBeBytes(Uint8Vector.from([0x12, 0x34, 0x56, 0x78]))
+    Uint16Vector.fromBeBytes(Uint8Vector.of(0x12, 0x34, 0x56, 0x78))
       .toTypedArray(),
     Uint16Vector.from([0x1234, 0x5678]).toTypedArray(),
   );
@@ -151,9 +151,9 @@ Deno.test("Uint16Vector", () => {
     new Uint16Vector(1).toTypedArray(),
   );
   assertEquals(
-    Uint16Vector.fromLeBytes(Uint8Vector.from([0x12, 0x34, 0x56, 0x78]))
+    Uint16Vector.fromLeBytes(Uint8Vector.of(0x12, 0x34, 0x56, 0x78))
       .toTypedArray(),
-    Uint16Vector.from([0x3412, 0x7856]).toTypedArray(),
+    Uint16Vector.of(0x3412, 0x7856).toTypedArray(),
   );
   // of
   assertEquals(

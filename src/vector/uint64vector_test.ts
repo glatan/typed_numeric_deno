@@ -184,9 +184,26 @@ Deno.test("Uint64Vector", () => {
   );
   assertEquals(
     Uint64Vector.fromBeBytes(
-      Uint8Vector.from([0x12, 0x34, 0x56, 0x78, 0x90, 0x12, 0x34, 0x56]),
+      Uint8Vector.of(
+        0x12,
+        0x34,
+        0x56,
+        0x78,
+        0x90,
+        0x12,
+        0x34,
+        0x56,
+        0x78,
+        0x90,
+        0x12,
+        0x34,
+        0x56,
+        0x78,
+        0x90,
+        0x12,
+      ),
     ).toTypedArray(),
-    Uint64Vector.from([0x12345678_90123456n]).toTypedArray(),
+    Uint64Vector.of(0x12345678_90123456n, 0x78901234_56789012n).toTypedArray(),
   );
   // fromLeBytes()
   assertEquals(
@@ -195,9 +212,26 @@ Deno.test("Uint64Vector", () => {
   );
   assertEquals(
     Uint64Vector.fromLeBytes(
-      Uint8Vector.from([0x12, 0x34, 0x56, 0x78, 0x90, 0x12, 0x34, 0x56]),
+      Uint8Vector.of(
+        0x12,
+        0x34,
+        0x56,
+        0x78,
+        0x90,
+        0x12,
+        0x34,
+        0x56,
+        0x78,
+        0x90,
+        0x12,
+        0x34,
+        0x56,
+        0x78,
+        0x90,
+        0x12,
+      ),
     ).toTypedArray(),
-    Uint64Vector.from([0x56341290_78563412n]).toTypedArray(),
+    Uint64Vector.of(0x56341290_78563412n, 0x12907856_34129078n).toTypedArray(),
   );
   // of
   assertEquals(
