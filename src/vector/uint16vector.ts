@@ -3,12 +3,11 @@ import { Vector } from "./mod.ts";
 import { Uint8Vector } from "./uint8vector.ts";
 
 export class Uint16Vector extends Vector<Uint16, number> {
-  constructor(arg: number | Array<Uint16> = 0) {
+  constructor(arg: number | Uint16Array | Array<Uint16> | Array<number> = 0) {
     if (typeof arg === "number") {
       super(new Array(arg).fill(new Uint16(0)));
-    }
-    if (arg instanceof Array) {
-      super(arg);
+    } else {
+      super(Uint16Vector.from(arg).inner);
     }
   }
   copyWithin(

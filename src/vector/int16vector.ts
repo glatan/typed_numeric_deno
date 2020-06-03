@@ -2,12 +2,11 @@ import { Int16 } from "../numeric/int16.ts";
 import { Vector } from "./mod.ts";
 
 export class Int16Vector extends Vector<Int16, number> {
-  constructor(arg: number | Array<Int16> = 0) {
+  constructor(arg: number | Int16Array | Array<Int16> | Array<number> = 0) {
     if (typeof arg === "number") {
       super(new Array(arg).fill(new Int16(0)));
-    }
-    if (arg instanceof Array) {
-      super(arg);
+    } else {
+      super(Int16Vector.from(arg).inner);
     }
   }
   copyWithin(

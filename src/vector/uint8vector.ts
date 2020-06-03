@@ -10,12 +10,11 @@ import { Uint64Vector } from "./uint64vector.ts";
 import { Vector } from "./mod.ts";
 
 export class Uint8Vector extends Vector<Uint8, number> {
-  constructor(arg: number | Array<Uint8> = 0) {
+  constructor(arg: number | Uint8Array | Array<Uint8> | Array<number> = 0) {
     if (typeof arg === "number") {
       super(new Array(arg).fill(new Uint8(0)));
-    }
-    if (arg instanceof Array) {
-      super(arg);
+    } else {
+      super(Uint8Vector.from(arg).inner);
     }
   }
   copyWithin(

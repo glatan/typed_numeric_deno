@@ -3,12 +3,13 @@ import { Vector } from "./mod.ts";
 import { Uint8Vector } from "./uint8vector.ts";
 
 export class Uint64Vector extends Vector<Uint64, bigint> {
-  constructor(arg: number | Array<Uint64> = 0) {
+  constructor(
+    arg: number | BigUint64Array | Array<Uint64> | Array<bigint> = 0,
+  ) {
     if (typeof arg === "number") {
       super(new Array(arg).fill(new Uint64(0n)));
-    }
-    if (arg instanceof Array) {
-      super(arg);
+    } else {
+      super(Uint64Vector.from(arg).inner);
     }
   }
   copyWithin(
