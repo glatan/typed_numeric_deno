@@ -70,11 +70,11 @@ export class Uint16Vector extends Vector<Uint16, number> {
     }
     return vector;
   }
-  static fromBeBytes(array: Uint8Vector): Uint16Vector {
-    return array.toBe16bitWords();
+  static fromBeBytes(bytes: Uint8Vector): Uint16Vector {
+    return bytes.toBe16bitWords();
   }
-  static fromLeBytes(array: Uint8Vector): Uint16Vector {
-    return array.toLe16bitWords();
+  static fromLeBytes(bytes: Uint8Vector): Uint16Vector {
+    return bytes.toLe16bitWords();
   }
   static of(...elementN: Array<Uint16> | Array<number>): Uint16Vector {
     return Uint16Vector.from(elementN);

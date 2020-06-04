@@ -75,11 +75,11 @@ export class Uint32Vector extends Vector<Uint32, bigint> {
     }
     return vector;
   }
-  static fromBeBytes(array: Uint8Vector): Uint32Vector {
-    return array.toBe32bitWords();
+  static fromBeBytes(bytes: Uint8Vector): Uint32Vector {
+    return bytes.toBe32bitWords();
   }
-  static fromLeBytes(array: Uint8Vector): Uint32Vector {
-    return array.toLe32bitWords();
+  static fromLeBytes(bytes: Uint8Vector): Uint32Vector {
+    return bytes.toLe32bitWords();
   }
   static of(...elementN: Array<Uint32> | Array<bigint>): Uint32Vector {
     return Uint32Vector.from(elementN);
