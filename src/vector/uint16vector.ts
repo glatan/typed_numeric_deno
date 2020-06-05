@@ -1,13 +1,13 @@
 import { Uint16 } from "../numeric/uint16.ts";
 import { Vector } from "./mod.ts";
+import { Uint8Vector } from "./uint8vector.ts";
 
 export class Uint16Vector extends Vector<Uint16, number> {
-  constructor(arg: number | Array<Uint16> = 0) {
+  constructor(arg: number | Uint16Array | Array<Uint16> | Array<number> = 0) {
     if (typeof arg === "number") {
       super(new Array(arg).fill(new Uint16(0)));
-    }
-    if (arg instanceof Array) {
-      super(arg);
+    } else {
+      super(Uint16Vector.from(arg).inner);
     }
   }
   copyWithin(
@@ -39,6 +39,12 @@ export class Uint16Vector extends Vector<Uint16, number> {
   slice(start: number, end: number): Uint16Vector {
     return new Uint16Vector(this.inner.slice(start, end));
   }
+  toBeBytes(): Uint8Vector {
+    return Uint8Vector.fromBeWords(this);
+  }
+  toLeBytes(): Uint8Vector {
+    return Uint8Vector.fromLeWords(this);
+  }
   toTypedArray(): Uint16Array {
     const array = new Uint16Array(this.inner.length);
     for (let i = 0; i < this.inner.length; i++) {
@@ -63,6 +69,12 @@ export class Uint16Vector extends Vector<Uint16, number> {
       }
     }
     return vector;
+  }
+  static fromBeBytes(bytes: Uint8Vector): Uint16Vector {
+    return bytes.toBe16bitWords();
+  }
+  static fromLeBytes(bytes: Uint8Vector): Uint16Vector {
+    return bytes.toLe16bitWords();
   }
   static of(...elementN: Array<Uint16> | Array<number>): Uint16Vector {
     return Uint16Vector.from(elementN);

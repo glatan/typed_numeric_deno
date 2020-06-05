@@ -1,13 +1,15 @@
 import { Uint64 } from "../numeric/uint64.ts";
 import { Vector } from "./mod.ts";
+import { Uint8Vector } from "./uint8vector.ts";
 
 export class Uint64Vector extends Vector<Uint64, bigint> {
-  constructor(arg: number | Array<Uint64> = 0) {
+  constructor(
+    arg: number | BigUint64Array | Array<Uint64> | Array<bigint> = 0,
+  ) {
     if (typeof arg === "number") {
       super(new Array(arg).fill(new Uint64(0n)));
-    }
-    if (arg instanceof Array) {
-      super(arg);
+    } else {
+      super(Uint64Vector.from(arg).inner);
     }
   }
   copyWithin(
@@ -39,6 +41,12 @@ export class Uint64Vector extends Vector<Uint64, bigint> {
   slice(start: number, end: number): Uint64Vector {
     return new Uint64Vector(this.inner.slice(start, end));
   }
+  toBeBytes(): Uint8Vector {
+    return Uint8Vector.fromBeWords(this);
+  }
+  toLeBytes(): Uint8Vector {
+    return Uint8Vector.fromLeWords(this);
+  }
   toTypedArray(): BigUint64Array {
     const array = new BigUint64Array(this.inner.length);
     for (let i = 0; i < this.inner.length; i++) {
@@ -63,6 +71,12 @@ export class Uint64Vector extends Vector<Uint64, bigint> {
       }
     }
     return vector;
+  }
+  static fromBeBytes(bytes: Uint8Vector): Uint64Vector {
+    return bytes.toBe64bitWords();
+  }
+  static fromLeBytes(bytes: Uint8Vector): Uint64Vector {
+    return bytes.toLe64bitWords();
   }
   static of(...elementN: Array<Uint64> | Array<bigint>): Uint64Vector {
     return Uint64Vector.from(elementN);

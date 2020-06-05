@@ -21,8 +21,8 @@ console.log(a.mul(b).value()); // 20000n
 
 const c = new Uint32(0x1234_5678n);
 
-console.log(c.toBeBytes()); // [18, 52, 86, 120]([0x12, 0x34, 0x56, 0x78])
-console.log(c.toLeBytes()); // [120, 86, 52, 18]([0x78, 0x56, 0x34, 0x12])
+console.log(c.toBeBytes().toTypedArray()); // [18, 52, 86, 120]([0x12, 0x34, 0x56, 0x78])
+console.log(c.toLeBytes().toTypedArray()); // [120, 86, 52, 18]([0x78, 0x56, 0x34, 0x12])
 
 const d = Uint32.fromBeBytes(
   new Uint8Array([0x12, 0x34, 0x56, 0x78]),
@@ -90,11 +90,11 @@ TypedNumeric.prototype.rotateLeft(n: TypedNumeric): TypedNumeric;
 // Rotate right shift
 TypedNumeric.prototype.rotateRight(n: TypedNumeric): TypedNumeric;
 
-// Create Uint8Array from TypedNumeric
+// Create Uint8Vector from TypedNumeric
 // to big endian bytes
-TypedNumeric.prototype.toBeBytes(): Uint8Array;
+TypedNumeric.prototype.toBeBytes(): Uint8Vector;
 // to litle endian bytes
-TypedNumeric.prototype.toLeBytes(): Uint8Array;
+TypedNumeric.prototype.toLeBytes(): Uint8Vector;
 ```
 
 #### Static Methods
@@ -156,22 +156,32 @@ TypedVector.prototype.reverse(): TypedVector;
 // slice
 TypedVector.prototype.slice(start: number, end: number): TypedVector;
 
-// Array[index]
-TypedVector.prototype.value_by_index(index: number): TypedNumeric;
+// append
+TypedVector.prototype.append(other: TypedVector): void;
 // compare
 TypedVector.prototype.equals(other: TypedVector): boolean;
+// Array[index] = value
+TypedVector.prototype.set(index: number, value: TypedNumeric): void;
+// Array[index]
+TypedVector.prototype.value_by_index(index: number): TypedNumeric;
 // toTypedArray
 // e.g. Uint8Vector.prototype.toTypedArray(): Uint8Array
 TypedVector.prototype.toTypedArray(): TypedArray;
 
 // Only for Uint8Vector
 // Create hex string.
+Uint8Vector.prototype.toBe16bitWords(): Uint16Vector;
+Uint8Vector.prototype.toBe32bitWords(): Uint32Vector;
+Uint8Vector.prototype.toBe64bitWords(): Uint64Vector;
 // toBeBytesLowerHex
 Uint8Vector.prototype.toBeBytesLowerHex(): string;
-// toLeBytesLowerHex
-Uint8Vector.prototype.toLeBytesLowerHex(): string;
 // toBeBytesUpperHex
 Uint8Vector.prototype.toBeBytesUpperHex(): string;
+Uint8Vector.prototype.toLe16bitWords(): Uint16Vector;
+Uint8Vector.prototype.toLe32bitWords(): Uint32Vector;
+Uint8Vector.prototype.toLe64bitWords(): Uint64Vector;
+// toLeBytesLowerHex
+Uint8Vector.prototype.toLeBytesLowerHex(): string;
 // toLeBytesUpperHex
 Uint8Vector.prototype.toLeBytesUpperHex(): string;
 ```
@@ -181,9 +191,17 @@ Uint8Vector.prototype.toLeBytesUpperHex(): string;
 ```ts
 // from
 // e.g. Uint8Vector.from(array: Uint8Array | Array<Uint8> | Array<number>): Uint8Vector;
-// e.g. Uint64Vector.from(array: Uint64Array | Array<Uint64> | Array<bigint>): Uint64Vector;
+// e.g. Uint64Vector.from(array: BigUint64Array | Array<Uint64> | Array<bigint>): Uint64Vector;
 TypedVector.from(array: TypedArray | Array<TypedNumeric> | Array<number | bigint>): TypedVector;
+
+TypedVector.fromBeBytes(bytes: Uint8Vector): TypedVector;
+TypedVector.fromLeBytes(bytes: Uint8Vector): TypedVector;
 
 // of
 TypedVector.of(elementN: Array<TypedNumeric> | Array<number | bigint>): TypedVector;
+
+// Uint8Vector
+Uint8Vector.fromBeWords(words: Uint16Vector | Uint32Vector | Uint64Vector): Uint8Vector;
+
+Uint8Vector.fromLeWords(words: Uint16Vector | Uint32Vector | Uint64Vector): Uint8Vector;
 ```

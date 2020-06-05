@@ -2,12 +2,11 @@ import { Int64 } from "../numeric/int64.ts";
 import { Vector } from "./mod.ts";
 
 export class Int64Vector extends Vector<Int64, bigint> {
-  constructor(arg: number | Array<Int64> = 0) {
+  constructor(arg: number | BigInt64Array | Array<Int64> | Array<bigint> = 0) {
     if (typeof arg === "number") {
       super(new Array(arg).fill(new Int64(0n)));
-    }
-    if (arg instanceof Array) {
-      super(arg);
+    } else {
+      super(Int64Vector.from(arg).inner);
     }
   }
   copyWithin(

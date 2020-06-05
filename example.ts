@@ -10,8 +10,8 @@ console.log(a.mul(b).value()); // 20000n
 
 const c = new Uint32(0x1234_5678n);
 
-console.log(c.toBeBytes()); // [18, 52, 86, 120]([0x12, 0x34, 0x56, 0x78])
-console.log(c.toLeBytes()); // [120, 86, 52, 18]([0x78, 0x56, 0x34, 0x12])
+console.log(c.toBeBytes().toTypedArray()); // [18, 52, 86, 120]([0x12, 0x34, 0x56, 0x78])
+console.log(c.toLeBytes().toTypedArray()); // [120, 86, 52, 18]([0x78, 0x56, 0x34, 0x12])
 
 const d = Uint32.fromBeBytes(
   new Uint8Array([0x12, 0x34, 0x56, 0x78]),

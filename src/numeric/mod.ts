@@ -1,3 +1,5 @@
+import { Uint8Vector } from "../vector/uint8vector.ts";
+
 export abstract class Numeric<T, N> {
   protected inner: N;
   protected constructor(value: N) {
@@ -39,12 +41,12 @@ export abstract class Numeric<T, N> {
   abstract rotateRight(n: N): T;
   // Create T from Uint8Array
   // Uint8Array to T
-  // static fromBeBytes(bytes: Uint8Array): T;
+  // static fromBeBytes(bytes: Uint8Array | Uint8Vector | Array<Uint8> | Array<number>): T;
   // Uint8Array to T
-  // static fromLeBytes(bytes: Uint8Array): T;
+  // static fromLeBytes(bytes: Uint8Array | Uint8Vector | Array<Uint8> | Array<number>): T;
   // Crate Uint8Array
-  // T to big endian Uint8Array
-  abstract toBeBytes(): Uint8Array;
-  // T to little endian Uint8Array
-  abstract toLeBytes(): Uint8Array;
+  // T to big endian Uint8Vector
+  abstract toBeBytes(): Uint8Vector;
+  // T to little endian Uint8Vector
+  abstract toLeBytes(): Uint8Vector;
 }

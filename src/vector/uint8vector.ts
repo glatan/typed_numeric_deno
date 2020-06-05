@@ -1,15 +1,20 @@
 import { sprintf } from "../../depends.ts";
 
 import { Uint8 } from "../numeric/uint8.ts";
+import { Uint16 } from "../numeric/uint16.ts";
+import { Uint32 } from "../numeric/uint32.ts";
+import { Uint64 } from "../numeric/uint64.ts";
+import { Uint16Vector } from "./uint16vector.ts";
+import { Uint32Vector } from "./uint32vector.ts";
+import { Uint64Vector } from "./uint64vector.ts";
 import { Vector } from "./mod.ts";
 
 export class Uint8Vector extends Vector<Uint8, number> {
-  constructor(arg: number | Array<Uint8> = 0) {
+  constructor(arg: number | Uint8Array | Array<Uint8> | Array<number> = 0) {
     if (typeof arg === "number") {
       super(new Array(arg).fill(new Uint8(0)));
-    }
-    if (arg instanceof Array) {
-      super(arg);
+    } else {
+      super(Uint8Vector.from(arg).inner);
     }
   }
   copyWithin(
@@ -41,16 +46,71 @@ export class Uint8Vector extends Vector<Uint8, number> {
   slice(start: number, end: number): Uint8Vector {
     return new Uint8Vector(this.inner.slice(start, end));
   }
+  toBe16bitWords(): Uint16Vector {
+    if (this.length % 2 !== 0) {
+      throw new Error(
+        "Invalid Length Error: Expected Uint8Vector.prototype.length is multiples of 2",
+      );
+    }
+    const array = new Uint16Vector(this.inner.length / 2);
+    for (let i = 0; i < this.inner.length / 2; i++) {
+      array.set(
+        i,
+        Uint16.fromBeBytes([
+          this.inner[i * 2].value(),
+          this.inner[(i * 2) + 1].value(),
+        ]),
+      );
+    }
+    return array;
+  }
+  toBe32bitWords(): Uint32Vector {
+    if (this.length % 4 !== 0) {
+      throw new Error(
+        "Invalid Length Error: Expected Uint8Vector.prototype.length is multiples of 4",
+      );
+    }
+    const array = new Uint32Vector(this.inner.length / 4);
+    for (let i = 0; i < this.inner.length / 4; i++) {
+      array.set(
+        i,
+        Uint32.fromBeBytes([
+          this.inner[i * 4].value(),
+          this.inner[(i * 4) + 1].value(),
+          this.inner[(i * 4) + 2].value(),
+          this.inner[(i * 4) + 3].value(),
+        ]),
+      );
+    }
+    return array;
+  }
+  toBe64bitWords(): Uint64Vector {
+    if (this.length % 8 !== 0) {
+      throw new Error(
+        "Invalid Length Error: Expected Uint8Vector.prototype.length is multiples of 8",
+      );
+    }
+    const array = new Uint64Vector(this.inner.length / 8);
+    for (let i = 0; i < this.inner.length / 8; i++) {
+      array.set(
+        i,
+        Uint64.fromBeBytes([
+          this.inner[i * 8].value(),
+          this.inner[(i * 8) + 1].value(),
+          this.inner[(i * 8) + 2].value(),
+          this.inner[(i * 8) + 3].value(),
+          this.inner[(i * 8) + 4].value(),
+          this.inner[(i * 8) + 5].value(),
+          this.inner[(i * 8) + 6].value(),
+          this.inner[(i * 8) + 7].value(),
+        ]),
+      );
+    }
+    return array;
+  }
   toBeBytesLowerHex(): string {
     let hex = "";
     for (const byte of this.inner) {
-      hex += sprintf("%02x", byte.value());
-    }
-    return hex;
-  }
-  toLeBytesLowerHex(): string {
-    let hex = "";
-    for (const byte of this.reverse().inner) {
       hex += sprintf("%02x", byte.value());
     }
     return hex;
@@ -62,12 +122,81 @@ export class Uint8Vector extends Vector<Uint8, number> {
     }
     return hex;
   }
+  toLeBytesLowerHex(): string {
+    let hex = "";
+    for (const byte of this.reverse().inner) {
+      hex += sprintf("%02x", byte.value());
+    }
+    return hex;
+  }
   toLeBytesUpperHex(): string {
     let hex = "";
     for (const byte of this.reverse().inner) {
       hex += sprintf("%02X", byte.value());
     }
     return hex;
+  }
+  toLe16bitWords(): Uint16Vector {
+    if (this.length % 2 !== 0) {
+      throw new Error(
+        "Invalid Length Error: Expected Uint8Vector.prototype.length is multiples of 2",
+      );
+    }
+    const array = new Uint16Vector(this.inner.length / 2);
+    for (let i = 0; i < this.inner.length / 2; i++) {
+      array.set(
+        i,
+        Uint16.fromLeBytes([
+          this.inner[i * 2].value(),
+          this.inner[(i * 2) + 1].value(),
+        ]),
+      );
+    }
+    return array;
+  }
+  toLe32bitWords(): Uint32Vector {
+    if (this.length % 4 !== 0) {
+      throw new Error(
+        "Invalid Length Error: Expected Uint8Vector.prototype.length is multiples of 4",
+      );
+    }
+    const array = new Uint32Vector(this.inner.length / 4);
+    for (let i = 0; i < this.inner.length / 4; i++) {
+      array.set(
+        i,
+        Uint32.fromLeBytes([
+          this.inner[i * 4].value(),
+          this.inner[(i * 4) + 1].value(),
+          this.inner[(i * 4) + 2].value(),
+          this.inner[(i * 4) + 3].value(),
+        ]),
+      );
+    }
+    return array;
+  }
+  toLe64bitWords(): Uint64Vector {
+    if (this.length % 8 !== 0) {
+      throw new Error(
+        "Invalid Length Error: Expected Uint8Vector.prototype.length is multiples of 8",
+      );
+    }
+    const array = new Uint64Vector(this.inner.length / 8);
+    for (let i = 0; i < this.inner.length / 8; i++) {
+      array.set(
+        i,
+        Uint64.fromLeBytes([
+          this.inner[i * 8].value(),
+          this.inner[(i * 8) + 1].value(),
+          this.inner[(i * 8) + 2].value(),
+          this.inner[(i * 8) + 3].value(),
+          this.inner[(i * 8) + 4].value(),
+          this.inner[(i * 8) + 5].value(),
+          this.inner[(i * 8) + 6].value(),
+          this.inner[(i * 8) + 7].value(),
+        ]),
+      );
+    }
+    return array;
   }
   toTypedArray(): Uint8Array {
     const array = new Uint8Array(this.inner.length);
@@ -91,6 +220,28 @@ export class Uint8Vector extends Vector<Uint8, number> {
       }
     }
     return vector;
+  }
+  static fromBeWords(
+    words: Uint16Vector | Uint32Vector | Uint64Vector,
+  ): Uint8Vector {
+    const bytes = new Uint8Vector();
+    for (const word of words) {
+      bytes.append(
+        word.toBeBytes(),
+      );
+    }
+    return bytes;
+  }
+  static fromLeWords(
+    words: Uint16Vector | Uint32Vector | Uint64Vector,
+  ): Uint8Vector {
+    const bytes = new Uint8Vector();
+    for (const word of words) {
+      bytes.append(
+        word.toLeBytes(),
+      );
+    }
+    return bytes;
   }
   static of(...elementN: Array<Uint8> | Array<number>): Uint8Vector {
     return Uint8Vector.from(elementN);

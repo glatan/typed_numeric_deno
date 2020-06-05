@@ -1,13 +1,13 @@
 import { Uint32 } from "../numeric/uint32.ts";
 import { Vector } from "./mod.ts";
+import { Uint8Vector } from "./uint8vector.ts";
 
 export class Uint32Vector extends Vector<Uint32, bigint> {
-  constructor(arg: number | Array<Uint32> = 0) {
+  constructor(arg: number | Uint32Array | Array<Uint32> | Array<bigint> = 0) {
     if (typeof arg === "number") {
       super(new Array(arg).fill(new Uint32(0n)));
-    }
-    if (arg instanceof Array) {
-      super(arg);
+    } else {
+      super(Uint32Vector.from(arg).inner);
     }
   }
   copyWithin(
@@ -39,6 +39,12 @@ export class Uint32Vector extends Vector<Uint32, bigint> {
   slice(start: number, end: number): Uint32Vector {
     return new Uint32Vector(this.inner.slice(start, end));
   }
+  toBeBytes(): Uint8Vector {
+    return Uint8Vector.fromBeWords(this);
+  }
+  toLeBytes(): Uint8Vector {
+    return Uint8Vector.fromLeWords(this);
+  }
   toTypedArray(): Uint32Array {
     const array = new Uint32Array(this.inner.length);
     for (let i = 0; i < this.inner.length; i++) {
@@ -68,6 +74,12 @@ export class Uint32Vector extends Vector<Uint32, bigint> {
       }
     }
     return vector;
+  }
+  static fromBeBytes(bytes: Uint8Vector): Uint32Vector {
+    return bytes.toBe32bitWords();
+  }
+  static fromLeBytes(bytes: Uint8Vector): Uint32Vector {
+    return bytes.toLe32bitWords();
   }
   static of(...elementN: Array<Uint32> | Array<bigint>): Uint32Vector {
     return Uint32Vector.from(elementN);

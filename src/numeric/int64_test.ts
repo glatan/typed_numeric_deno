@@ -1,8 +1,9 @@
 import { assertEquals, assertThrows } from "../../depends.ts";
 
 import { Int64 } from "./int64.ts";
+import { Uint8Vector } from "../vector/uint8vector.ts";
 
-Deno.test("Int64", () => {
+Deno.test("Int64.prototype", () => {
   // constructor
   assertEquals(new Int64().value(), 0n);
   // value()
@@ -195,6 +196,29 @@ Deno.test("Int64", () => {
     new Int64(0x12345678_90123456n).rotateRight(128n).value(),
     0x12345678_90123456n,
   );
+  // toBeBytes()
+  assertEquals(
+    new Int64(0x12345678_90123456n).toBeBytes(),
+    Uint8Vector.from([0x12, 0x34, 0x56, 0x78, 0x90, 0x12, 0x34, 0x56]),
+  );
+  assertEquals(
+    new Int64(Int64.max()).toBeBytes(),
+    Uint8Vector.from([0x7F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]),
+  );
+  assertEquals(new Int64(0n).toBeBytes(), new Uint8Vector(8));
+  // toLeBytes()
+  assertEquals(
+    new Int64(0x12345678_90123456n).toLeBytes(),
+    Uint8Vector.from([0x56, 0x34, 0x12, 0x90, 0x78, 0x56, 0x34, 0x12]),
+  );
+  assertEquals(
+    new Int64(Int64.max()).toLeBytes(),
+    Uint8Vector.from([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x7F]),
+  );
+  assertEquals(new Int64(0n).toLeBytes(), new Uint8Vector(8));
+});
+
+Deno.test("Int64", () => {
   // fromBeBytes()
   assertEquals(
     Int64.fromBeBytes(
@@ -213,6 +237,16 @@ Deno.test("Int64", () => {
     // Invalid Length
     Int64.fromBeBytes(new Uint8Array(9));
   });
+  assertEquals(
+    Int64.fromBeBytes(
+      Uint8Vector.from([0x12, 0x34, 0x56, 0x78, 0x90, 0x12, 0x34, 0x56]),
+    ).value(),
+    new Int64(0x12345678_90123456n).value(),
+  );
+  assertEquals(
+    Int64.fromBeBytes([0x12, 0x34, 0x56, 0x78, 0x90, 0x12, 0x34, 0x56]).value(),
+    new Int64(0x12345678_90123456n).value(),
+  );
   // fromLeBytes()
   assertEquals(
     Int64.fromLeBytes(
@@ -231,24 +265,14 @@ Deno.test("Int64", () => {
     // Invalid Length
     Int64.fromLeBytes(new Uint8Array(9));
   });
-  // toBeBytes()
   assertEquals(
-    new Int64(0x12345678_90123456n).toBeBytes(),
-    new Uint8Array([0x12, 0x34, 0x56, 0x78, 0x90, 0x12, 0x34, 0x56]),
+    Int64.fromLeBytes(
+      Uint8Vector.from([0x12, 0x34, 0x56, 0x78, 0x90, 0x12, 0x34, 0x56]),
+    ).value(),
+    new Int64(0x56341290_78563412n).value(),
   );
   assertEquals(
-    new Int64(Int64.max()).toBeBytes(),
-    new Uint8Array([0x7F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]),
+    Int64.fromLeBytes([0x12, 0x34, 0x56, 0x78, 0x90, 0x12, 0x34, 0x56]).value(),
+    new Int64(0x56341290_78563412n).value(),
   );
-  assertEquals(new Int64(0n).toBeBytes(), new Uint8Array(8));
-  // toLeBytes()
-  assertEquals(
-    new Int64(0x12345678_90123456n).toLeBytes(),
-    new Uint8Array([0x56, 0x34, 0x12, 0x90, 0x78, 0x56, 0x34, 0x12]),
-  );
-  assertEquals(
-    new Int64(Int64.max()).toLeBytes(),
-    new Uint8Array([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x7F]),
-  );
-  assertEquals(new Int64(0n).toLeBytes(), new Uint8Array(8));
 });
