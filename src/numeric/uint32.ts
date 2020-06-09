@@ -71,7 +71,7 @@ export class Uint32 extends Numeric<Uint32, bigint> {
     bytes: Uint8Array | Uint8Vector | Array<Uint8> | Array<number>,
   ): Uint32 {
     if (bytes.length === (Number(BIT_LENGTH) / 8)) {
-      let tmp = new Uint8Array();
+      let tmp = new Uint8Array(0);
       if (bytes instanceof Uint8Array) {
         tmp = bytes;
       } else if (bytes instanceof Uint8Vector) {
@@ -94,7 +94,7 @@ export class Uint32 extends Numeric<Uint32, bigint> {
     bytes: Uint8Array | Uint8Vector | Array<Uint8> | Array<number>,
   ): Uint32 {
     if (bytes.length === (Number(BIT_LENGTH) / 8)) {
-      let tmp = new Uint8Array();
+      let tmp = new Uint8Array(0);
       if (bytes instanceof Uint8Array) {
         tmp = bytes;
       } else if (bytes instanceof Uint8Vector) {

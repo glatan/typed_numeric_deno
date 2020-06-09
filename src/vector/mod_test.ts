@@ -127,13 +127,13 @@ Deno.test("Vector<Number>", () => {
     Uint8Vector.from(new Uint8Array([12, 34, 56, 78])).join(", "),
     [12, 34, 56, 78].join(", "),
   );
-  assertEquals(Uint8Vector.from(new Uint8Array()).join(), [].join());
+  assertEquals(Uint8Vector.from(new Uint8Array(0)).join(), [].join());
   assertEquals(
-    Uint8Vector.from(new Uint8Array()).join(""),
+    Uint8Vector.from(new Uint8Array(0)).join(""),
     [].join(""),
   );
   assertEquals(
-    Uint8Vector.from(new Uint8Array()).join(", "),
+    Uint8Vector.from(new Uint8Array(0)).join(", "),
     [].join(", "),
   );
   // lastIndexOf
