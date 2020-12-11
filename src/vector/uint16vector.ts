@@ -12,7 +12,7 @@ export class Uint16Vector extends Vector<Uint16, number> {
   }
   copyWithin(
     target: number,
-    start: number = 0,
+    start = 0,
     end: number = this.length,
   ): Uint16Vector {
     super.copyWithin(target, start, end);
@@ -23,7 +23,7 @@ export class Uint16Vector extends Vector<Uint16, number> {
   }
   fill(
     target: Uint16 | number,
-    start: number = 0,
+    start = 0,
     end: number = this.length,
   ): Uint16Vector {
     if (typeof target === "number") {

@@ -2,12 +2,12 @@ import { Numeric } from "./mod.ts";
 import { Uint8 } from "./uint8.ts";
 import { Uint8Vector } from "../vector/uint8vector.ts";
 
-const MAX: number = 0xFFFF;
-const MIN: number = 0;
-const BIT_LENGTH: number = 16;
+const MAX = 0xFFFF;
+const MIN = 0;
+const BIT_LENGTH = 16;
 
 export class Uint16 extends Numeric<Uint16, number> {
-  constructor(value: number = 0) {
+  constructor(value = 0) {
     super(value & MAX);
   }
   value(): number {

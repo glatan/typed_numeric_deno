@@ -2,9 +2,9 @@ import { Numeric } from "./mod.ts";
 import { Uint8 } from "./uint8.ts";
 import { Uint8Vector } from "../vector/uint8vector.ts";
 
-const MAX: bigint = 0xFFFF_FFFFn;
-const MIN: bigint = 0n;
-const BIT_LENGTH: bigint = 32n;
+const MAX = 0xFFFF_FFFFn;
+const MIN = 0n;
+const BIT_LENGTH = 32n;
 
 export class Uint32 extends Numeric<Uint32, bigint> {
   constructor(value: bigint = 0n) {

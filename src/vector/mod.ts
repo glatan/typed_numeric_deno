@@ -37,13 +37,13 @@ export abstract class Vector<T extends Numeric<T, N>, N> {
     return this.inner[index];
   }
   // Array.prototype like
-  copyWithin(target: number, start: number = 0, end: number = this.length) {
+  copyWithin(target: number, start = 0, end: number = this.length) {
     this.inner.copyWithin(target, start, end);
   }
-  fill(target: T, start: number = 0, end: number = this.length) {
+  fill(target: T, start = 0, end: number = this.length) {
     this.inner.fill(target, start, end);
   }
-  include(valueToFind: T, fromIndex: number = 0): boolean {
+  include(valueToFind: T, fromIndex = 0): boolean {
     if (fromIndex >= this.inner.length) {
       // fromIndex is greater than or equal to the array length
       return false;
@@ -63,7 +63,7 @@ export abstract class Vector<T extends Numeric<T, N>, N> {
     }
     return false;
   }
-  indexOf(searchElement: T, fromIndex: number = 0): number {
+  indexOf(searchElement: T, fromIndex = 0): number {
     if (fromIndex >= this.inner.length) {
       // fromIndex is greater than or equal to the array length
       return -1;
@@ -83,7 +83,7 @@ export abstract class Vector<T extends Numeric<T, N>, N> {
     }
     return -1;
   }
-  join(separator: string = ","): string {
+  join(separator = ","): string {
     let result = "";
     for (let i = 0; i < this.inner.length; i++) {
       if (i === 0) {
