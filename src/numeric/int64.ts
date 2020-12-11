@@ -2,12 +2,12 @@ import { Numeric } from "./mod.ts";
 import { Uint8 } from "./uint8.ts";
 import { Uint8Vector } from "../vector/uint8vector.ts";
 
-const MAX: bigint = 0x7FFFFFFF_FFFFFFFFn;
-const MIN: bigint = -MAX;
-const BIT_LENGTH: bigint = 64n;
+const MAX = 0x7FFFFFFF_FFFFFFFFn;
+const MIN = -MAX;
+const BIT_LENGTH = 64n;
 
 export class Int64 extends Numeric<Int64, bigint> {
-  constructor(value: bigint = 0n) {
+  constructor(value = 0n) {
     if (value < 0) {
       // 一度符号を外してからマスク、その後符号を(Int64の最上位ビットを1にする形で)戻す
       super(((~value + 1n) & MAX) | (MAX + 1n));

@@ -12,7 +12,7 @@ export class Uint32Vector extends Vector<Uint32, bigint> {
   }
   copyWithin(
     target: number,
-    start: number = 0,
+    start = 0,
     end: number = this.length,
   ): Uint32Vector {
     super.copyWithin(target, start, end);
@@ -23,7 +23,7 @@ export class Uint32Vector extends Vector<Uint32, bigint> {
   }
   fill(
     target: Uint32 | bigint,
-    start: number = 0,
+    start = 0,
     end: number = this.length,
   ): Uint32Vector {
     if (typeof target === "bigint") {

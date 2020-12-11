@@ -2,13 +2,13 @@ import { Numeric } from "./mod.ts";
 import { Uint8 } from "./uint8.ts";
 import { Uint8Vector } from "../vector/uint8vector.ts";
 
-const MAX: bigint =
+const MAX =
   0x7FFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn;
-const MIN: bigint = -MAX;
-const BIT_LENGTH: bigint = 256n;
+const MIN = -MAX;
+const BIT_LENGTH = 256n;
 
 export class Int256 extends Numeric<Int256, bigint> {
-  constructor(value: bigint = 0n) {
+  constructor(value = 0n) {
     if (value < 0) {
       // 一度符号を外してからマスク、その後符号を(Int256の最上位ビットを1にする形で)戻す
       super(((~value + 1n) & MAX) | (MAX + 1n));

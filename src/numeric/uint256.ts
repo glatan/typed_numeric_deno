@@ -2,10 +2,10 @@ import { Numeric } from "./mod.ts";
 import { Uint8 } from "./uint8.ts";
 import { Uint8Vector } from "../vector/uint8vector.ts";
 
-const MAX: bigint =
+const MAX =
   0xFFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFF_FFFFFFFFFFFFFFFFn;
-const MIN: bigint = 0n;
-const BIT_LENGTH: bigint = 256n;
+const MIN = 0n;
+const BIT_LENGTH = 256n;
 
 export class Uint256 extends Numeric<Uint256, bigint> {
   constructor(value: bigint = 0n) {
